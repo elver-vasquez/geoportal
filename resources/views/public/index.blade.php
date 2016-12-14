@@ -1,232 +1,1484 @@
-@extends('layouts.public')
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <title>Cuencas </title>
+    <link rel="stylesheet" href="{{asset('assets/css/ol.css')}}" />
+    <link href="{{asset('assets/css/bootstrap.min.css')}}" rel="stylesheet">
+    <link rel="stylesheet" href="{{asset('assets/css/font-awesome/css/font-awesome.min.css')}}" />
+    <link rel="stylesheet" href="{{asset('assets/vendor/jstree/themes/default/style.css')}}" />
+    <link rel="stylesheet" href="{{asset('assets/vendor/morris/morris.css')}}" />
 
-@section('content')
-    <div id="gMap"></div>
+    @include('includes.public_style')
+    <style type="text/css">
+        body { overflow: hidden; }
 
-    <div id="header">
-        <!--LOGO-->
-        <a id="logo" href="index.html"><img src="images/logo.png" alt="The Navigator" /></a>
-        <!--DESCRIPTION-->
-        <h2 id="description">Premium HTML Location Guide</h2>
-        <!--NAVIGATION MENU-->
-        <div id="navigation">
-   @include('includes.menu_public')
-        </div>
-    </div><!--end header-->
+        .navbar-offset { margin-top: 50px;   }
+        #map { position: absolute; top: 50px; bottom: 0px; left: 0px; right: 0px; }
+        #map .ol-zoom { font-size: 1.2em; }
+        #treeCheckbox {
+            font-size: 11px; !important;
 
-    <div id="loading"></div>
+        }
 
-    <div id="contentContainer">
-        <div id="content">
 
-            <script type="text/javascript">
-                //<![CDATA[
-                jQuery.noConflict(); jQuery(document).ready(function(){
-                    //MAP ZOOM (0 to 20)
-                    var zoomLevel = 3,
-                            gMap = jQuery("#gMap"),
-                    //iPad,iPhone,iPod...
-                            deviceAgent = navigator.userAgent.toLowerCase(),
-                            iPadiPhone = deviceAgent.match(/(iphone|ipod|ipad)/);
+        .zoom-top-opened-sidebar { margin-top: 5px; }
+        .zoom-top-collapsed { margin-top: 45px; }
 
-                    //iPad Stuff
-                    if (iPadiPhone) {
-                        //ADD MAP CONTROLS AND POST ARROWS
-                        jQuery("#footer").prepend('<div class="markerNav" title="Prev" id="prevMarker">&lsaquo;</div><div id="markers"></div><div class="markerNav" title="Next" id="nextMarker">&rsaquo;</div><div id="mapTypeContainer"><div id="mapStyleContainer"><div id="mapStyle" class="satellite"></div></div><div id="mapType" title="Map Type" class="satellite"></div></div>');
-                    } else {//IF NOT iPad
-                        jQuery('#zoomIn').live('click',function(){
-                            zoomLevel += 1;
-                            gMap.gmap3({action: 'setOptions', args:[{zoom:zoomLevel}]});
-                        });
-                        jQuery('#zoomOut').live('click',function(){
-                            zoomLevel -= 1;
-                            gMap.gmap3({action: 'setOptions', args:[{zoom:zoomLevel}]});
-                        });
-                        //ADD MAP CONTROLS AND POST ARROWS
-                        jQuery("#footer").prepend('<div class="markerNav" title="Prev" id="prevMarker">&lsaquo;</div><div id="markers"></div><div class="markerNav" title="Next" id="nextMarker">&rsaquo;</div><div id="mapTypeContainer"><div id="mapStyleContainer"><div id="mapStyle" class="satellite"></div></div><div id="mapType" title="Map Type" class="satellite"></div></div><div class="zoomControl" title="Zoom Out" id="zoomOut"><img src="images/zoomOut.png" alt="-" /></div><div class="zoomControl" title="Zoom In" id="zoomIn"><img src="images/zoomIn.png" alt="+" /></div>');
+        .mini-submenu{
+            display:none;
+            background-color: rgba(255, 200, 0, 0.6);
+            border: 1px solid rgba(0, 0, 0, 0.9);
+            border-radius: 5px;
+            padding: 8px;
+            /*position: relative;*/
+            width: 50px;
+            text-align: center;
+            color:#FFF;
+        }
+
+        .mini-submenu-left {
+            position: absolute;
+            top: 60px;
+            left: .5em;
+            z-index: 40;
+        }
+        .mini-submenu-right {
+            position: absolute;
+            top: 60px;
+            right: .5em;
+            z-index: 40;
+        }
+
+        #map { z-index: 35; }
+
+        .sidebar { z-index: 45; }
+
+        .main-row { position: relative; top: 0; }
+
+        .mini-submenu:hover{
+            cursor: pointer;
+        }
+
+        .slide-submenu{
+            background: rgba(0, 0, 0, 0.45);
+            display: inline-block;
+            padding: 0 8px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+
+        /*style infowindow*/
+        #map-canvas {
+            margin: 0;
+            padding: 0;
+            height: auto;
+
+        }
+        #map-canvas img {
+            max-width: none !important;
+        }
+        .gm-style-iw {
+            width: 100%; !important;
+            height: auto;
+            top: 0px !important;
+            left: 0px !important;
+            background-color: #262b33;
+
+        }
+        #iw-container {
+            margin-bottom: 10px;
+            overflow-x: hidden;
+
+        }
+        #iw-container .iw-title {
+            font-family: 'Open Sans Condensed', sans-serif;
+            font-size: 12px;
+            text-align: center;
+            width: 100%;
+
+            font-weight: 400;
+            padding: 5px;
+            background-color: #4e5458;
+            color: white;
+            margin: 10px;
+            border-radius: 2px 2px 0 0;
+        }
+        #iw-container .iw-content {
+            font-size: 13px;
+            line-height: 18px;
+            font-weight: 400;
+            margin-right: 1px;
+            padding: 15px 5px 20px 15px;
+            max-height: 200px;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+        .iw-content img {
+            float: right;
+            margin: 0 5px 5px 10px;
+        }
+        .iw-subTitle {
+            font-size: 12px;
+            font-weight: 700;
+            padding: 5px 0;
+        }
+
+
+    </style>
+    <script type="text/javascript" src="{{asset('assets/js/ol.js')}}"></script>
+    <script type="text/javascript" src="{{asset('assets/js/jquery-1.10.2.min.js')}}"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.2/raphael-min.js"></script>
+
+    <script type="text/javascript" src="{{asset('assets/js/bootstrap.min.js')}}"></script>
+    <script src="{{asset('assets/vendor/jstree/jstree.js')}}"></script>
+    <script src="{{asset('assets/vendor/morris/morris.js')}}"></script>
+
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZIkv7ehocFWTZot3h0AQlAH1OIZ4_oAU&callback=initMap">
+    </script>
+    {{--<script type="text/javascript" src="http://maps.google.com/maps/api/js?v=3.13&sensor=false"></script>--}}
+
+
+    <script type="text/javascript">
+  var url_punto=window.location+'mapas/tdps/puntos/';
+  var url_tdps=window.location+'mapas/tdps/';
+  var url_cuenca=window.location+'mapas/cuencas/';
+  var url_mapa=window.location+'mapas/';
+
+  var i=0;
+  var layers = [];
+  var codigo='B-012-10B-1-01';
+
+  var data_charts=[];
+
+
+        function initMap(){
+            var options={
+                center:{
+                    lat:-17.7667,
+                    lng:-67.4833
+                },
+                mapTypeControl: true,
+                mapTypeControlOptions: {
+                    style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+                    position: google.maps.ControlPosition.TOP_CENTER
+                },
+                zoomControl: true,
+
+                zoom:8,
+                mapTypeId:google.maps.MapTypeId.HYBRID,
+                zoomControlOptions:{
+                    position:google.maps.ControlPosition.BOTTON_CENTER,
+                    style:google.maps.ZoomControlStyle.DEFAULT
+
+                },
+                panControlOptions:{
+                    position:google.maps.ControlPosition.LEFT_BOTTOM
+                },
+                scaleControl: true,
+                streetViewControl: true,
+                streetViewControlOptions: {
+                    position: google.maps.ControlPosition.RIGHT_BOTTON
+                }
+            };
+            map = new google.maps.Map(document.getElementById('map'),options);
+
+//            addMark();
+
+        }
+
+
+        $(document).ready(function () {
+
+//            buscarCampaniasRemas('P-017-003-1-01');
+
+
+
+            $('#treeCheckbox').jstree({
+                'core' : {
+                    'themes' : {
+                        'responsive': true
                     }
-                    jQuery('body').prepend("<div id='target'></div>");
+                },
 
-                    gMap.gmap3({
-                        action: 'init',
-                        onces: {
-                            bounds_changed: function(){
-                                var number = 0;
-                                jQuery(this).gmap3({
-                                    action:'getBounds',
-                                    callback: function (){
-//ADD MARKERS HERE - FORMAT IS AS FOLLOWS...
-//add(jQuery(this), number += 1, "NAME", "URL","ADDRESS1<br />ADDRESS2","LATITUDE","LONGITUDE", 'THUMBNAIL');
-                                        add(jQuery(this), number += 1, "Colosseum", "map_post.html","Via Sforza, 10<br />00184 Roma, Italy","41.890202","12.492228", '<img width="95" height="95" src="{{asset('assets/images/thumbs/colosseum.jpg')}}" alt="" />');
-                                        add(jQuery(this), number += 1, "Iguazu Falls", "map_post.html","Iguazu Falls<br />Misiones, Argentina","-25.69506","-54.440432", '<img width="95" height="95" src="images/thumbs/iguazu.jpg" alt="" />');
-                                        add(jQuery(this), number += 1, "Great Barrier Reef", "map_post.html","Great Barrier Reef<br />Australia","-10.21053","142.159653", '<img width="95" height="95" src="images/thumbs/reef.jpg" alt="" />');
-                                        add(jQuery(this), number += 1, "Statue of Liberty", "map_post.html","Liberty Island<br />New York, NY 10004","40.69005","-74.045067", '<img width="95" height="95" src="images/thumbs/liberty.jpg" alt="" />');
-                                        add(jQuery(this), number += 1, "Chichen Itza", "map_post.html","Chichen Itza<br />Mexico","20.683341","-88.569009", '<img width="95" height="95" src="images/thumbs/itza.jpg" alt="" />');
-                                        add(jQuery(this), number += 1, "Taj Mahal", "map_post.html","Taj Mahal<br />Agra, India","27.174799","78.042111", '<img width="95" height="95" src="images/thumbs/taj.jpg" alt=""" />');
-                                        add(jQuery(this), number += 1, "Great Wall of China", "map_post.html","Great Wall of China<br />Beijing, China","40.429076","116.568219", '<img width="95" height="95" src="images/thumbs/wall.jpg" alt="" />');
-                                        add(jQuery(this), number += 1, "Stonehenge", "map_post.html","4 A344 Road<br />Wiltshire, Salisbury SP4 7DE, UK","51.178859","-1.82622", '<img width="95" height="95" src="images/thumbs/stone.jpg" alt=""" />');
-                                        add(jQuery(this), number += 1, "Great Pyramid of Giza", "map_post.html","Great Pyramid of Giza<br />Egypt","29.977316","31.132314", '<img width="95" height="95" src="images/thumbs/giza.jpg" alt="" />');
-                                        add(jQuery(this), number += 1, "Grand Canyon", "map_post.html","Grand Canyon<br />Williams, AZ","36.34313","-112.51339", '<img width="95" height="95" src="images/thumbs/canyon.jpg" alt="" />');
-                                        add(jQuery(this), number += 1, "Eiffel Tower", "map_post.html","Parc du Champ de Mars, 5 Ave Anatole France <br />75007 Paris, France","48.858588","2.293847", '<img width="95" height="95" src="images/thumbs/tower.jpg" alt="" />');
-                                    }
-                                });
-                            }
-                        }
-                    },{
-                        action: 'setOptions', args:[{
-                            zoom:zoomLevel,
-                            scrollwheel:false,
-                            disableDefaultUI:true,
-                            disableDoubleClickZoom:true,
-                            draggable:true,
-                            mapTypeControl:false,
-                            panControl:false,
-                            scaleControl:false,
-                            streetViewControl:false,
-                            zoomControl:false,
-                            //MAP TYPE: 'roadmap', 'satellite', 'hybrid'
-                            mapTypeId:'roadmap'
-                        }]
-                    });
-                    function add(jQuerythis, i, title, link, excerpt, lati, longi, img){
-                        jQuerythis.gmap3({
-                            action : 'addMarker',
-                            lat:lati,
-                            lng:longi,
-                            //PIN MARKER IMAGE
-                            options: {icon: new google.maps.MarkerImage('/assets/images/pin.png')},
-                            events:{
-                                mouseover: function(marker){
-                                    jQuerythis.css({cursor:'pointer'});
-                                    jQuery('#markerTitle'+i+'').fadeIn({ duration: 200, queue: false }).animate({bottom:"32px"},{duration:200,queue:false});
-                                    jQuery('.markerInfo').removeClass('activeInfo').hide();
-                                    jQuery('#markerInfo'+i+'').addClass('activeInfo').show();
-                                    jQuery('.marker').removeClass('activeMarker');
-                                    jQuery('#marker'+i+'').addClass('activeMarker');
-                                },
-                                mouseout: function(){
-                                    jQuerythis.css({cursor:'default'});
-                                    jQuery('#markerTitle'+i+'').stop(true,true).fadeOut(200,function(){jQuery(this).css({bottom:"0"})});
-                                },
-                                click: function(marker){window.location = link}
-                            },
-                            callback: function(marker){
-                                var jQuerybutton = jQuery('<div id="marker'+i+'" class="marker"><div id="markerInfo'+i+'" class="markerInfo"><a href="'+link+'">'+img+'</a><h2><a href="'+link+'">'+title+'</a></h2><p>'+excerpt+'</p><a class="markerLink" href="'+link+'">View Details &rarr;</a><div class="markerTotal">'+i+' / <span></span></div></div></div>');
-                                jQuerybutton.mouseover(function(){
-                                    jQuerythis.gmap3({
-                                        action:'panTo',
-                                        args:[marker.position]
-                                    });
-                                    jQuery("#target").stop(true,true).fadeIn(1200).delay(500).fadeOut(1200);
-                                });
-                                jQuery('#markers').append(jQuerybutton);
-                                var numbers = jQuery(".markerInfo").length;
-                                jQuery(".markerTotal span").html(numbers);
-                                if(i == 1){
-                                    jQuery('.marker:first-child').addClass('activeMarker').mouseover();
-                                }
-                                jQuerythis.gmap3({
-                                    action:'addOverlay',
-                                    content: '<div id="markerTitle'+i+'" class="markerTitle">'+title+'</div>',
-                                    latLng: marker.getPosition()
-                                });
-                            }
-                        });
+                'types' : {
+                    'default' : {
+                        'icon' : 'fa fa-folder'
+                    },
+                    'file' : {
+                        'icon' : 'fa fa-file'
                     }
+                },
+//            'plugins' : ['contextmenu', 'types'],
+            "plugins" : [ "checkbox","themes", "json_data", "ui", "contextmenu", "types" ],
+
+            "checkbox": {
+                   "keep_selected_style" : false,
+                   "three_state": false,
+                   "real_checkboxes": false,
+                   "tie_selection" : false
+               }
+            }).on("select_node.jstree", function (event, data) {
+
+              var id=data.node.id;
+            var oElement = $("#" + data.node.id)[0];
+                var archivo = oElement.attributes["label"].value;
+
+
+            abrirLayer(url_mapa+archivo,id)
+//            var tipo=oElement.attributes["tipo"].value;
+
+//                if(tipo=='tdps'){
+//
+//                abrirLayer(url_tdps+archivo,id)
+//                }
+//                if(tipo=='punto')
+//                {
+//                   abrirLayer(url_punto+archivo,id)
+//                }
+//            if(tipo=='cuenca')
+//            {
+//                abrirLayer(url_cuenca+archivo,id)
+//            }
+
+
+        }).bind("deselect_node.jstree", function(evt, data) {
+
+            layers[data.node.id].setMap(null);
+
+        });
+
+
+
+
+        });
+
+
+        function applyMargins() {
+            var leftToggler = $(".mini-submenu-left");
+            var rightToggler = $(".mini-submenu-right");
+            if (leftToggler.is(":visible")) {
+                $("#map .ol-zoom")
+                        .css("margin-left", 0)
+                        .removeClass("zoom-top-opened-sidebar")
+                        .addClass("zoom-top-collapsed");
+            } else {
+                $("#map .ol-zoom")
+                        .css("margin-left", $(".sidebar-left").width())
+                        .removeClass("zoom-top-opened-sidebar")
+                        .removeClass("zoom-top-collapsed");
+            }
+            if (rightToggler.is(":visible")) {
+                $("#map .ol-rotate")
+                        .css("margin-right", 0)
+                        .removeClass("zoom-top-opened-sidebar")
+                        .addClass("zoom-top-collapsed");
+            } else {
+                $("#map .ol-rotate")
+                        .css("margin-right", $(".sidebar-right").width())
+                        .removeClass("zoom-top-opened-sidebar")
+                        .removeClass("zoom-top-collapsed");
+            }
+        }
+
+        function isConstrained() {
+            return $("div.mid").width() == $(window).width();
+        }
+
+        function applyInitialUIState() {
+            if (isConstrained()) {
+                $(".sidebar-left .sidebar-body").fadeOut('slide');
+                $(".sidebar-right .sidebar-body").fadeOut('slide');
+                $('.mini-submenu-left').fadeIn();
+                $('.mini-submenu-right').fadeIn();
+            }
+        }
+
+
+             function charts_remas(tdps,tipo) {
+                 var aux=[];
+                 switch(tipo){
+                     case 'ph':{  $(data_charts).each(function(k,v){
+                         aux.push({'anio':''+v.fecha+'','value':v.ph});
+                     });
+                     } break;
+                     case 'temperatura':{  $(data_charts).each(function(k,v){
+                         aux.push({'anio':''+v.fecha+'','value':v.temperatura});
+                     });
+                     } break;
+                     case 'turbiedad':{  $(data_charts).each(function(k,v){
+                         aux.push({'anio':''+v.fecha+'','value':v.turbiedad});
+                     });
+                     } break;
+
+                 }
+
+                 $('#titulo_chart').html(tipo)
+
+                 $(".charts-modal").on("shown.bs.modal", function () {
+                     setTimeout(function(){
+                         new Morris.Line({
+
+                             element: 'area-example',
+
+                             data: aux,
+
+                             xkey: 'anio',
+                             ykeys: ['value'],
+
+                             labels: [tipo]
+                         });
+                         // When you open modal several times Morris charts over loading. So this is for destory to over loades Morris charts.
+                         // If you have better way please share it.
+                         if($('#area-example').find('svg').length > 1){
+                             // Morris Charts creates svg by append, you need to remove first SVG
+                             $('#area-example svg:first').remove();
+                             // Also Morris Charts created for hover div by prepend, you need to remove last DIV
+                             $(".morris-hover:last").remove();
+                         }
+                         // Smooth Loading
+                         $('.js-loading').addClass('hidden');
+
+                     },300);
+
+                 }).modal('show')
+             }
+function modalRemas(campanias,data,cod){
+
+    $datos_generales='';
+    $ul_gen='';
+    $ul_fisico='';
+    $ul_gases='';
+    $ul_quimicos='';
+    $ul_nutrientes='';
+    $ul_sanitarios='';
+    $ul_metales='';
+
+              $('#cod_remas').html(cod)
+              $ul_gen+='<ul class="list-inline">';
+              $ul_fisico+='<ul class="list-inline">';
+              $ul_gases+='<ul class="list-inline">';
+              $ul_quimicos+='<ul class="list-inline">';
+              $ul_nutrientes+='<ul class="list-inline">';
+              $ul_sanitarios+='<ul class="list-inline">';
+              $ul_metales+='<ul class="list-inline">';
+
+
+
+            $datos_generales+='<li >Pto:<strong class="text-primary">'+data.pto+'</strong></li>'+
+           '<li >Pais:<strong class="text-primary">'+data.pais+'</strong></li>'+
+           '<li >Zona Hidrologica:<strong class="text-primary">'+data.zona_hidrologica+'</strong></li>'+
+           '<li >Red:<strong class="text-primary">'+data.red+'</strong></li>'+
+           '<li >Nro Red:<strong class="text-primary">'+data.nro_red+'</strong></li>'+
+           '<li >Nombre de Zona Hidrologica TDPS:<strong class="text-primary">'+data.nombre_hidrologica+'</strong></li>'+
+           '<li >Coordenada Este:<strong class="text-primary">'+data.coor_este+'</strong></li>'+
+           '<li >Coordenada Norte:<strong class="text-primary">'+data.coor_oeste+'</strong></li>'+
+           '<li >Altura(msnm):<strong class="text-primary">'+data.altura+'</strong></li>'+
+           '<li >Departamento:<strong class="text-primary">'+data.dpto+'</strong></li>'+
+           '<li >Nombre de Estacion:<strong class="text-primary">'+data.estacion+'</strong></li>';
+
+             $('#datos_generales').append($datos_generales);
+
+
+
+
+
+
+
+             $(campanias).each(function(k,v){
+                $ul_gen+='<li>'+
+                        '<ol>'+
+
+                         '<li  class="text-warning">Campaña:<strong>'+v.campania+'</strong></li>'+
+                 '<li >Codigo campaña: <strong>'+v.cod_campania+'</strong></li>'+
+                 '<li >Laboratorio Responsable: <strong>'+v.laboratorio+'</strong></li>'+
+                 '<li >Fecha d/m/A: <strong>'+v.fecha+'</strong></li>'+
+                 '<li >Hora H:m: <strong>'+v.hora+'</strong></li>'+
+                 '<li >Caudal m3/s: <strong>'+v.caudal+'</strong></li>'+
+                 '</ol>'+
+                 '</li>';
+                 $ul_fisico+='<li>'+
+                         '<ol>'+
+                         '<li  class="text-warning">Campaña:<strong>'+v.campania+'</strong></li>'+
+
+                         '<li >PH:<strong class="text-primary">'+v.ph+'</strong>  <button  onclick="charts_remas(\'remas\',\'ph\')" class="btn btn-default  btn-xs "><i class="fa fa-line-chart"></i> Grafico</button></li>'+
+                         '<li >CEV (uS/cm):<strong class="text-primary">'+v.ce+'</strong>'+
+                         '<li >T (°C):<strong class="text-primary">'+v.temperatura+'</strong><button onclick="charts_remas(\'remas\',\'temperatura\')" class="btn btn-default  btn-xs"> <i class="fa fa-line-chart"></i> Grafico</button></li>'+
+                         '<li >TURBIEDAD(NTU):<strong class="text-primary">'+v.turbiedad+'</strong><button onclick="charts_remas(\'remas\',\'turbiedad\')" class="btn btn-default  btn-xs"><i class="fa fa-line-chart"></i> Grafico</button></li>'+
+                         '<li >SDT(mg/l):<strong class="text-primary">'+v.sdt+'</strong></li>'+
+                         '<li >SST(mg/l):<strong class="text-primary">'+v.sst+'</strong></li>'+
+                         '<li >Color:<strong class="text-primary">'+v.color+'</strong></li>'+
+                         '</ol>'+
+                         '</li>';
+
+                 $ul_gases+='<li>'+
+                         '<ol>'+
+                         '<li  class="text-warning">Campaña:<strong>'+v.campania+'</strong></li>'+
+
+                         '<li >CO2(mg/l):<strong class="text-primary">'+v.co+'</strong></li>'+
+                         '<li> OD(mg/l):<strong class="text-primary">'+v.od+'</strong></li>'+
+                         '<li> HS2(mg/l):<strong class="text-primary">'+v.hs+'</strong></li>'+
+                         '</ol>'+
+                         '</li>';
+
+
+                 $ul_quimicos+='<li>'+
+                         '<ol>'+
+                         '<li  class="text-warning">Campaña:<strong>'+v.campania+'</strong></li>'+
+                        '<li >Ca (mg/l):<strong class="text-primary">'+v.ca+'</strong></li>'+
+                        '<li> Mg (mg/l):<strong class="text-primary">'+v.mg+'</strong></li>'+
+                        '<li> Na (mg/l):<strong class="text-primary">'+v.na+'</strong></li>'+
+                        '<li> K (mg/l):<strong class="text-primary">'+v.k+'</strong></li>'+
+                        '<li> Na + K (mg/l):<strong class="text-primary">'+v.na_k+'</strong></li>'+
+                        '<li> CO3 (mg/l):<strong class="text-primary">'+v.co2+'</strong></li>'+
+                        '<li> CO3H (mg/l):<strong class="text-primary">'+v.co2h+'</strong></li>'+
+                        '<li> Cl (mg/l):<strong class="text-primary">'+v.ci+'</strong></li>'+
+                        '<li> (SO4)2- (mg/l):<strong class="text-primary">'+v.so4+'</strong></li>'+
+                        '<li> Alcalinidad (mg/l) CaCO3:<strong class="text-primary">'+v.alcalinidad+'</strong></li>'+
+                        '<li> Dureza total (mg/l) CaCO3:<strong class="text-primary">'+v.dureza +'</strong></li>'+
+                         '</ol>'+
+                         '</li>';
+
+
+                 $ul_nutrientes+='<li>'+
+                         '<ol>'+
+                         '<li  class="text-warning">Campaña:<strong>'+v.campania+'</strong></li>'+
+                         '<li >SiO3 (mg/l):<strong class="text-primary">'+v.sio3+'</strong></li>'+
+                         '<li> N-NO3- (mg/l):<strong class="text-primary">'+v.nno3+'</strong></li>'+
+                         '<li> N-NO2- (mg/l):<strong class="text-primary">'+v.nno2+'</strong></li>'+
+                         '<li> N-NH4+ (mg/l):<strong class="text-primary">'+v.nnh4+'</strong></li>'+
+                         '<li> Nt (mg/l):<strong class="text-primary">'+v.nt+'</strong></li>'+
+                         '<li> N-Kjeldall (mg/l):<strong class="text-primary">'+v.kjendall+'</strong></li>'+
+                         '<li> (PO4)3- (mg/l):<strong class="text-primary">'+v.po4+'</strong></li>'+
+                         '<li> P (mg/l):<strong class="text-primary">'+v.p+'</strong></li>'+
+                         '<li> Pt (mg/l):<strong class="text-primary">'+v.pt+'</strong></li>'+
+                         '<li> B (mg/l):<strong class="text-primary">'+v.b+'</strong></li>'+
+                         '</ol>'+
+                         '</li>';
+
+                 $ul_sanitarios+='<li>'+
+                         '<ol>'+
+                         '<li  class="text-warning">Campaña:<strong>'+v.campania+'</strong></li>'+
+                         '<li >DBO5 (mg/l):<strong class="text-primary">'+v.dbo5+'</strong></li>'+
+                         '<li >DQO (mg/l):<strong class="text-primary">'+v.dqo+'</strong></li>'+
+                         '<li >Coliformes fecales (NMP/100 ml):<strong class="text-primary">'+v.coli_feca+'</strong></li>'+
+                         '<li >Coliformes totales (NMP/100 ml):<strong class="text-primary">'+v.coli_tot+'</strong></li>'+
+                         '<li >Salmonella spp (NMP/100 ml):<strong class="text-primary">'+v.salmonella+'</strong></li>'+
+                         '</ol>'+
+                         '</li>';
+
+                 $ul_metales+='<li>'+
+                         '<ol>'+
+                         '<li  class="text-warning">Campaña:<strong>'+v.campania+'</strong></li>'+
+                         '<li >Zn (mg/l):<strong class="text-primary">'+v.zn+'</strong></li>'+
+                         '<li >Cd (mg/l):<strong class="text-primary">'+v.cd+'</strong></li>'+
+                         '<li >Pb (mg/l):<strong class="text-primary">'+v.pb+'</strong></li>'+
+                         '<li >Fe (mg/l):<strong class="text-primary">'+v.fe+'</strong></li>'+
+                         '<li >Mn (mg/l):<strong class="text-primary">'+v.mn+'</strong></li>'+
+                         '<li >Cu (mg/l):<strong class="text-primary">'+v.cu+'</strong></li>'+
+                         '<li >Hg (mg/l):<strong class="text-primary">'+v.hg+'</strong></li>'+
+                         '<li >As (mg/l):<strong class="text-primary">'+v.as+'</strong></li>'+
+                         '<li >Cr (mg/l):<strong class="text-primary">'+v.cr+'</strong></li>'+
+                         '<li >Ni (mg/l):<strong class="text-primary">'+v.ni+'</strong></li>'+
+                         '<li >Sb (mg/l):<strong class="text-primary">'+v.sb+'</strong></li>'+
+                         '<li >Se (mg/l):<strong class="text-primary">'+v.se+'</strong></li>'+
+                         '</ol>'+
+                         '</li>';
+
+
+
+
+             });
+                 $ul_gen+='</li>';
+                 $ul_fisico+='</li>';
+                 $ul_gases+='</li>';
+                 $ul_quimicos+='</li>';
+                 $ul_nutrientes+='</li>';
+                 $ul_sanitarios+='</li>';
+                 $ul_metales+='</li>';
+
+                 $('#general_remas').append($ul_gen);
+                 $('#fisico_remas').append($ul_fisico);
+                 $('#gases_remas').append($ul_gases);
+                 $('#quimicos_remas').append($ul_quimicos);
+                 $('#nutrientes_remas').append($ul_nutrientes);
+                 $('#sanitarios_remas').append($ul_sanitarios);
+                 $('#metales_remas').append($ul_metales);
+
+    $('#myModal').modal('show');
+}
+
+
+  function modalRemfc(campanias,data,cod){
+      $datos_generales='';
+
+      $ul_gen='';
+      $ul_fisico='';
+      $ul_gases='';
+      $ul_quimicos='';
+      $ul_nutrientes='';
+      $ul_sanitarios='';
+      $ul_metales='';
+
+      $('#cod_remas').html(cod)
+      $ul_gen+='<ul class="list-inline">';
+      $ul_fisico+='<ul class="list-inline">';
+      $ul_gases+='<ul class="list-inline">';
+      $ul_quimicos+='<ul class="list-inline">';
+      $ul_nutrientes+='<ul class="list-inline">';
+      $ul_sanitarios+='<ul class="list-inline">';
+      $ul_metales+='<ul class="list-inline">';
+
+
+
+
+      $datos_generales+='<li >Pto:<strong class="text-primary">'+data.pto+'</strong></li>'+
+              '<li >Pais:<strong class="text-primary">'+data.pais+'</strong></li>'+
+              '<li >Zona Hidrologica:<strong class="text-primary">'+data.zona_hidrologica+'</strong></li>'+
+              '<li >Red:<strong class="text-primary">'+data.red+'</strong></li>'+
+              '<li >Nro Red:<strong class="text-primary">'+data.nro_red+'</strong></li>'+
+              '<li >Nombre de Zona Hidrologica TDPS:<strong class="text-primary">'+data.nombre_hidrologica+'</strong></li>'+
+              '<li >Coordenada Este:<strong class="text-primary">'+data.coor_este+'</strong></li>'+
+              '<li >Coordenada Norte:<strong class="text-primary">'+data.coor_oeste+'</strong></li>'+
+              '<li >Altura(msnm):<strong class="text-primary">'+data.altura+'</strong></li>'+
+              '<li >Departamento:<strong class="text-primary">'+data.dpto+'</strong></li>'+
+              '<li >Nombre de Estacion:<strong class="text-primary">'+data.estacion+'</strong></li>';
+
+      $('#datos_generales').append($datos_generales);
+
+
+      $(campanias).each(function(k,v){
+          $ul_gen+='<li>'+
+                  '<ol>'+
+
+                  '<li  class="text-warning">Campaña:<strong>'+v.campania+'</strong></li>'+
+                  '<li >Codigo campaña: <strong>'+v.cod_campania+'</strong></li>'+
+                  '<li >Laboratorio Responsable: <strong>'+v.laboratorio+'</strong></li>'+
+                  '<li >Fecha d/m/A: <strong>'+v.fecha+'</strong></li>'+
+                  '<li >Hora H:m: <strong>'+v.hora+'</strong></li>'+
+                  '<li >Caudal m3/s: <strong>'+v.caudal+'</strong></li>'+
+                  '</ol>'+
+                  '</li>';
+          $ul_fisico+='<li>'+
+                  '<ol>'+
+                  '<li  class="text-warning">Campaña:<strong>'+v.campania+'</strong></li>'+
+
+                  '<li >PH:<strong class="text-primary">'+v.ph+'</strong>  <button  onclick="charts_remas(\'remas\',\'ph\')" class="btn btn-primary  btn-xs ">Graficar</button></li>'+
+                  '<li >CEV (uS/cm):<strong class="text-primary">'+v.ce+'</strong><a href="###" onclick="charts_remas(\'remas\',\'ce\')" class="text-warning ">Graficar</a></i>'+
+                  '<li >T (°C):<strong class="text-primary">'+v.temperatura+'</strong></li>'+
+                  '<li >Aceites y grasas (mg/l):<strong class="text-primary">'+v.aceites+'</strong></li>'+
+                  '<li >TURBIEDAD(NTU):<strong class="text-primary">'+v.turbiedad+'</strong></li>'+
+                  '<li >SDT(mg/l):<strong class="text-primary">'+v.sdt+'</strong></li>'+
+                  '<li >SST(mg/l):<strong class="text-primary">'+v.sst+'</strong></li>'+
+                  '<li >Color:<strong class="text-primary">'+v.color+'</strong></li>'+
+                  '</ol>'+
+                  '</li>';
+
+          $ul_gases+='<li>'+
+                  '<ol>'+
+                  '<li  class="text-warning">Campaña:<strong>'+v.campania+'</strong></li>'+
+
+                  '<li >CO2(mg/l):<strong class="text-primary">'+v.co+'</strong></li>'+
+                  '<li> OD(mg/l):<strong class="text-primary">'+v.od+'</strong></li>'+
+                  '<li> OD Saturado (mg/l):<strong class="text-primary">'+v.od_satu+'</strong></li>'+
+                  '<li> Saturación (%):<strong class="text-primary">'+v.saturacion+'</strong></li>'+
+                  '<li> HS2(mg/l):<strong class="text-primary">'+v.hs+'</strong></li>'+
+                  '</ol>'+
+                  '</li>';
+
+
+          $ul_quimicos+='<li>'+
+                  '<ol>'+
+                  '<li  class="text-warning">Campaña:<strong>'+v.campania+'</strong></li>'+
+                  '<li >Ca (mg/l):<strong class="text-primary">'+v.ca+'</strong></li>'+
+                  '<li> Mg (mg/l):<strong class="text-primary">'+v.mg+'</strong></li>'+
+                  '<li> Na (mg/l):<strong class="text-primary">'+v.na+'</strong></li>'+
+                  '<li> K (mg/l):<strong class="text-primary">'+v.k+'</strong></li>'+
+                  '<li> Na + K (mg/l):<strong class="text-primary">'+v.na_k+'</strong></li>'+
+                  '<li> CO3 (mg/l):<strong class="text-primary">'+v.co2+'</strong></li>'+
+                  '<li> CO3H (mg/l):<strong class="text-primary">'+v.co2h+'</strong></li>'+
+                  '<li> Cl (mg/l):<strong class="text-primary">'+v.ci+'</strong></li>'+
+                  '<li> (SO4)2- (mg/l):<strong class="text-primary">'+v.so4+'</strong></li>'+
+                  '<li> Alcalinidad (mg/l) CaCO3:<strong class="text-primary">'+v.alcalinidad+'</strong></li>'+
+                  '<li> Dureza total (mg/l) CaCO3:<strong class="text-primary">'+v.dureza +'</strong></li>'+
+                  '</ol>'+
+                  '</li>';
+
+
+          $ul_nutrientes+='<li>'+
+                  '<ol>'+
+                  '<li  class="text-warning">Campaña:<strong>'+v.campania+'</strong></li>'+
+                  '<li >SiO3 (mg/l):<strong class="text-primary">'+v.sio3+'</strong></li>'+
+                  '<li> N-NO3- (mg/l):<strong class="text-primary">'+v.nno3+'</strong></li>'+
+                  '<li> N-NO2- (mg/l):<strong class="text-primary">'+v.nno2+'</strong></li>'+
+                  '<li> N-NH4+ (mg/l):<strong class="text-primary">'+v.nnh4+'</strong></li>'+
+                  '<li> Nt (mg/l):<strong class="text-primary">'+v.nt+'</strong></li>'+
+                  '<li> N-Kjeldall (mg/l):<strong class="text-primary">'+v.kjendall+'</strong></li>'+
+                  '<li> (PO4)3- (mg/l):<strong class="text-primary">'+v.po4+'</strong></li>'+
+                  '<li> P (mg/l):<strong class="text-primary">'+v.p+'</strong></li>'+
+                  '<li> Pt (mg/l):<strong class="text-primary">'+v.pt+'</strong></li>'+
+                  '<li> B (mg/l):<strong class="text-primary">'+v.b+'</strong></li>'+
+                  '</ol>'+
+                  '</li>';
+
+          $ul_sanitarios+='<li>'+
+                  '<ol>'+
+                  '<li  class="text-warning">Campaña:<strong>'+v.campania+'</strong></li>'+
+                  '<li >DBO5 (mg/l):<strong class="text-primary">'+v.dbo5+'</strong></li>'+
+                  '<li >DQO (mg/l):<strong class="text-primary">'+v.dqo+'</strong></li>'+
+                  '<li >Coliformes fecales (NMP/100 ml):<strong class="text-primary">'+v.coli_feca+'</strong></li>'+
+                  '<li >Coliformes totales (NMP/100 ml):<strong class="text-primary">'+v.coli_tot+'</strong></li>'+
+                  '<li >Salmonella spp (NMP/100 ml):<strong class="text-primary">'+v.salmonella+'</strong></li>'+
+                  '<li >Bacterias colif. termorresistentes UFC/100 ml:<strong class="text-primary">'+v.bact_coli+'</strong></li>'+
+                  '</ol>'+
+                  '</li>';
+
+          $ul_metales+='<li>'+
+                  '<ol>'+
+                  '<li  class="text-warning">Campaña:<strong>'+v.campania+'</strong></li>'+
+                  '<li >Zn (mg/l):<strong class="text-primary">'+v.zn+'</strong></li>'+
+                  '<li >Cd (mg/l):<strong class="text-primary">'+v.cd+'</strong></li>'+
+                  '<li >Pb (mg/l):<strong class="text-primary">'+v.pb+'</strong></li>'+
+                  '<li >Fe (mg/l):<strong class="text-primary">'+v.fe+'</strong></li>'+
+                  '<li >Mn (mg/l):<strong class="text-primary">'+v.mn+'</strong></li>'+
+                  '<li >Cu (mg/l):<strong class="text-primary">'+v.cu+'</strong></li>'+
+                  '<li >Hg (mg/l):<strong class="text-primary">'+v.hg+'</strong></li>'+
+                  '<li >As (mg/l):<strong class="text-primary">'+v.as+'</strong></li>'+
+                  '<li >Cr (mg/l):<strong class="text-primary">'+v.cr+'</strong></li>'+
+                  '<li >Ni (mg/l):<strong class="text-primary">'+v.ni+'</strong></li>'+
+                  '<li >Sb (mg/l):<strong class="text-primary">'+v.sb+'</strong></li>'+
+                  '<li >Se (mg/l):<strong class="text-primary">'+v.se+'</strong></li>'+
+                  '</ol>'+
+                  '</li>';
+
+
+
+
+      });
+      $ul_gen+='</li>';
+      $ul_fisico+='</li>';
+      $ul_gases+='</li>';
+      $ul_quimicos+='</li>';
+      $ul_nutrientes+='</li>';
+      $ul_sanitarios+='</li>';
+      $ul_metales+='</li>';
+
+      $('#general_remas').append($ul_gen);
+      $('#fisico_remas').append($ul_fisico);
+      $('#gases_remas').append($ul_gases);
+      $('#quimicos_remas').append($ul_quimicos);
+      $('#nutrientes_remas').append($ul_nutrientes);
+      $('#sanitarios_remas').append($ul_sanitarios);
+      $('#metales_remas').append($ul_metales);
+
+      $('#myModal').modal('show');
+  }
+
+  function modalRemli(campanias,data,cod){
+      $datos_generales='';
+      $ul_gen='';
+      $ul_fisico='';
+      $ul_gases='';
+      $ul_quimicos='';
+      $ul_nutrientes='';
+      $ul_sanitarios='';
+      $ul_metales='';
+
+      $('#cod_remas').html(cod)
+      $ul_gen+='<ul class="list-inline">';
+      $ul_fisico+='<ul class="list-inline">';
+      $ul_gases+='<ul class="list-inline">';
+      $ul_quimicos+='<ul class="list-inline">';
+      $ul_nutrientes+='<ul class="list-inline">';
+      $ul_sanitarios+='<ul class="list-inline">';
+
+      $datos_generales+='<li >Pto:<strong class="text-primary">'+data.pto+'</strong></li>'+
+              '<li >Pais:<strong class="text-primary">'+data.pais+'</strong></li>'+
+              '<li >Zona Hidrologica:<strong class="text-primary">'+data.zona_hidrologica+'</strong></li>'+
+              '<li >Red:<strong class="text-primary">'+data.red+'</strong></li>'+
+              '<li >Nro Red:<strong class="text-primary">'+data.nro_red+'</strong></li>'+
+              '<li >Nombre de Zona Hidrologica TDPS:<strong class="text-primary">'+data.nombre_hidrologica+'</strong></li>'+
+              '<li >Coordenada Este:<strong class="text-primary">'+data.coor_este+'</strong></li>'+
+              '<li >Coordenada Norte:<strong class="text-primary">'+data.coor_oeste+'</strong></li>'+
+              '<li >Altura(msnm):<strong class="text-primary">'+data.altura+'</strong></li>'+
+              '<li >Departamento:<strong class="text-primary">'+data.dpto+'</strong></li>'+
+              '<li >Nombre de Estacion:<strong class="text-primary">'+data.estacion+'</strong></li>';
+
+      $('#datos_generales').append($datos_generales);
+
+
+
+
+      $(campanias).each(function(k,v){
+          $ul_gen+='<li>'+
+                  '<ol>'+
+
+                  '<li  class="text-warning">Campaña:<strong>'+v.campania+'</strong></li>'+
+                  '<li >Codigo campaña: <strong>'+v.cod_campania+'</strong></li>'+
+                  '<li >Laboratorio Responsable: <strong>'+v.laboratorio+'</strong></li>'+
+                  '<li >Fecha d/m/A: <strong>'+v.fecha+'</strong></li>'+
+                  '<li >Hora H:m: <strong>'+v.hora+'</strong></li>'+
+                  '<li >Profundidad. (m): <strong>'+v.prof+'</strong></li>'+
+                  '</ol>'+
+                  '</li>';
+          $ul_fisico+='<li>'+
+                  '<ol>'+
+                  '<li  class="text-warning">Campaña:<strong>'+v.campania+'</strong></li>'+
+
+                  '<li >PH:<strong class="text-primary">'+v.ph+'</strong>  <button  onclick="charts_remas(\'remas\',\'ph\')" class="btn btn-primary  btn-xs ">Graficar</button></li>'+
+                  '<li >CEV (uS/cm):<strong class="text-primary">'+v.ce+'</strong><a href="###" onclick="charts_remas(\'remas\',\'ce\')" class="text-warning ">Graficar</a></i>'+
+                  '<li >T (°C):<strong class="text-primary">'+v.temperatura+'</strong></li>'+
+                  '<li >TURBIEDAD(NTU):<strong class="text-primary">'+v.turbiedad+'</strong></li>'+
+                  '<li >Color:<strong class="text-primary">'+v.color+'</strong></li>'+
+                  '<li >SST(mg/l):<strong class="text-primary">'+v.sst+'</strong></li>'+
+                  '<li >SDT(mg/l):<strong class="text-primary">'+v.sdt+'</strong></li>'+
+                  '<li >Disco Sechi:<strong class="text-primary">'+v.disco+'</strong></li>'+
+                  '</ol>'+
+                  '</li>';
+
+          $ul_gases+='<li>'+
+                  '<ol>'+
+                  '<li  class="text-warning">Campaña:<strong>'+v.campania+'</strong></li>'+
+
+                  '<li >CO2(mg/l):<strong class="text-primary">'+v.co+'</strong></li>'+
+                  '<li> OD(mg/l):<strong class="text-primary">'+v.od+'</strong></li>'+
+                  '<li> OD Saturado (mg/l):<strong class="text-primary">'+v.od_satu+'</strong></li>'+
+                  '<li> Saturación (%):<strong class="text-primary">'+v.saturacion+'</strong></li>'+
+                  '<li> HS2(mg/l):<strong class="text-primary">'+v.hs+'</strong></li>'+
+                  '</ol>'+
+                  '</li>';
+
+
+          $ul_quimicos+='<li>'+
+                  '<ol>'+
+                  '<li  class="text-warning">Campaña:<strong>'+v.campania+'</strong></li>'+
+                  '<li >Ca (mg/l):<strong class="text-primary">'+v.ca+'</strong></li>'+
+                  '<li> Mg (mg/l):<strong class="text-primary">'+v.mg+'</strong></li>'+
+                  '<li> Na (mg/l):<strong class="text-primary">'+v.na+'</strong></li>'+
+                  '<li> K (mg/l):<strong class="text-primary">'+v.k+'</strong></li>'+
+                  '<li> Na + K (mg/l):<strong class="text-primary">'+v.na_k+'</strong></li>'+
+                  '<li> CO3 (mg/l):<strong class="text-primary">'+v.co2+'</strong></li>'+
+                  '<li> CO3H (mg/l):<strong class="text-primary">'+v.co2h+'</strong></li>'+
+                  '<li> Cl (mg/l):<strong class="text-primary">'+v.ci+'</strong></li>'+
+                  '<li> (SO4)2- (mg/l):<strong class="text-primary">'+v.so4+'</strong></li>'+
+                  '<li> Alcalinidad (mg/l) CaCO3:<strong class="text-primary">'+v.alcalinidad+'</strong></li>'+
+                  '<li> Dureza total (mg/l) CaCO3:<strong class="text-primary">'+v.dureza +'</strong></li>'+
+                  '</ol>'+
+                  '</li>';
+
+
+          $ul_nutrientes+='<li>'+
+                  '<ol>'+
+                  '<li  class="text-warning">Campaña:<strong>'+v.campania+'</strong></li>'+
+                  '<li >SiO3 (mg/l):<strong class="text-primary">'+v.sio3+'</strong></li>'+
+                  '<li> N-NO3- (mg/l):<strong class="text-primary">'+v.nno3+'</strong></li>'+
+                  '<li> N-NO2- (mg/l):<strong class="text-primary">'+v.nno2+'</strong></li>'+
+                  '<li> N-NH4+ (mg/l):<strong class="text-primary">'+v.nnh4+'</strong></li>'+
+                  '<li> Nt (mg/l):<strong class="text-primary">'+v.nt+'</strong></li>'+
+                  '<li> N-Kjeldall (mg/l):<strong class="text-primary">'+v.kjendall+'</strong></li>'+
+                  '<li> (PO4)3- (mg/l):<strong class="text-primary">'+v.po4+'</strong></li>'+
+                  '<li> P (mg/l):<strong class="text-primary">'+v.p+'</strong></li>'+
+                  '<li> Pt (mg/l):<strong class="text-primary">'+v.pt+'</strong></li>'+
+                  '<li>Si (mg/l):<strong class="text-primary">'+v.si+'</strong></li>'+
+                  '<li> B (mg/l):<strong class="text-primary">'+v.b+'</strong></li>'+
+                  '</ol>'+
+                  '</li>';
+
+          $ul_sanitarios+='<li>'+
+                  '<ol>'+
+                  '<li  class="text-warning">Campaña:<strong>'+v.campania+'</strong></li>'+
+                  '<li >DBO5 (mg/l):<strong class="text-primary">'+v.dbo5+'</strong></li>'+
+                  '<li >DQO (mg/l):<strong class="text-primary">'+v.dqo+'</strong></li>'+
+                  '<li >Coliformes fecales (NMP/100 ml):<strong class="text-primary">'+v.coli_feca+'</strong></li>'+
+                  '<li >Coliformes totales (NMP/100 ml):<strong class="text-primary">'+v.coli_tot+'</strong></li>'+
+                  '<li >Salmonella spp (NMP/100 ml):<strong class="text-primary">'+v.salmonella+'</strong></li>'+
+                  '<li >Clorofila A (mg/m3):<strong class="text-primary">'+v.clorofilla+'</strong></li>'+
+                  '<li >Conteo de algas:<strong class="text-primary">'+v.cont_algas+'</strong></li>'+
+                  '<li >Conteo zooplancton:<strong class="text-primary">'+v.cont_plancton+'</strong></li>'+
+                  '<li >Conteo bentos:<strong class="text-primary">'+v.cont_bentos+'</strong></li>'+
+                  '</ol>'+
+                  '</li>';
+
+
+
+
+
+      });
+      $ul_gen+='</li>';
+      $ul_fisico+='</li>';
+      $ul_gases+='</li>';
+      $ul_quimicos+='</li>';
+      $ul_nutrientes+='</li>';
+      $ul_sanitarios+='</li>';
+
+      $('#general_remas').append($ul_gen);
+      $('#fisico_remas').append($ul_fisico);
+      $('#gases_remas').append($ul_gases);
+      $('#quimicos_remas').append($ul_quimicos);
+      $('#nutrientes_remas').append($ul_nutrientes);
+      $('#sanitarios_remas').append($ul_sanitarios);
+
+      $('#myModal').modal('show');
+  }
+
+
+  function buscarCampaniasRemas(cod){
+
+            $('#datos_generales').empty();
+            $('#general_remas').empty();
+            $('#fisico_remas').empty();
+            $('#gases_remas').empty();
+            $('#quimicos_remas').empty();
+            $('#nutrientes_remas').empty();
+            $('#sanitarios_remas').empty();
+            $('#metales_remas').empty();
+
+      $url='/remas/buscarCampanias/'+cod;
+
+      $.ajax({
+          url:$url,
+          method:'GET',
+
+          dataType:'json',
+          success:function(response,status,xhr){
+              if(response.status==true){
+                  data_charts=response.campanias;
+
+                  switch(response.tipo){
+                      case 'rema':modalRemas(response.campanias,response.datos,cod);break;
+                      case 'remfc':modalRemfc(response.campanias,response.datos,cod);break;
+                      case 'remli':modalRemli(response.campanias,response.datos,cod);break;
+                  }
+
+              }
+              else{
+                  alert('No se enontro el codigo')
+              }
+          },
+          error:function(xhr,status,error){
+              alert(error);
+
+          }
+
+      });
+
+  }
+        function abrirLayer(archivo,id){
+            layers[id]=new google.maps.KmlLayer(archivo,
+                    {preserveViewport: false, suppressInfoWindows: true});
+            layers[id].setMap(map);
+//            var placemarkInfo = new google.maps.InfoWindow();
+            google.maps.event.addListener(layers[id], 'click', function (kmlEvent) {
+//              var text = kmlEvent.featureData.description;
+                var codigo = kmlEvent.featureData.name;
+                var text = kmlEvent.featureData.description;
+                var info=kmlEvent.featureData.infoWindowHtml;
+                var info2=kmlEvent.featureData.snippet;
+                var clickPos = kmlEvent.latLng;
+
+                var content = '<div id="iw-container">' +
+                        '<div class="iw-title">'+codigo+'</div>' +
+                        '<div class="iw-content">' +
+                        '<div class="iw-subTitle">'+info+'</div>' +
+                        '<p><a class="btn btn-warning" href="###"  id="'+codigo+'" onclick="buscarCampaniasRemas(this.id);"><i class="fa fa-eye"></i> Ver Detalles</a><br>'+                        '</div>' +
+                        '</div>';
+
+                var posX = new google.maps.LatLng(clickPos.lat(), clickPos.lng());
+
+                var infowindow = new google.maps.InfoWindow({
+                    content:content,
+                    maxWidth:250
                 });
-                //]]>
-            </script>
+                infowindow.setPosition(posX);
+//                infowindow.setContent(content);
+                infowindow.open(map);
 
-            {{--<div id="sidebar">--}}
-                {{--<ul>--}}
-                    {{--<!--WIDGET 1-->--}}
-                    {{--<li class="widget">--}}
-                        {{--<h2 class="widgettitle">Sponsors</h2>--}}
-                        {{--<a href="http://themeforest.net/user/themolitor/portfolio?ref=themolitor">--}}
-                            {{--<img src="http://www.lakewaparks.com/wp/wp-content/uploads/2011/07/tf_260x120.gif" alt="ThemeForest" />--}}
+//                infowindow.setContent( info );
+//                infowindow.open( $('#map'), layer.marker );
+
+                showInContentWindow(info);
+//
+            });
+            i++;
+        }
+        function showInContentWindow(text) {
+            var sidediv = document.getElementById('content-window');
+
+            sidediv.innerHTML = text;
+        }
+
+        $(function(){
+            $('.sidebar-left .slide-submenu').on('click',function() {
+                var thisEl = $(this);
+                thisEl.closest('.sidebar-body').fadeOut('slide',function(){
+                    $('.mini-submenu-left').fadeIn();
+                    applyMargins();
+                });
+            });
+
+            $('.mini-submenu-left').on('click',function() {
+                var thisEl = $(this);
+                $('.sidebar-left .sidebar-body').toggle('slide');
+                thisEl.hide();
+                applyMargins();
+            });
+
+            $('.sidebar-right .slide-submenu').on('click',function() {
+                var thisEl = $(this);
+                thisEl.closest('.sidebar-body').fadeOut('slide',function(){
+                    $('.mini-submenu-right').fadeIn();
+                    applyMargins();
+                });
+            });
+
+            $('.mini-submenu-right').on('click',function() {
+                var thisEl = $(this);
+                $('.sidebar-right .sidebar-body').toggle('slide');
+                thisEl.hide();
+                applyMargins();
+            });
+
+            $(window).on("resize", applyMargins);
+
+
+            applyInitialUIState();
+            applyMargins();
+        });
+    </script>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="modal fade charts-modal" style="z-index: 100000" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+        <div class="modal-dialog ">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Grafico <span id="titulo_chart"></span></h4>
+                </div>
+                <div class="js-loading text-center">
+                    <h3>Cargando...</h3>
+                </div>
+                <div id="area-example"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div   class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document" style="width:80%">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Codigo : <span  class="text-warning" id="cod_remas"></span></h4>
+
+                    <ul class="list-inline" id="datos_generales" style="font-size: 11px">
+
+                    </ul>
+
+                </div>
+                <div class="modal-body">
+                    <div class="tabs">
+                        <ul class=" col-md-12 nav nav-tabs" style="font-size:11px">
+                            <li class="active">
+                                <a href="#general_remas" data-toggle="tab"><i class="fa fa-star"></i> Generales</a>
+                            </li>
+                            <li >
+                                <a href="#fisico_remas" data-toggle="tab"  >Parametros <br>fisicos</a>
+                            </li>
+                            <li>
+                                <a href="#gases_remas" data-toggle="tab" >Gases</a>
+                            </li>
+                            <li>
+                                <a href="#quimicos_remas" data-toggle="tab" >Parametros Quimicos</a>
+                            </li>
+                            <li>
+                                <a href="#nutrientes_remas" data-toggle="tab" >Nutrientes</a>
+                            </li>
+                            <li>
+                                <a href="#sanitarios_remas" data-toggle="tab" >Indicadores <br>sanitarios Biologicos</a>
+                            </li>
+                            <li>
+                                <a href="#metales_remas" data-toggle="tab" >Metales y <br>no Metales trazas</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content" style="font-size: 12px;">
+                            <div id="general_remas" class="tab-pane active">
+
+
+                            </div>
+                            <div id="fisico_remas" class="tab-pane ">
+
+
+                                <div  id="graficos_fisico_rema" class=" pull-right col-md-3 " >
+                                </div>
+                            </div>
+                            <div id="gases_remas" class="tab-pane">
+
+
+
+                            </div>
+                            <div id="quimicos_remas" class="tab-pane">
+
+
+                            </div>
+                            <div id="nutrientes_remas" class="tab-pane">
+
+
+                            </div>
+                            <div id="sanitarios_remas" class="tab-pane">
+
+
+
+
+                            </div>
+                            <div id="metales_remas" class="tab-pane">
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{--<div class="modal-footer">--}}
+                    {{--<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>--}}
+                    {{--<button type="button" class="btn btn-primary">Save changes</button>--}}
+                {{--</div>--}}
+            </div>
+        </div>
+    </div>
+
+
+
+    <nav class="navbar navbar-fixed-top navbar-default  " role="navigation">
+        <div class="container-fluid">
+
+            <!-- Brand and toggle get grouped for better mobile display -->
+
+
+            <div class="navbar-header ">
+                <button type="button "  class=" navbar-toggle"  data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="#" class="navbar-left"><img style="max-width:65px; padding: 4px; margin-top: -7px;"  class="image-responsive"src="{{asset('img/logo.png')}}" alt=""></a>
+
+                <a class="navbar-brand" href="#">Universidad Tecnica de Oruro  - Sistema de Redes de Monitoreo de Calidad de Aguas </a>
+
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    {{--<li class="active"><a href="#">Link</a></li>--}}
+                    {{--<li><a href="#">Link</a></li>--}}
+                    {{--<li class="dropdown">--}}
+                        {{--<a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>--}}
+                        {{--<ul class="dropdown-menu">--}}
+                            {{--<li><a href="#">Action</a></li>--}}
+                            {{--<li><a href="#">Another action</a></li>--}}
+                            {{--<li><a href="#">Something else here</a></li>--}}
+                            {{--<li class="divider"></li>--}}
+                            {{--<li><a href="#">Separated link</a></li>--}}
+                            {{--<li class="divider"></li>--}}
+                            {{--<li><a href="#">One more separated link</a></li>--}}
+                        {{--</ul>--}}
+                    {{--</li>--}}
+                </ul>
+                {{--<form class="navbar-form navbar-left" role="search">--}}
+                    {{--<div class="form-group">--}}
+                        {{--<input type="text" class="form-control" placeholder="Search">--}}
+                    {{--</div>--}}
+                    {{--<button type="submit" class="btn btn-default">Submit</button>--}}
+                {{--</form>--}}
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="{{url('/login')}}"><i class="fa fa-gears"></i> Admin</a></li>
+                    <li class="dropdown">
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Action</a></li>
+                            <li><a href="#">Another action</a></li>
+                            <li><a href="#">Something else here</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#">Separated link</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+
+        </div><!-- /.container-fluid -->
+    </nav>
+</div>
+</nav>
+<div class="navbar-offset"></div>
+
+
+
+<div id="map">
+</div>
+
+
+
+<div class="row main-row">
+    <div class="col-sm-3 col-md-3 sidebar sidebar-left pull-left" >
+        <div class="panel-group sidebar-body " id="accordion-left" >
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+
+
+                        <a data-toggle="collapse" href="#layers">
+                            <i class="fa fa-list-alt"></i>
+                           TDPS - CUENCAS
+                        </a>
+                        <span class="pull-right slide-submenu">
+                    <i class="fa fa-chevron-left"></i>
+                  </span>
+                    </h4>
+                </div>
+                <div id="layers" class="panel-collapse collapse in">
+                    <div class="panel-body list-group">
+                            {{--<a href="###" onclick="abrirLayer()" class="list-group-item">--}}
+                                {{--<i class="fa fa-globe"></i> CUENCA 1--}}
+                            {{--</a>--}}
+
+                        <div id="treeCheckbox"  style=" margin-left:-22px;overflow-y: auto; height:500px; overflow-x:hidden " >
+
+                            <ul >
+                                <li class="jstree-open" >TDPS
+
+                                    <ul>
+                                        <li data-jstree='{ "opened" : true ,"icon":"fa fa-globe"}' label="{{$bolivia->archivo}}">
+                                            <a href="google.com" id="{{$bolivia->id}}"> {{$bolivia->nombre}}</a>
+                                        </li>
+                                        <li data-jstree='{ "opened" : true ,"icon":"fa fa-globe"}' label="{{$peru->archivo}}">
+                                            <a href="###" class="" id="{{$peru->id}}"> {{$peru->nombre}}</a>
+                                        </li>
+
+                                        @foreach($tdps->where('tipo','tdps') as $td)
+
+                                            <li data-jstree='{ "enabled" : true,"icon":"fa fa-globe"}' tipo="tdps"  label="{{$td->archivo}}">
+                                                {{$td->nombre}}
+
+                                                <ul>
+                                                    @foreach($zh  as $moni)
+                                                        @if($td->id==19)
+                                                        <li data-jstree='{ "opened" : true ,"icon":"fa fa-globe"}' label="{{$moni->archivo_remas}}" >
+
+                                                        @endif
+                                                        @if($td->id==20)
+                                                                <li data-jstree='{ "opened" : true ,"icon":"fa fa-globe"}' label="{{$moni->archivo_remfc}}" >
+                                                        @endif
+                                                        @if($td->id==21)
+                                                                <li data-jstree='{ "opened" : true ,"icon":"fa fa-globe"}' label="{{$moni->archivo_remli}}" >
+                                                        @endif
+
+                                                           <a href="###" class="" id="{{$moni->id}}"> {{$moni->nombre}}</a>
+                                                            <ul>
+                                                            @foreach($moni->puntos as  $punto)
+                                                                    <li data-jstree='{ "icon":"fa fa-globe"}' label="{{$punto->archivo}}">
+                                                                        <a href="###" class="" id="{{$punto->id}}"> {{$punto->nombre}}</a>
+                                                                    </li>
+                                                                @endforeach
+                                                            </ul>
+
+                                                        </li>
+
+                                                    @endforeach
+
+                                                </ul>
+
+                                                  </li>
+                                        @endforeach
+
+
+                                            </ul>
+                                </li>
+
+                                <li data-jstree='{ "opened" : true ,"icon":"fa fa-globe"}'label="{{$poopo->archivo}}" >
+                                    <a href="###" class="" id="{{$poopo->id}}"> {{$poopo->nombre}}</a>
+                                    <ul>
+                                        <li data-jstree='{ "opened" : true ,"icon":"fa fa-globe"}' label="{{$sub_poopo->archivo}}">
+                                            <a href="###" class="" id="{{$sub_poopo->id}}"> {{$sub_poopo->nombre}}</a>
+
+                                        </li>
+                                        <li>
+                                          Escala 1:50000
+                                            <ul>
+                                                @foreach($sub_poopo_5 as $sub)
+
+                                                    <li data-jstree='{ "opened" : true ,"icon":"fa fa-globe"}' label="{{$sub->archivo}}">
+                                                        <a href="###" class="" id="{{$sub->id}}"> {{$sub->nombre}}</a>
+                                                        <ul>
+                                                            @foreach($sub->puntos as $punto)
+                                                                <li data-jstree='{ "opened" : true ,"icon":"fa fa-globe"}' label="{{$punto->archivo}}">
+                                                                    <a href="###" class="" id="{{$punto->id}}"> {{$punto->nombre}}</a>
+                                                                </li>
+                                                            @endforeach
+                                                        </ul>
+                                                    </li>
+                                                    @endforeach
+                                            </ul>
+
+                                        </li>
+                                        <li>
+                                            Escala 1:1000000
+                                            <ul>
+                                                @foreach($sub_poopo_1 as $punto)
+                                                    <li data-jstree='{ "opened" : true ,"icon":"fa fa-globe"}' label="{{$punto->archivo}}">
+                                                        <a href="###" class="" id="{{$punto->id}}"> {{$punto->nombre}}</a>
+                                                    </li>
+                                                @endforeach
+
+                                            </ul>
+                                        </li>
+                                    </ul>
+
+                                </li>
+                                <li data-jstree='{ "opened" : true ,"icon":"fa fa-globe"}' label="{{$coipasa->archivo}}">
+                                    <a href="###" class="" id="{{$coipasa->id}}"> {{$coipasa->nombre}}</a>
+                                        <ul>
+
+                                               <li data-jstree='{ "opened" : true ,"icon":"fa fa-globe"}' label="{{$sub_coi->archivo}}">
+                                                 <a href="###" class="" id="{{$sub_coi->id}}"> {{$sub_coi->nombre}}</a>
+                                               </li>
+                                                 <li>
+                                                     Escala 1:50000
+                                                           <ul>
+                                                             @foreach($sub_coipasa_5 as $sub)
+
+                                                                  <li data-jstree='{ "icon":"fa fa-globe"}' label="{{$sub->archivo}}">
+                                                                    <a href="###" class="" id="{{$sub->id}}"> {{$sub->nombre}}</a>
+                                                                         <ul>
+                                                                          @foreach($sub->puntos as $punto)
+                                                                            <li data-jstree='{ "opened" : true ,"icon":"fa fa-globe"}' label="{{$punto->archivo}}">
+                                                                               <a href="###" class="" id="{{$punto->id}}"> {{$punto->nombre}}</a>
+                                                                               </li>
+                                                                            @endforeach
+                                                                          </ul>
+                                                                     </li>
+                                                                @endforeach
+                                                              </ul>
+
+                                                 </li>
+                                <li>
+                                    Escala 1:1000000
+                                    <ul>
+                                        @foreach($sub_coipasa_1 as $punto1)
+                                            <li data-jstree='{"icon":"fa fa-globe"}' label="{{$punto1->archivo}}">
+                                                <a href="###" class="" id="{{$punto1->id}}"> {{$punto1->nombre}}</a>
+                                            </li>
+                                        @endforeach
+
+                                    </ul>
+                                </li>
+                                </ul>
+                                </li>
+
+
+
+
+                                </ul>
+
+
+
+
+
+                            {{--<ul>--}}
+                                {{--<li class="jstree-open">TDPS--}}
+
+                            {{--<ul>--}}
+
+                                {{--@foreach($tdps as $td)--}}
+                           {{----}}
+                                        {{--<li tipo="tdps"  label="{{$td->archivo}}">--}}
+                                            {{--{{$td->nombre}}--}}
+
+                                            {{--<ul>--}}
+                                              {{--@foreach($td->puntos_monitoreo as $moni)--}}
+
+                                                  {{--@if(count($moni->puntos)<=0)--}}
+
+                                                {{--<li data-jstree='{ "selected" : false,"checkeable":false}'   >--}}
+                                                {{--{{$moni->nombre}}--}}
+                                                {{--</li>--}}
+                                                      {{--@else--}}
+                                                        {{--<li data-jstree='{ "opened" : true }'>--}}
+
+
+                                                            {{--<a href="###" class="" id="{{$moni->id}}"> {{$moni->nombre}}</a>--}}
+                                                            {{--<ul>--}}
+                                                                {{--@foreach($moni->puntos as  $punto)--}}
+                                                                {{--<li data-jstree='{ "enabled" : true,"icon":"fa fa-globe"}' tipo="punto"  label='{{$punto->archivo}}'>--}}
+                                                              {{--{{$punto->nombre}}--}}
+                                                                {{--</li>--}}
+
+                                                                    {{--@endforeach--}}
+                                                            {{--</ul>--}}
+                                                        {{--</li>--}}
+                                                    {{--@endif--}}
+                                                {{--@endforeach--}}
+
+
+
+                                    {{--@endif--}}
+
+                                {{--@endforeach--}}
+
+
+                            {{--</ul>--}}
+
+
+                            {{--</ul>--}}
+                                {{--</li>--}}
+
+
+
+                                {{--<li class="jstree-open" >CUENCAS--}}
+
+                                    {{--<ul>--}}
+
+                                        {{--@foreach($cuencas as $td)--}}
+                                            {{--@if(count($td->puntos_monitoreo)<=0)--}}
+                                                {{--<li data-jstree='{ "selected" : false,"checkeable":false}'    label="{{$td->archivo}}" class="colored">--}}
+                                                    {{--{{$td->nombre}}--}}
+                                                {{--</li>--}}
+                                            {{--@else--}}
+
+
+                                                {{--<li  label="{{$td->archivo}}">--}}
+                                                    {{--{{$td->nombre}}--}}
+
+                                                    {{--<ul>--}}
+                                                        {{--@foreach($td->puntos_monitoreo as $moni)--}}
+
+                                                            {{--@if(count($moni->puntos)<=0)--}}
+
+                                                                {{--<li data-jstree='{ "selected" : false,"checkeable":false}'   >--}}
+                                                                    {{--{{$moni->nombre}}--}}
+                                                                {{--</li>--}}
+                                                            {{--@else--}}
+                                                                {{--<li data-jstree='{ "opened" : true }'>--}}
+
+
+                                                                    {{--<a href="###" class="" id="{{$moni->id}}"> {{$moni->nombre}}</a>--}}
+                                                                    {{--<ul>--}}
+                                                                        {{--@foreach($moni->puntos as  $punto)--}}
+                                                                            {{--<li data-jstree='{ "enabled" : true,"icon":"fa fa-globe"}' tipo="cuenca"  label='{{$punto->archivo}}'>--}}
+                                                                                {{--{{$punto->nombre}}--}}
+                                                                            {{--</li>--}}
+
+                                                                        {{--@endforeach--}}
+                                                                    {{--</ul>--}}
+                                                                {{--</li>--}}
+                                                            {{--@endif--}}
+                                                        {{--@endforeach--}}
+
+
+
+                                                        {{--@endif--}}
+
+                                                        {{--@endforeach--}}
+
+
+                                                    {{--</ul>--}}
+
+
+                                    {{--</ul>--}}
+                                {{--</li>--}}
+                                {{----}}
+                                {{--</ul>--}}
+                        {{----}}
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            {{--<div class="panel panel-primary">--}}
+                {{--<div class="panel-heading">--}}
+                    {{--<h4 class="panel-title">--}}
+                        {{--<a data-toggle="collapse" href="#properties">--}}
+                            {{--<i class="fa fa-list-alt"></i>--}}
+                            {{--Properties--}}
                         {{--</a>--}}
-                    {{--</li><!--end widget-->--}}
+                    {{--</h4>--}}
+                {{--</div>--}}
+                {{--<div id="properties" class="panel-collapse collapse in">--}}
+                    {{--<div class="panel-body">--}}
+                        {{--<div id="content-window"></div>--}}
 
-                    {{--<!--WIDGET 2-->--}}
-                    {{--<li class="widget">--}}
-                        {{--<h2 class="widgettitle">Text Widget</h2>--}}
-                        {{--<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sagittis aliquet commodo. Sed consequat lorem a quam fermentum auctor. Donec quis nisi mi. In vel justo sem, quis iaculis tellus. Sed molestie imperdiet sapien, sed adipiscing tellus imperdiet at. Donec id orci sed elit eleifend luctus.</p>--}}
-                    {{--</li><!--end widget-->--}}
-
-                    {{--<!--WIDGET 3-->--}}
-                    {{--<li class="widget">--}}
-                        {{--<h2 class="widgettitle">Tags</h2>--}}
-                        {{--<div class="tagcloud">--}}
-                            {{--<a href='#'>Africa</a>--}}
-                            {{--<a href='#'>All</a>--}}
-                            {{--<a href='#'>Argentina</a>--}}
-                            {{--<a href='#'>Arizona</a>--}}
-                            {{--<a href='#'>Asia</a>--}}
-                            {{--<a href='#'>Australia</a>--}}
-                            {{--<a href='#'>Brazil</a>--}}
-                            {{--<a href='#'>China</a>--}}
-                            {{--<a href='#'>Egypt</a>--}}
-                            {{--<a href='#'>England</a>--}}
-                            {{--<a href='#'>Europe</a>--}}
-                            {{--<a href='#'>France</a>--}}
-                            {{--<a href='#'>India</a>--}}
-                            {{--<a href='#'>Italy</a>--}}
-                            {{--<a href='#'>Mexico</a>--}}
-                            {{--<a href='#'>New York</a>--}}
-                            {{--<a href='#'>North Africa</a>--}}
-                            {{--<a href='#'>North America</a>--}}
-                            {{--<a href='#'>Paris</a>--}}
-                            {{--<a href='#'>Rome</a>--}}
-                            {{--<a href='#'>South America</a>--}}
-                            {{--<a href='#'>UK</a>--}}
-                            {{--<a href='#'>US</a>--}}
-                        {{--</div>--}}
-                    {{--</li><!--end widget-->--}}
-                {{--</ul>--}}
-                {{--<div class="clear"></div>--}}
-            {{--</div><!--end sidebar-->--}}
-
-            <div class="clear"></div>
-        </div><!--end content-->
-    </div><!--end contentContainer-->
-
-    <div id="footer">
-
-        <!--WIDGET PANEL OPEN/CLOSE-->
-        <a href="#" id="widgetsOpen" title="More" class="widgetsToggle">+</a>
-        <a href="#" id="widgetsClose" title="Close" class="widgetsToggle">&times;</a>
-
-        <!--SEARCH (NOT FUNCTIONAL)-->
-        <div id="footerSearch">
-            <form method="get" action="/">
-                <input type="image" src="images/mag_glass.png" id="searchsubmit" alt="GO!" />
-                <input type="text" value="" onfocus="this.value=''; this.onfocus=null;"  name="s" id="s" />
-            </form>
+                        {{--<p>--}}
+                            {{--Lorem ipsum dolor sit amet, vel an wisi propriae. Sea ut graece gloriatur. Per ei quando dicant vivendum. An insolens appellantur eos, doctus convenire vis et, at solet aeterno intellegebat qui.--}}
+                        {{--</p>--}}
+                        {{--<p>--}}
+                            {{--Elitr minimum inciderint qui no. Ne mea quaerendum scriptorem consequuntur. Mel ea nobis discere dignissim, aperiam patrioque ei ius. Stet laboramus eos te, his recteque mnesarchum an, quo id adipisci salutatus. Quas solet inimicus eu per. Sonet conclusionemque id vis.--}}
+                        {{--</p>--}}
+                        {{--<p>--}}
+                            {{--Eam vivendo repudiandae in, ei pri sint probatus. Pri et lorem praesent periculis, dicam singulis ut sed. Omnis patrioque sit ei, vis illud impetus molestiae id. Ex viderer assentior mel, inani liber officiis pro et. Qui ut perfecto repudiandae, per no hinc tation labores.--}}
+                        {{--</p>--}}
+                        {{--<p>--}}
+                            {{--Pro cu scaevola antiopam, cum id inermis salutatus. No duo liber gloriatur. Duo id vitae decore, justo consequat vix et. Sea id tale quot vitae.--}}
+                        {{--</p>--}}
+                    {{--</div>--}}
+                {{--</div>--}}
+            {{--</div>--}}
         </div>
+    </div>
+    <div class="col-sm-4 col-md-6 mid"></div>
+    <div class="col-sm-4 col-md-3 sidebar sidebar-right pull-right">
+        {{--<div class="panel-group sidebar-body" id="accordion-right">--}}
+            {{--<div class="panel panel-default">--}}
+                {{--<div class="panel-heading">--}}
+                    {{--<h4 class="panel-title">--}}
+                        {{--<a data-toggle="collapse" href="#taskpane">--}}
+                            {{--<i class="fa fa-tasks"></i>--}}
+                            {{--Task Pane--}}
+                        {{--</a>--}}
+                        {{--<span class="pull-right slide-submenu">--}}
+                    {{--<i class="fa fa-chevron-right"></i>--}}
+                  {{--</span>--}}
+                    {{--</h4>--}}
+                {{--</div>--}}
+                {{--<div id="taskpane" class="panel-collapse collapse in">--}}
+                    {{--<div class="panel-body">--}}
+                        {{--<p>--}}
+                            {{--Lorem ipsum dolor sit amet, vel an wisi propriae. Sea ut graece gloriatur. Per ei quando dicant vivendum. An insolens appellantur eos, doctus convenire vis et, at solet aeterno intellegebat qui.--}}
+                        {{--</p>--}}
+                        {{--<p>--}}
+                            {{--Elitr minimum inciderint qui no. Ne mea quaerendum scriptorem consequuntur. Mel ea nobis discere dignissim, aperiam patrioque ei ius. Stet laboramus eos te, his recteque mnesarchum an, quo id adipisci salutatus. Quas solet inimicus eu per. Sonet conclusionemque id vis.--}}
+                        {{--</p>--}}
+                        {{--<p>--}}
+                            {{--Eam vivendo repudiandae in, ei pri sint probatus. Pri et lorem praesent periculis, dicam singulis ut sed. Omnis patrioque sit ei, vis illud impetus molestiae id. Ex viderer assentior mel, inani liber officiis pro et. Qui ut perfecto repudiandae, per no hinc tation labores.--}}
+                        {{--</p>--}}
+                        {{--<p>--}}
+                            {{--Pro cu scaevola antiopam, cum id inermis salutatus. No duo liber gloriatur. Duo id vitae decore, justo consequat vix et. Sea id tale quot vitae.--}}
+                        {{--</p>--}}
+                    {{--</div>--}}
+                {{--</div>--}}
+            {{--</div>--}}
+        {{--</div>--}}
+    </div>
+</div>
+<div class="mini-submenu mini-submenu-left pull-left">
+    <i class="fa fa-list-alt"></i>
+</div>
+<div class="mini-submenu mini-submenu-right pull-right">
+    <i class="fa fa-tasks"></i>
+</div>
+</div>
 
-        <!--SOCIAL BUTTONS-->
-        <div id="socialStuff">
-            <a class="socialicon" id="rssIcon" href="#"  title="Subscribe via RSS" rel="nofollow"></a>
-            <a class="socialicon" id="facebookIcon" href="#"  title="Facebook" rel="nofollow"></a>
-            <a class="socialicon" id="twitterIcon" href="#" title="Follow on Twitter" rel="nofollow"></a>
-            <!--
-            <a class="socialicon" id="vimeoIcon" href="#" title="Vimeo" rel="nofollow"></a>
-            <a class="socialicon" id="skypeIcon" href="#" title="Skype" rel="nofollow"></a>
-            <a class="socialicon" id="myspaceIcon" href="#" title="MySpace" rel="nofollow"></a>
-            <a class="socialicon" id="flickrIcon" href="#" title="Flickr" rel="nofollow"></a>
-            <a class="socialicon" id="linkedinIcon" href="#" title="LinkedIn" rel="nofollow"></a>
-            <a class="socialicon" id="youtubeIcon" href="#" title="YouTube" rel="nofollow"></a>
-            -->
-        </div>
+</body>
+</html>
 
-        <!--COPYRIGHT NOTICE - IMPORTANT! DO NOT REMOVE GOOGLE NOTICE -->
-        <div id="copyright">
-            &copy; 2016 Sistema de cuencas Bolivia </a>
-        </div>
 
-        <!--THIS SHOULD BE THE TITLE OF THE PAGE-->
-        <div class="pageContent">
-            <h2>Page Title Here</h2>
-        </div>
-    </div><!--end footer-->
-    @stop

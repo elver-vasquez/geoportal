@@ -8,6 +8,7 @@ jQuery.noConflict(); jQuery(document).ready(function(){
 	
 	//VARIABLES
 	var mainBox = jQuery('#main'),
+		
     	pageBox = jQuery(".pageContent"),
     	loading = jQuery('#loading'),
     	//iPad,iPhone,iPod...
@@ -219,7 +220,7 @@ jQuery.noConflict(); jQuery(document).ready(function(){
 	jQuery("a[href$='jpg'],a[href$='jpeg'],a[href$='png'],a[href$='gif']").attr({rel: "prettyPhoto[pp_gal]"});
 	jQuery("a[rel^='prettyPhoto']").prettyPhoto({
 		animation_speed: 'normal', // fast/slow/normal 
-		opacity: 0.35, // Value betwee 0 and 1 
+		opacity: 0.35, // Value betwee 0 and 1
 		show_title: false, // true/false 
 		allow_resize: true, // true/false 
 		overlay_gallery: false,

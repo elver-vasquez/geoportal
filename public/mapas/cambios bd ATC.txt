@@ -1,0 +1,16 @@
+cambios tac
+-añadio una columna en la tabla localidad
+ "Abrev" tipo varchar (10)
+
+--añadio una columna en la tabla cliente
+ "Nit" tipo varchar (15)
+
+
+--añadio una columna en la tabla contacto
+ "localidad" tipo varchar (10)
+
+--añadio una columna en la tabla servicio_cliente
+ "cta_liente" tipo varchar (25)
+
+--añadio una columna en la tabla servicio_cliente
+ "idCorrelativo" tipo int 
