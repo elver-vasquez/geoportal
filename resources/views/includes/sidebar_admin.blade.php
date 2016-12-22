@@ -15,7 +15,7 @@
             <nav id="menu" class="nav-main" role="navigation">
                 <ul class="nav nav-main">
                     <li>
-                        <a href="###">
+                        <a href="{{url('admin/inicio')}}">
                             <i class="fa fa-home" aria-hidden="true"></i>
                             <span>Inicio</span>
                         </a>
@@ -86,6 +86,17 @@
                             </li>
                             </ul>
                     </li>
+                    @if(\Illuminate\Support\Facades\Auth::user()->rol=='admin')
+                    <li>
+
+                        <a href="{{url('admin/usuarios')}}">
+
+                            <i class="fa fa-users" aria-hidden="true"></i>
+                            <span>USUARIOS</span>
+                        </a>
+                    </li>
+                    @endif
+
                     <li>
                         <form action="{{url('/logout')}}" method="post">
                             {!! csrf_field() !!}

@@ -26,6 +26,7 @@
                     <h2><i class="fa fa-user"></i></h2>
                 </figure>
                 <div class="profile-info" data-lock-name="John Doe" data-lock-email=".com">
+
                     <span class="name"><?php echo e(Auth::user()->name); ?></span>
 
                 </div>
@@ -35,8 +36,10 @@
 
             <div class="dropdown-menu">
                 <ul class="list-unstyled">
-                    <li class="divider"></li>
 
+                    <li class="divider"></li>
+                    <li><a href="<?php echo e(url('admin/usuarios/micuenta')); ?>/<?php echo e(\Illuminate\Support\Facades\Auth::user()->id); ?>"><strong>Editar mi Cuenta</strong></a></li>
+                    <li class="divider"></li>
                     <li>
                         <form action="<?php echo e(url('/logout')); ?>" method="post">
                             <?php echo csrf_field(); ?>
@@ -44,7 +47,8 @@
                             <button class="btn btn-link">
                                 <i class=" fa fa-power-off"></i>Salir
                             </button>
-                        </form>                    </li>
+                        </form>
+                    </li>
                 </ul>
             </div>
         </div>

@@ -17,6 +17,11 @@ class PublicController extends Controller
     public function index()
     {
         $tdps=Tdps::where('tipo','tdps')->orderBy('nombre','ASC')->get();
+
+        $remas=Tdps::find(19);
+        $remfc=Tdps::find(20);
+        $remli=Tdps::find(21);
+
         $bolivia=Tdps::where('tipo','bolivia')->first();
         $peru=Tdps::where('tipo','peru')->first();
         $zh=Monitoreo::where('tipo','zh')->orderBy('codigo','ASC')->orderBy('nombre','ASC')->get();
@@ -29,6 +34,9 @@ class PublicController extends Controller
         $sub_coipasa_5=Monitoreo::where('tipo','coipasa5')->get();
         $sub_coipasa_1=MapaPunto::where('tipo','coipasa1')->get();
         return view('public.index',[
+            'remas'=>$remas,
+            'remfc'=>$remfc,
+            'remli'=>$remli,
             'tdps'=>$tdps,
             'bolivia'=>$bolivia,
             'peru'=>$peru,

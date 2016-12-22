@@ -16,15 +16,23 @@ Route::get('/', 'PublicController@index');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index');
+Route::get('/bajar', 'HomeController@index');
 Route::get('/remas/importar', 'RemaController@importar');
 Route::get('/remfc/importar', 'RemfcController@importar');
 Route::get('/remli/importar', 'RemliController@importar');
-
 Route:: get('/remas/buscarCampanias/{codigo}','RemaController@buscarCampanias');
+Route::post('/reportes/remas','ReporteController@remas');
 
 
 
 Route::group(['prefix'=>'admin'],function(){
+    Route::get('/inicio','UsuarioController@inicio');
+    Route::get('/usuarios','UsuarioController@index');
+    Route::post('/usuarios/store/','UsuarioController@store');
+    Route::post('/usuarios/update/','UsuarioController@update');
+    Route::get('/usuarios/destroy/{user}','UsuarioController@destroy');
+    Route::get('/usuarios/micuenta/{user}','UsuarioController@micuenta');
+    Route::post('/usuarios/micuenta/','UsuarioController@micuentaPost');
 
     Route::get('/remas','RemaController@index');
     Route::get('/campaniasrema/{rema}','RemaController@campanias');

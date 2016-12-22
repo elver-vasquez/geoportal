@@ -194,7 +194,7 @@
 
         $(document).ready(function () {
 
-//            buscarCampaniasRemas('P-017-003-1-01');
+            buscarCampaniasRemas('P-017-003-1-01');
 
 
 
@@ -214,7 +214,7 @@
                     }
                 },
 //            'plugins' : ['contextmenu', 'types'],
-            "plugins" : [ "checkbox","themes", "json_data", "ui", "contextmenu", "types" ],
+            "plugins" : [ "checkbox",  "types" ],
 
             "checkbox": {
                    "keep_selected_style" : false,
@@ -227,23 +227,11 @@
               var id=data.node.id;
             var oElement = $("#" + data.node.id)[0];
                 var archivo = oElement.attributes["label"].value;
+                var tipo =oElement.attributes["tipo"].value;
 
 
-            abrirLayer(url_mapa+archivo,id)
-//            var tipo=oElement.attributes["tipo"].value;
 
-//                if(tipo=='tdps'){
-//
-//                abrirLayer(url_tdps+archivo,id)
-//                }
-//                if(tipo=='punto')
-//                {
-//                   abrirLayer(url_punto+archivo,id)
-//                }
-//            if(tipo=='cuenca')
-//            {
-//                abrirLayer(url_cuenca+archivo,id)
-//            }
+            abrirLayer(url_mapa+archivo,id,tipo)
 
 
         }).bind("deselect_node.jstree", function(evt, data) {
@@ -251,9 +239,6 @@
             layers[data.node.id].setMap(null);
 
         });
-
-
-
 
         });
 
@@ -357,6 +342,7 @@ function modalRemas(campanias,data,cod){
     $ul_nutrientes='';
     $ul_sanitarios='';
     $ul_metales='';
+    $ul_reporte='';
 
               $('#cod_remas').html(cod)
               $ul_gen+='<ul class="list-inline">';
@@ -366,6 +352,7 @@ function modalRemas(campanias,data,cod){
               $ul_nutrientes+='<ul class="list-inline">';
               $ul_sanitarios+='<ul class="list-inline">';
               $ul_metales+='<ul class="list-inline">';
+
 
 
 
@@ -384,15 +371,9 @@ function modalRemas(campanias,data,cod){
              $('#datos_generales').append($datos_generales);
 
 
-
-
-
-
-
              $(campanias).each(function(k,v){
                 $ul_gen+='<li>'+
                         '<ol>'+
-
                          '<li  class="text-warning">Campaña:<strong>'+v.campania+'</strong></li>'+
                  '<li >Codigo campaña: <strong>'+v.cod_campania+'</strong></li>'+
                  '<li >Laboratorio Responsable: <strong>'+v.laboratorio+'</strong></li>'+
@@ -492,8 +473,104 @@ function modalRemas(campanias,data,cod){
 
 
 
+
              });
-                 $ul_gen+='</li>';
+
+                $ul_reporte+='<form method="POST" action="{{url('reportes/remas')}}" id="reporte-remas" >'+
+                                '<input type="hidden" name="codigo_rema" value="'+cod+'"/>'+
+                        '<ul class="list-inline">'+
+                        '<li>'+
+                        '<ol>'+
+                        '<li  class="text-warning"> <strong>Fisicos</strong></li>'+
+                        '<li >PH <input type="checkbox" name="reporte[]"  value="ph"></li>'+
+                        '<li >CEV (uS/cm) <input type="checkbox" name="reporte[]" value="ce" ></li>'+
+                        '<li >T (°C) <input type="checkbox" value="temperatura" name="reporte[]" ></li>'+
+                        '<li >TURBIEDAD(NTU) <input type="checkbox" value="turbiedad" name="reporte[]" ></li>'+
+                        '<li >SDT(mg/l) <input type="checkbox" value="sdt" name="reporte[]" ></li>'+
+                        '<li >SST(mg/l) <input type="checkbox" value="sst"  name="reporte[]" ></li>'+
+                        '<li >Color <input type="checkbox" value="color" name="reporte[]" ></li>'+
+                        '</ol>'+
+                        '</li>'+
+                        '<li>'+
+                        '<ol>'+
+                        '<li  class="text-warning"> Gases</li>'+
+                        '<li >CO2(mg/l)<input type="checkbox" value="co" name="reporte[]" ></li>'+
+                        '<li> OD(mg/l)<input type="checkbox" value="od" name="reporte[]" ></li>'+
+                        '<li> HS2(mg/l)<input type="checkbox" value="hs" name="reporte[]" ></li>'+
+                        '</ol>'+
+                        '</li>'+
+                        '<li>'+
+                        '<ol>'+
+                        '<li  class="text-warning"> Quimicos</li>'+
+                        '<li >Ca (mg/l) <input type="checkbox" value="ca" name="reporte[]" ></li>'+
+                        '<li> Mg (mg/l) <input type="checkbox" value="mg" name="reporte[]" ></li>'+
+                        '<li> Na (mg/l) <input type="checkbox" value="na" name="reporte[]" ></li>'+
+                        '<li> K (mg/l) <input type="checkbox" value="k" name="reporte[]" ></li>'+
+                        '<li> Na + K (mg/l) <input type="checkbox" value="na_k" name="reporte[]" ></li>'+
+                        '<li> CO3 (mg/l) <input type="checkbox" value="co2" name="reporte[]" ></li>'+
+                        '<li> CO3H (mg/l) <input type="checkbox" value="co2h" name="reporte[]" ></li>'+
+                        '<li> Cl (mg/l) <input type="checkbox" value="ci" name="reporte[]" ></li>'+
+                        '<li> (SO4)2- (mg/l) <input type="checkbox" value="so4" name="reporte[]" ></li>'+
+                        '<li> Alcalinidad (mg/l) CaCO3 <input type="checkbox" value="alcalinidad" name="reporte[]" ></li>'+
+                        '<li> Dureza total (mg/l) CaCO3 <input type="checkbox" value="dureza" name="reporte[]" ></li>'+
+                        '</ol>'+
+                        '</li>'+
+                       '<li>'+
+                        '<ol>'+
+                        '<li  class="text-warning"> Nutrientes</li>'+
+                        '<li >SiO3 (mg/l) <input type="checkbox" value="sio3" name="reporte[]" ></li>'+
+                        '<li> N-NO3- (mg/l) <input type="checkbox" value="nno3" name="reporte[]" ></li>'+
+                        '<li> N-NO2- (mg/l) <input type="checkbox" value="nno2" name="reporte[]" ></li>'+
+                        '<li> N-NH4+ (mg/l) <input type="checkbox" value="nnh4" name="reporte[]" ></li>'+
+                        '<li> Nt (mg/l) <input type="checkbox" value="nt" name="reporte[]" ></li>'+
+                        '<li> N-Kjeldall (mg/l) <input type="checkbox" value="kjendall" name="reporte[]" ></li>'+
+                        '<li> (PO4)3- (mg/l) <input type="checkbox" value="po4" name="reporte[]" ></li>'+
+                        '<li> P (mg/l) <input type="checkbox" value="p" name="reporte[]" ></li>'+
+                        '<li> Pt (mg/l) <input type="checkbox" value="pt" name="reporte[]" ></li>'+
+                        '<li> B (mg/l) <input type="checkbox" value="si" name="reporte[]" ></li>'+
+                        '</ol>'+
+                        '</li>'+
+                        '<li>'+
+                        '<ol>'+
+                        '<li  class="text-warning"> Sanitarios<br> y biologicos</li>'+
+                        '<li >DBO5 (mg/l) <input type="checkbox" value="dbo5" name="reporte[]" ></li>'+
+                        '<li >DQO (mg/l) <input type="checkbox" value="dqo" name="reporte[]" ></li>'+
+                        '<li >Coliformes fecales (NMP/100 ml) <input type="checkbox" value="coli_feca" name="reporte[]" ></li>'+
+                        '<li >Coliformes totales (NMP/100 ml) <input type="checkbox" value="coli_tot" name="reporte[]" ></li>'+
+                        '<li >Salmonella spp (NMP/100 ml) <input type="checkbox" value="salmonella" name="reporte[]" ></li>'+
+                        '</ol>'+
+                        '</li>'+
+                        '<li>'+
+                         '<ol>'+
+                        '<li  class="text-warning">Metales y no<br> Metales Trazas</li>'+
+                        '<li >Zn (mg/l) <input type="checkbox" value="zn" name="reporte[]" ></li>'+
+                        '<li >Cd (mg/l) <input type="checkbox" value="cd" name="reporte[]" ></li>'+
+                        '<li >Pb (mg/l) <input type="checkbox" value="pb" name="reporte[]" ></li>'+
+                        '<li >Fe (mg/l) <input type="checkbox" value="fe" name="reporte[]" ></li>'+
+                        '<li >Mn (mg/l) <input type="checkbox" value="mn" name="reporte[]" ></li>'+
+                        '<li >Cu (mg/l) <input type="checkbox" value="cu" name="reporte[]" ></li>'+
+                        '<li >Hg (mg/l) <input type="checkbox" value="hg" name="reporte[]" ></li>'+
+                        '<li >As (mg/l) <input type="checkbox" value="as" name="reporte[]" ></li>'+
+                        '<li >Cr (mg/l) <input type="checkbox" value="cr" name="reporte[]" ></li>'+
+                        '<li >Ni (mg/l) <input type="checkbox" value="ni" name="reporte[]" ></li>'+
+                        '<li >Sb (mg/l) <input type="checkbox" value="sb" name="reporte[]" ></li>'+
+                        '<li >Se (mg/l) <input type="checkbox" value="se" name="reporte[]" ></li>'+
+                        '</ol>'+
+                        '</li>'+
+                         '</ul>'+
+                                '<button type="submit" class="btn btn-warning"><i class="fa fa-file-excel-o"></i> Generar Reporte</button>'+
+                                '</form>';
+
+
+
+
+
+
+
+
+
+
+                $ul_gen+='</li>';
                  $ul_fisico+='</li>';
                  $ul_gases+='</li>';
                  $ul_quimicos+='</li>';
@@ -508,6 +585,7 @@ function modalRemas(campanias,data,cod){
                  $('#nutrientes_remas').append($ul_nutrientes);
                  $('#sanitarios_remas').append($ul_sanitarios);
                  $('#metales_remas').append($ul_metales);
+                 $('#reportes').append($ul_reporte);
 
     $('#myModal').modal('show');
 }
@@ -654,9 +732,6 @@ function modalRemas(campanias,data,cod){
                   '<li >Se (mg/l):<strong class="text-primary">'+v.se+'</strong></li>'+
                   '</ol>'+
                   '</li>';
-
-
-
 
       });
       $ul_gen+='</li>';
@@ -867,7 +942,12 @@ function modalRemas(campanias,data,cod){
       });
 
   }
-        function abrirLayer(archivo,id){
+
+   function bajar() {
+      window.location='http://google.com';
+
+  }
+        function abrirLayer(archivo,id,tipo){
             layers[id]=new google.maps.KmlLayer(archivo,
                     {preserveViewport: false, suppressInfoWindows: true});
             layers[id].setMap(map);
@@ -880,12 +960,25 @@ function modalRemas(campanias,data,cod){
                 var info2=kmlEvent.featureData.snippet;
                 var clickPos = kmlEvent.latLng;
 
-                var content = '<div id="iw-container">' +
-                        '<div class="iw-title">'+codigo+'</div>' +
-                        '<div class="iw-content">' +
-                        '<div class="iw-subTitle">'+info+'</div>' +
-                        '<p><a class="btn btn-warning" href="###"  id="'+codigo+'" onclick="buscarCampaniasRemas(this.id);"><i class="fa fa-eye"></i> Ver Detalles</a><br>'+                        '</div>' +
-                        '</div>';
+
+                if(tipo=='pm') {
+                    var content = '<div id="iw-container">' +
+                            '<div class="iw-title">' + codigo + '</div>' +
+                            '<div class="iw-content">' +
+                            '<div class="iw-subTitle">' + info + '</div>' +
+                            '<p><a class="btn btn-warning" href="###"  id="' + codigo + '" onclick="buscarCampaniasRemas(this.id);"><i class="fa fa-eye"></i> Ver Detalles</a><br>' + '</div>' +
+                            '</div>';
+
+
+                }
+                else{
+                    var content = '<div id="iw-container">' +
+                            '<div class="iw-title">' + codigo + '</div>' +
+                            '<div class="iw-content">' +
+                            '<div class="iw-subTitle">' + info + '</div>' +
+                            '</div>';
+
+                }
 
                 var posX = new google.maps.LatLng(clickPos.lat(), clickPos.lng());
 
@@ -1010,6 +1103,9 @@ function modalRemas(campanias,data,cod){
                             <li>
                                 <a href="#metales_remas" data-toggle="tab" >Metales y <br>no Metales trazas</a>
                             </li>
+                            <li>
+                                <a href="#reportes" data-toggle="tab" >Reporte</a>
+                            </li>
                         </ul>
                         <div class="tab-content" style="font-size: 12px;">
                             <div id="general_remas" class="tab-pane active">
@@ -1042,6 +1138,12 @@ function modalRemas(campanias,data,cod){
 
                             </div>
                             <div id="metales_remas" class="tab-pane">
+
+
+
+                            </div>
+
+                            <div id="reportes" class="tab-pane">
 
 
 
@@ -1159,40 +1261,60 @@ function modalRemas(campanias,data,cod){
 
                                     <ul>
                                         <li data-jstree='{ "opened" : true ,"icon":"fa fa-globe"}' label="{{$bolivia->archivo}}">
-                                            <a href="google.com" id="{{$bolivia->id}}"> {{$bolivia->nombre}}</a>
+                                        {{$bolivia->nombre}}  / <span><a  href="" onclick="javascript:location.href='{{asset('mapas')}}/{{$bolivia->archivo}}'" title="descargar mapa" style="font-size: 10px;"class="text-sm text-primary"><i class="fa fa-download text-primary"></i> </a> </span>
                                         </li>
                                         <li data-jstree='{ "opened" : true ,"icon":"fa fa-globe"}' label="{{$peru->archivo}}">
-                                            <a href="###" class="" id="{{$peru->id}}"> {{$peru->nombre}}</a>
+                                          {{$peru->nombre}}    / <span><a  href="" onclick="javascript:location.href='{{asset('mapas')}}/{{$peru->archivo}}'" title="descargar mapa" style="font-size: 10px;"class="text-sm text-primary"><i class="fa fa-download text-primary"></i> </a> </span>
                                         </li>
-
                                         @foreach($tdps->where('tipo','tdps') as $td)
 
                                             <li data-jstree='{ "enabled" : true,"icon":"fa fa-globe"}' tipo="tdps"  label="{{$td->archivo}}">
-                                                {{$td->nombre}}
+                                                {{$td->nombre}}   / <span><a  href="" onclick="javascript:location.href='{{asset('mapas')}}/{{$td->archivo}}'" title="descargar mapa" style="font-size: 10px;"class="text-sm text-primary"><i class="fa fa-download text-primary"></i> </a> </span>
 
                                                 <ul>
                                                     @foreach($zh  as $moni)
                                                         @if($td->id==19)
-                                                        <li data-jstree='{ "opened" : true ,"icon":"fa fa-globe"}' label="{{$moni->archivo_remas}}" >
-
-                                                        @endif
-                                                        @if($td->id==20)
-                                                                <li data-jstree='{ "opened" : true ,"icon":"fa fa-globe"}' label="{{$moni->archivo_remfc}}" >
-                                                        @endif
-                                                        @if($td->id==21)
-                                                                <li data-jstree='{ "opened" : true ,"icon":"fa fa-globe"}' label="{{$moni->archivo_remli}}" >
-                                                        @endif
-
-                                                           <a href="###" class="" id="{{$moni->id}}"> {{$moni->nombre}}</a>
+                                                        <li data-jstree='{ "opened" : true ,"icon":"fa fa-globe"}' tipo="pm" label="{{$moni->archivo_remas}}" >
+                                                               {{$moni->nombre}}   / <span><a  href="" onclick="javascript:location.href='{{asset('mapas')}}/{{$moni->archivo_remas}}'" title="descargar mapa" style="font-size: 10px;"class="text-sm text-primary"><i class="fa fa-download text-primary"></i> </a> </span>
                                                             <ul>
-                                                            @foreach($moni->puntos as  $punto)
-                                                                    <li data-jstree='{ "icon":"fa fa-globe"}' label="{{$punto->archivo}}">
-                                                                        <a href="###" class="" id="{{$punto->id}}"> {{$punto->nombre}}</a>
+                                                                @foreach($moni->puntos as  $punto)
+                                                                    <li data-jstree='{ "icon":"fa fa-globe"}' tipo="nn" label="{{$punto->archivo}}">
+                                                                       {{$punto->nombre}}  / <span><a  href="" onclick="javascript:location.href='{{asset('mapas')}}/{{$punto->archivo}}'" title="descargar mapa" style="font-size: 10px;"class="text-sm text-primary"><i class="fa fa-download text-primary"></i> </a> </span>
                                                                     </li>
                                                                 @endforeach
                                                             </ul>
 
                                                         </li>
+
+                                                        @endif
+                                                        @if($td->id==20)
+                                                                <li data-jstree='{ "opened" : true ,"icon":"fa fa-globe"}' tipo="pm" label="{{$moni->archivo_remfc}}" >
+                                                                 {{$moni->nombre}}  / <span><a  href="" onclick="javascript:location.href='{{asset('mapas')}}/{{$moni->archivo_remfc}}'" title="descargar mapa" style="font-size: 10px;"class="text-sm text-primary"><i class="fa fa-download text-primary"></i> </a> </span>
+                                                                    <ul>
+                                                                        @foreach($moni->puntos as  $punto)
+                                                                            <li data-jstree='{ "icon":"fa fa-globe"}' tipo="nn" label="{{$punto->archivo}}">
+                                                                               {{$punto->nombre}}   / <span><a  href="" onclick="javascript:location.href='{{asset('mapas')}}/{{$punto->archivo}}'" title="descargar mapa" style="font-size: 10px;"class="text-sm text-primary"><i class="fa fa-download text-primary"></i> </a> </span>
+                                                                            </li>
+                                                                        @endforeach
+                                                                    </ul>
+
+                                                                </li>
+                                                        @endif
+                                                        @if($td->id==21)
+                                                                <li data-jstree='{ "opened" : true ,"icon":"fa fa-globe"}' tipo="pm" label="{{$moni->archivo_remli}}" >
+                                                                  {{$moni->nombre}}   / <span><a  href="" onclick="javascript:location.href='{{asset('mapas')}}/{{$moni->archivo_remli}}'" title="descargar mapa" style="font-size: 10px;"class="text-sm text-primary"><i class="fa fa-download text-primary"></i> </a> </span>
+                                                                    <ul>
+                                                                        @foreach($moni->puntos as  $punto)
+                                                                            <li data-jstree='{ "icon":"fa fa-globe"}' tipo="nn" label="{{$punto->archivo}}">
+                                                                                {{$punto->nombre}}   / <span><a  href="" onclick="javascript:location.href='{{asset('mapas')}}/{{$punto->archivo}}'" title="descargar mapa" style="font-size: 10px;"class="text-sm text-primary"><i class="fa fa-download text-primary"></i> </a> </span>
+                                                                            </li>
+                                                                        @endforeach
+                                                                    </ul>
+
+                                                                </li>
+                                                        @endif
+
+
 
                                                     @endforeach
 
@@ -1206,10 +1328,10 @@ function modalRemas(campanias,data,cod){
                                 </li>
 
                                 <li data-jstree='{ "opened" : true ,"icon":"fa fa-globe"}'label="{{$poopo->archivo}}" >
-                                    <a href="###" class="" id="{{$poopo->id}}"> {{$poopo->nombre}}</a>
+                                   {{$poopo->nombre}} / <span><a  href="" onclick="javascript:location.href='{{asset('mapas')}}/{{$poopo->archivo}}'" title="descargar mapa" style="font-size: 10px;"class="text-sm text-primary"><i class="fa fa-download text-primary"></i> </a> </span>
                                     <ul>
                                         <li data-jstree='{ "opened" : true ,"icon":"fa fa-globe"}' label="{{$sub_poopo->archivo}}">
-                                            <a href="###" class="" id="{{$sub_poopo->id}}"> {{$sub_poopo->nombre}}</a>
+                                           {{$sub_poopo->nombre}}  / <span><a  href="" onclick="javascript:location.href='{{asset('mapas')}}/{{$sub_poopo->archivo}}'" title="descargar mapa" style="font-size: 10px;"class="text-sm text-primary"><i class="fa fa-download text-primary"></i> </a> </span>
 
                                         </li>
                                         <li>
@@ -1218,11 +1340,11 @@ function modalRemas(campanias,data,cod){
                                                 @foreach($sub_poopo_5 as $sub)
 
                                                     <li data-jstree='{ "opened" : true ,"icon":"fa fa-globe"}' label="{{$sub->archivo}}">
-                                                        <a href="###" class="" id="{{$sub->id}}"> {{$sub->nombre}}</a>
+                                                        {{$sub->nombre}}   / <span><a  href="" onclick="javascript:location.href='{{asset('mapas')}}/{{$sub->archivo}}'" title="descargar mapa" style="font-size: 10px;"class="text-sm text-primary"><i class="fa fa-download text-primary"></i> </a> </span>
                                                         <ul>
                                                             @foreach($sub->puntos as $punto)
                                                                 <li data-jstree='{ "opened" : true ,"icon":"fa fa-globe"}' label="{{$punto->archivo}}">
-                                                                    <a href="###" class="" id="{{$punto->id}}"> {{$punto->nombre}}</a>
+                                                                    {{$punto->nombre}}   / <span><a  href="" onclick="javascript:location.href='{{asset('mapas')}}/{{$punto->archivo}}'" title="descargar mapa" style="font-size: 10px;"class="text-sm text-primary"><i class="fa fa-download text-primary"></i> </a> </span>
                                                                 </li>
                                                             @endforeach
                                                         </ul>
@@ -1236,7 +1358,7 @@ function modalRemas(campanias,data,cod){
                                             <ul>
                                                 @foreach($sub_poopo_1 as $punto)
                                                     <li data-jstree='{ "opened" : true ,"icon":"fa fa-globe"}' label="{{$punto->archivo}}">
-                                                        <a href="###" class="" id="{{$punto->id}}"> {{$punto->nombre}}</a>
+                                                       {{$punto->nombre}}   / <span><a  href="" onclick="javascript:location.href='{{asset('mapas')}}/{{$punto->archivo}}'" title="descargar mapa" style="font-size: 10px;"class="text-sm text-primary"><i class="fa fa-download text-primary"></i> </a> </span>
                                                     </li>
                                                 @endforeach
 
@@ -1246,11 +1368,11 @@ function modalRemas(campanias,data,cod){
 
                                 </li>
                                 <li data-jstree='{ "opened" : true ,"icon":"fa fa-globe"}' label="{{$coipasa->archivo}}">
-                                    <a href="###" class="" id="{{$coipasa->id}}"> {{$coipasa->nombre}}</a>
+                                     {{$coipasa->nombre}}  / <span><a  href="" onclick="javascript:location.href='{{asset('mapas')}}/{{$coipasa->archivo}}'" title="descargar mapa" style="font-size: 10px;"class="text-sm text-primary"><i class="fa fa-download text-primary"></i> </a> </span>
                                         <ul>
 
                                                <li data-jstree='{ "opened" : true ,"icon":"fa fa-globe"}' label="{{$sub_coi->archivo}}">
-                                                 <a href="###" class="" id="{{$sub_coi->id}}"> {{$sub_coi->nombre}}</a>
+                                                {{$sub_coi->nombre}}  / <span><a  href="" onclick="javascript:location.href='{{asset('mapas')}}/{{$sub_coi->archivo}}'" title="descargar mapa" style="font-size: 10px;"class="text-sm text-primary"><i class="fa fa-download text-primary"></i> </a> </span>
                                                </li>
                                                  <li>
                                                      Escala 1:50000
@@ -1258,11 +1380,10 @@ function modalRemas(campanias,data,cod){
                                                              @foreach($sub_coipasa_5 as $sub)
 
                                                                   <li data-jstree='{ "icon":"fa fa-globe"}' label="{{$sub->archivo}}">
-                                                                    <a href="###" class="" id="{{$sub->id}}"> {{$sub->nombre}}</a>
-                                                                         <ul>
+                                                                    {{$sub->nombre}} / <span><a  href="" onclick="javascript:location.href='{{asset('mapas')}}/{{$sub->archivo}}'" title="descargar mapa" style="font-size: 10px;"class="text-sm text-primary"><i class="fa fa-download text-primary"></i> </a> </span>                                                                         <ul>
                                                                           @foreach($sub->puntos as $punto)
                                                                             <li data-jstree='{ "opened" : true ,"icon":"fa fa-globe"}' label="{{$punto->archivo}}">
-                                                                               <a href="###" class="" id="{{$punto->id}}"> {{$punto->nombre}}</a>
+                                                                              {{$punto->nombre}}   / <span><a  href="" onclick="javascript:location.href='{{asset('mapas')}}/{{$punto->archivo}}'" title="descargar mapa" style="font-size: 10px;"class="text-sm text-primary"><i class="fa fa-download text-primary"></i> </a> </span>
                                                                                </li>
                                                                             @endforeach
                                                                           </ul>
@@ -1276,7 +1397,7 @@ function modalRemas(campanias,data,cod){
                                     <ul>
                                         @foreach($sub_coipasa_1 as $punto1)
                                             <li data-jstree='{"icon":"fa fa-globe"}' label="{{$punto1->archivo}}">
-                                                <a href="###" class="" id="{{$punto1->id}}"> {{$punto1->nombre}}</a>
+                                               {{$punto1->nombre}} / <span><a  href="" onclick="javascript:location.href='{{asset('mapas')}}/{{$punto1->archivo}}'" title="descargar mapa" style="font-size: 10px;"class="text-sm text-primary"><i class="fa fa-download text-primary"></i> </a> </span>
                                             </li>
                                         @endforeach
 
@@ -1290,115 +1411,6 @@ function modalRemas(campanias,data,cod){
 
                                 </ul>
 
-
-
-
-
-                            {{--<ul>--}}
-                                {{--<li class="jstree-open">TDPS--}}
-
-                            {{--<ul>--}}
-
-                                {{--@foreach($tdps as $td)--}}
-                           {{----}}
-                                        {{--<li tipo="tdps"  label="{{$td->archivo}}">--}}
-                                            {{--{{$td->nombre}}--}}
-
-                                            {{--<ul>--}}
-                                              {{--@foreach($td->puntos_monitoreo as $moni)--}}
-
-                                                  {{--@if(count($moni->puntos)<=0)--}}
-
-                                                {{--<li data-jstree='{ "selected" : false,"checkeable":false}'   >--}}
-                                                {{--{{$moni->nombre}}--}}
-                                                {{--</li>--}}
-                                                      {{--@else--}}
-                                                        {{--<li data-jstree='{ "opened" : true }'>--}}
-
-
-                                                            {{--<a href="###" class="" id="{{$moni->id}}"> {{$moni->nombre}}</a>--}}
-                                                            {{--<ul>--}}
-                                                                {{--@foreach($moni->puntos as  $punto)--}}
-                                                                {{--<li data-jstree='{ "enabled" : true,"icon":"fa fa-globe"}' tipo="punto"  label='{{$punto->archivo}}'>--}}
-                                                              {{--{{$punto->nombre}}--}}
-                                                                {{--</li>--}}
-
-                                                                    {{--@endforeach--}}
-                                                            {{--</ul>--}}
-                                                        {{--</li>--}}
-                                                    {{--@endif--}}
-                                                {{--@endforeach--}}
-
-
-
-                                    {{--@endif--}}
-
-                                {{--@endforeach--}}
-
-
-                            {{--</ul>--}}
-
-
-                            {{--</ul>--}}
-                                {{--</li>--}}
-
-
-
-                                {{--<li class="jstree-open" >CUENCAS--}}
-
-                                    {{--<ul>--}}
-
-                                        {{--@foreach($cuencas as $td)--}}
-                                            {{--@if(count($td->puntos_monitoreo)<=0)--}}
-                                                {{--<li data-jstree='{ "selected" : false,"checkeable":false}'    label="{{$td->archivo}}" class="colored">--}}
-                                                    {{--{{$td->nombre}}--}}
-                                                {{--</li>--}}
-                                            {{--@else--}}
-
-
-                                                {{--<li  label="{{$td->archivo}}">--}}
-                                                    {{--{{$td->nombre}}--}}
-
-                                                    {{--<ul>--}}
-                                                        {{--@foreach($td->puntos_monitoreo as $moni)--}}
-
-                                                            {{--@if(count($moni->puntos)<=0)--}}
-
-                                                                {{--<li data-jstree='{ "selected" : false,"checkeable":false}'   >--}}
-                                                                    {{--{{$moni->nombre}}--}}
-                                                                {{--</li>--}}
-                                                            {{--@else--}}
-                                                                {{--<li data-jstree='{ "opened" : true }'>--}}
-
-
-                                                                    {{--<a href="###" class="" id="{{$moni->id}}"> {{$moni->nombre}}</a>--}}
-                                                                    {{--<ul>--}}
-                                                                        {{--@foreach($moni->puntos as  $punto)--}}
-                                                                            {{--<li data-jstree='{ "enabled" : true,"icon":"fa fa-globe"}' tipo="cuenca"  label='{{$punto->archivo}}'>--}}
-                                                                                {{--{{$punto->nombre}}--}}
-                                                                            {{--</li>--}}
-
-                                                                        {{--@endforeach--}}
-                                                                    {{--</ul>--}}
-                                                                {{--</li>--}}
-                                                            {{--@endif--}}
-                                                        {{--@endforeach--}}
-
-
-
-                                                        {{--@endif--}}
-
-                                                        {{--@endforeach--}}
-
-
-                                                    {{--</ul>--}}
-
-
-                                    {{--</ul>--}}
-                                {{--</li>--}}
-                                {{----}}
-                                {{--</ul>--}}
-                        {{----}}
 
                         </div>
 

@@ -97,7 +97,7 @@
                                             <div class="form-group ">
                                                 <label for=""class="col-md-2 control-label">PH:</label>
                                                 <div class="col-md-2">
-                                                <input type="number" class="form-control medicion<?php echo e($m->id); ?>" name="ph" id="ph" value="<?php echo e($m->ph); ?>" readonly>
+                                                <input type="number" step="0.001" class="form-control medicion<?php echo e($m->id); ?>" name="ph" id="ph" value="<?php echo e($m->ph); ?>" readonly>
                                             </div>
                                             </div>
 
@@ -105,42 +105,42 @@
 
                                                 <label for=""class="col-md-2 control-label">CEV (uS/cm):</label>
                                                 <div class="col-md-2">
-                                                <input type="number" class="form-control medicion<?php echo e($m->id); ?>" name="ce" id="ce" value="<?php echo e($m->ce); ?>" readonly>
+                                                <input type="number" step="0.001" class="form-control medicion<?php echo e($m->id); ?>" name="ce" id="ce" value="<?php echo e($m->ce); ?>" readonly>
                                             </div>
                                             </div>
 
                                             <div class="form-group ">
                                                 <label for=""class="col-md-2 control-label">T (°C):</label>
                                                 <div class="col-md-2">
-                                                <input type="number" class="form-control medicion<?php echo e($m->id); ?>" name="temperatura" id="temperatura" value="<?php echo e($m->temperatura); ?>" readonly>
+                                                <input type="number" step="0.001" class="form-control medicion<?php echo e($m->id); ?>" name="temperatura" id="temperatura" value="<?php echo e($m->temperatura); ?>" readonly>
                                             </div>
                                             </div>
 
                                                 <div class="form-group ">
                                                     <label for=""class="col-md-2 control-label">TURBIEDAD(NTU):</label>
                                                     <div class="col-md-2">
-                                                        <input type="number" class="form-control medicion<?php echo e($m->id); ?>" name="turbiedad" id="turbiedad" value="<?php echo e($m->turbiedad); ?>" readonly>
+                                                        <input type="number" step="0.001" class="form-control medicion<?php echo e($m->id); ?>" name="turbiedad" id="turbiedad" value="<?php echo e($m->turbiedad); ?>" readonly>
                                                     </div>
                                             </div>
 
                                                 <div class="form-group ">
                                                     <label for=""class="col-md-2 control-label">SDT(mg/l):</label>
                                                     <div class="col-md-2">
-                                                        <input type="number" class="form-control medicion<?php echo e($m->id); ?>" name="sdt" id="sdt" value="<?php echo e($m->sdt); ?>" readonly>
+                                                        <input type="number" step="0.001" class="form-control medicion<?php echo e($m->id); ?>" name="sdt" id="sdt" value="<?php echo e($m->sdt); ?>" readonly>
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group ">
                                                     <label for=""class="col-md-2 control-label">SST(mg/l):</label>
                                                     <div class="col-md-2">
-                                                        <input type="number" class="form-control medicion<?php echo e($m->id); ?>" name="sst" id="sst" value="<?php echo e($m->sst); ?>" readonly>
+                                                        <input type="number" step="0.001" class="form-control medicion<?php echo e($m->id); ?>" name="sst" id="sst" value="<?php echo e($m->sst); ?>" readonly>
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group ">
                                                     <label for=""class="col-md-2 control-label">Color:</label>
                                                     <div class="col-md-2">
-                                                        <input type="number" class="form-control medicion<?php echo e($m->id); ?>" name="color" id="color" value="<?php echo e($m->color); ?>" readonly>
+                                                        <input type="number" step="0.001" class="form-control medicion<?php echo e($m->id); ?>" name="color" id="color" value="<?php echo e($m->color); ?>" readonly>
                                                     </div>
                                                 </div>
 
@@ -150,7 +150,7 @@
                                         <div class="form-group ">
                                             <label for=""class="col-md-2 control-label">CO2(mg/l):</label>
                                             <div class="col-md-2">
-                                                <input type="number" class="form-control medicion<?php echo e($m->id); ?>" name="co" id="co" value="<?php echo e($m->co); ?>" readonly>
+                                                <input type="number" step="0.001" class="form-control medicion<?php echo e($m->id); ?>" name="co" id="co" value="<?php echo e($m->co); ?>" readonly>
                                             </div>
                                         </div>
 
@@ -158,14 +158,14 @@
 
                                             <label for=""class="col-md-2 control-label">OD(mg/l):</label>
                                             <div class="col-md-2">
-                                                <input type="number" class="form-control medicion<?php echo e($m->id); ?>" name="od" id="od" value="<?php echo e($m->od); ?>" readonly>
+                                                <input type="number" step="0.001" class="form-control medicion<?php echo e($m->id); ?>" name="od" id="od" value="<?php echo e($m->od); ?>" readonly>
                                             </div>
                                         </div>
 
                                         <div class="form-group ">
                                             <label for=""class="col-md-2 control-label">HS2(mg/l):</label>
                                             <div class="col-md-2">
-                                                <input type="number" class="form-control medicion<?php echo e($m->id); ?>" name="hs" id="hs" value="<?php echo e($m->hs); ?>" readonly>
+                                                <input type="number" step="0.001" class="form-control medicion<?php echo e($m->id); ?>" name="hs" id="hs" value="<?php echo e($m->hs); ?>" readonly>
                                             </div>
                                         </div>
 
@@ -177,7 +177,7 @@
                                             <div class="form-group ">
                                                 <label for=""class="col-md-5 control-label">Ca (mg/l):</label>
                                                 <div class="col-md-7">
-                                                    <input type="number" class="form-control medicion<?php echo e($m->id); ?>" name="ca" id="ca" value="<?php echo e($m->ca); ?>" readonly>
+                                                    <input type="number" step="0.001" class="form-control medicion<?php echo e($m->id); ?>" name="ca" id="ca" value="<?php echo e($m->ca); ?>" readonly>
                                                 </div>
                                             </div>
 
@@ -185,35 +185,35 @@
 
                                                 <label for=""class="col-md-5 control-label">Mg (mg/l):</label>
                                                 <div class="col-md-7">
-                                                    <input type="number" class="form-control medicion<?php echo e($m->id); ?>" name="mg" id="mg" value="<?php echo e($m->mg); ?>" readonly>
+                                                    <input type="number" step="0.001" class="form-control medicion<?php echo e($m->id); ?>" name="mg" id="mg" value="<?php echo e($m->mg); ?>" readonly>
                                                 </div>
                                             </div>
 
                                             <div class="form-group ">
                                                 <label for=""class="col-md-5 control-label">Na (mg/l):</label>
                                                 <div class="col-md-7">
-                                                    <input type="number" class="form-control medicion<?php echo e($m->id); ?>" name="na" id="na" value="<?php echo e($m->na); ?>" readonly>
+                                                    <input type="number" step="0.001" class="form-control medicion<?php echo e($m->id); ?>" name="na" id="na" value="<?php echo e($m->na); ?>" readonly>
                                                 </div>
                                             </div>
 
                                             <div class="form-group ">
                                                 <label for=""class="col-md-5 control-label">K (mg/l):</label>
                                                 <div class="col-md-7">
-                                                    <input type="number" class="form-control medicion<?php echo e($m->id); ?>" name="k" id="k" value="<?php echo e($m->k); ?>" readonly>
+                                                    <input type="number" step="0.001" class="form-control medicion<?php echo e($m->id); ?>" name="k" id="k" value="<?php echo e($m->k); ?>" readonly>
                                                 </div>
                                             </div>
 
                                             <div class="form-group ">
                                                 <label for=""class="col-md-5 control-label">Na + K (mg/l):</label>
                                                 <div class="col-md-7">
-                                                    <input type="number" class="form-control medicion<?php echo e($m->id); ?>" name="na_k" id="na_k" value="<?php echo e($m->na_k); ?>" readonly>
+                                                    <input type="number" step="0.001" class="form-control medicion<?php echo e($m->id); ?>" name="na_k" id="na_k" value="<?php echo e($m->na_k); ?>" readonly>
                                                 </div>
                                             </div>
 
                                             <div class="form-group ">
                                                 <label for=""class="col-md-5 control-label">CO3 (mg/l):</label>
                                                 <div class="col-md-7">
-                                                    <input type="number" class="form-control medicion<?php echo e($m->id); ?>" name="co2" id="co2" value="<?php echo e($m->co2); ?>" readonly>
+                                                    <input type="number" step="0.001" class="form-control medicion<?php echo e($m->id); ?>" name="co2" id="co2" value="<?php echo e($m->co2); ?>" readonly>
                                                 </div>
                                             </div>
 
@@ -224,31 +224,31 @@
                                             <div class="form-group ">
                                                 <label for=""class="col-md-3 control-label">CO3H (mg/l):</label>
                                                 <div class="col-md-5">
-                                                    <input type="number" class="form-control medicion<?php echo e($m->id); ?>" name="co2h" id="co2h" value="<?php echo e($m->co2h); ?>" readonly>
+                                                    <input type="number" step="0.001" class="form-control medicion<?php echo e($m->id); ?>" name="co2h" id="co2h" value="<?php echo e($m->co2h); ?>" readonly>
                                                 </div>
                                             </div>
                                             <div class="form-group ">
                                                 <label for=""class="col-md-3 control-label">Cl (mg/l):</label>
                                                 <div class="col-md-5">
-                                                    <input type="number" class="form-control medicion<?php echo e($m->id); ?>" name="ci" id="ci" value="<?php echo e($m->ci); ?>" readonly>
+                                                    <input type="number" step="0.001" class="form-control medicion<?php echo e($m->id); ?>" name="ci" id="ci" value="<?php echo e($m->ci); ?>" readonly>
                                                 </div>
                                             </div>
                                             <div class="form-group ">
                                                 <label for=""class="col-md-3 control-label">(SO4)2- (mg/l):</label>
                                                 <div class="col-md-5">
-                                                    <input type="number" class="form-control medicion<?php echo e($m->id); ?>" name="so4" id="so4" value="<?php echo e($m->so4); ?>" readonly>
+                                                    <input type="number" step="0.001" class="form-control medicion<?php echo e($m->id); ?>" name="so4" id="so4" value="<?php echo e($m->so4); ?>" readonly>
                                                 </div>
                                             </div>
                                             <div class="form-group ">
                                                 <label for=""class="col-md-3 control-label">Alcalinidad (mg/l) CaCO3:</label>
                                                 <div class="col-md-5">
-                                                    <input type="number" class="form-control medicion<?php echo e($m->id); ?>" name="alcalinidad" id="alcalinidad" value="<?php echo e($m->alcalinidad); ?>" readonly>
+                                                    <input type="number" step="0.001" class="form-control medicion<?php echo e($m->id); ?>" name="alcalinidad" id="alcalinidad" value="<?php echo e($m->alcalinidad); ?>" readonly>
                                                 </div>
                                             </div>
                                             <div class="form-group ">
                                                 <label for=""class="col-md-3 control-label">Dureza total (mg/l) CaCO3:</label>
                                                 <div class="col-md-5">
-                                                    <input type="number" class="form-control medicion<?php echo e($m->id); ?>" name="dureza" id="dureza" value="<?php echo e($m->dureza); ?>" readonly>
+                                                    <input type="number" step="0.001" class="form-control medicion<?php echo e($m->id); ?>" name="dureza" id="dureza" value="<?php echo e($m->dureza); ?>" readonly>
                                                 </div>
                                             </div>
 
@@ -261,7 +261,7 @@
                                             <div class="form-group ">
                                                 <label for=""class="col-md-5 control-label">SiO3 (mg/l):</label>
                                                 <div class="col-md-7">
-                                                    <input type="number" class="form-control medicion<?php echo e($m->id); ?>" name="sio3" id="sio3" value="<?php echo e($m->sio3); ?>" readonly>
+                                                    <input type="number" step="0.001" class="form-control medicion<?php echo e($m->id); ?>" name="sio3" id="sio3" value="<?php echo e($m->sio3); ?>" readonly>
                                                 </div>
                                             </div>
 
@@ -269,35 +269,35 @@
 
                                                 <label for=""class="col-md-5 control-label">N-NO3- (mg/l):</label>
                                                 <div class="col-md-7">
-                                                    <input type="number" class="form-control medicion<?php echo e($m->id); ?>" name="nno3" id="nno3" value="<?php echo e($m->nno3); ?>" readonly>
+                                                    <input type="number" step="0.001" class="form-control medicion<?php echo e($m->id); ?>" name="nno3" id="nno3" value="<?php echo e($m->nno3); ?>" readonly>
                                                 </div>
                                             </div>
 
                                             <div class="form-group ">
                                                 <label for=""class="col-md-5 control-label">N-NO2- (mg/l):</label>
                                                 <div class="col-md-7">
-                                                    <input type="number" class="form-control medicion<?php echo e($m->id); ?>" name="nno2" id="nno2" value="<?php echo e($m->nno2); ?>" readonly>
+                                                    <input type="number" step="0.001" class="form-control medicion<?php echo e($m->id); ?>" name="nno2" id="nno2" value="<?php echo e($m->nno2); ?>" readonly>
                                                 </div>
                                             </div>
 
                                             <div class="form-group ">
                                                 <label for=""class="col-md-5 control-label">N-NH4+ (mg/l):</label>
                                                 <div class="col-md-7">
-                                                    <input type="number" class="form-control medicion<?php echo e($m->id); ?>" name="nnh4" id="nnh4" value="<?php echo e($m->nnh4); ?>" readonly>
+                                                    <input type="number" step="0.001" class="form-control medicion<?php echo e($m->id); ?>" name="nnh4" id="nnh4" value="<?php echo e($m->nnh4); ?>" readonly>
                                                 </div>
                                             </div>
 
                                             <div class="form-group ">
                                                 <label for=""class="col-md-5 control-label">Nt (mg/l):</label>
                                                 <div class="col-md-7">
-                                                    <input type="number" class="form-control medicion<?php echo e($m->id); ?>" name="nt" id="nt" value="<?php echo e($m->nt); ?>" readonly>
+                                                    <input type="number" step="0.001" class="form-control medicion<?php echo e($m->id); ?>" name="nt" id="nt" value="<?php echo e($m->nt); ?>" readonly>
                                                 </div>
                                             </div>
 
                                             <div class="form-group ">
                                                 <label for=""class="col-md-5 control-label">N-Kjeldall (mg/l):</label>
                                                 <div class="col-md-7">
-                                                    <input type="number" class="form-control medicion<?php echo e($m->id); ?>" name="kjendall" id="kjendall" value="<?php echo e($m->kjendall); ?>" readonly>
+                                                    <input type="number" step="0.001" class="form-control medicion<?php echo e($m->id); ?>" name="kjendall" id="kjendall" value="<?php echo e($m->kjendall); ?>" readonly>
                                                 </div>
                                             </div>
 
@@ -308,31 +308,31 @@
                                             <div class="form-group ">
                                                 <label for=""class="col-md-3 control-label">(PO4)3- (mg/l):</label>
                                                 <div class="col-md-5">
-                                                    <input type="number" class="form-control medicion<?php echo e($m->id); ?>" name="po4" id="po4" value="<?php echo e($m->po4); ?>" readonly>
+                                                    <input type="number" step="0.001" class="form-control medicion<?php echo e($m->id); ?>" name="po4" id="po4" value="<?php echo e($m->po4); ?>" readonly>
                                                 </div>
                                             </div>
                                             <div class="form-group ">
                                                 <label for=""class="col-md-3 control-label">P (mg/l):</label>
                                                 <div class="col-md-5">
-                                                    <input type="number" class="form-control medicion<?php echo e($m->id); ?>" name="p" id="p" value="<?php echo e($m->p); ?>" readonly>
+                                                    <input type="number" step="0.001" class="form-control medicion<?php echo e($m->id); ?>" name="p" id="p" value="<?php echo e($m->p); ?>" readonly>
                                                 </div>
                                             </div>
                                             <div class="form-group ">
                                                 <label for=""class="col-md-3 control-label">Pt (mg/l):</label>
                                                 <div class="col-md-5">
-                                                    <input type="number" class="form-control medicion<?php echo e($m->id); ?>" name="pt" id="pt" value="<?php echo e($m->pt); ?>" readonly>
+                                                    <input type="number" step="0.001" class="form-control medicion<?php echo e($m->id); ?>" name="pt" id="pt" value="<?php echo e($m->pt); ?>" readonly>
                                                 </div>
                                             </div>
                                             <div class="form-group ">
                                                 <label for=""class="col-md-3 control-label">Si (mg/l):</label>
                                                 <div class="col-md-5">
-                                                    <input type="number" class="form-control medicion<?php echo e($m->id); ?>" name="si" id="si" value="<?php echo e($m->si); ?>" readonly>
+                                                    <input type="number" step="0.001" class="form-control medicion<?php echo e($m->id); ?>" name="si" id="si" value="<?php echo e($m->si); ?>" readonly>
                                                 </div>
                                             </div>
                                             <div class="form-group ">
                                                 <label for=""class="col-md-3 control-label">B (mg/l):</label>
                                                 <div class="col-md-5">
-                                                    <input type="number" class="form-control medicion<?php echo e($m->id); ?>" name="b" id="b" value="<?php echo e($m->b); ?>" readonly>
+                                                    <input type="number" step="0.001" class="form-control medicion<?php echo e($m->id); ?>" name="b" id="b" value="<?php echo e($m->b); ?>" readonly>
                                                 </div>
                                             </div>
 
@@ -344,7 +344,7 @@
                                             <div class="form-group ">
                                                 <label for=""class="col-md-5 control-label">DBO5 (mg/l):</label>
                                                 <div class="col-md-7">
-                                                    <input type="number" class="form-control medicion<?php echo e($m->id); ?>" name="dbo5" id="dbo5" value="<?php echo e($m->dbo5); ?>" readonly>
+                                                    <input type="number" step="0.001" class="form-control medicion<?php echo e($m->id); ?>" name="dbo5" id="dbo5" value="<?php echo e($m->dbo5); ?>" readonly>
                                                 </div>
                                             </div>
 
@@ -352,28 +352,28 @@
 
                                                 <label for=""class="col-md-5 control-label">DQO (mg/l):</label>
                                                 <div class="col-md-7">
-                                                    <input type="number" class="form-control medicion<?php echo e($m->id); ?>" name="dqo" id="dqo" value="<?php echo e($m->dqo); ?>" readonly>
+                                                    <input type="number" step="0.001" class="form-control medicion<?php echo e($m->id); ?>" name="dqo" id="dqo" value="<?php echo e($m->dqo); ?>" readonly>
                                                 </div>
                                             </div>
 
                                             <div class="form-group ">
                                                 <label for=""class="col-md-5 control-label">Coliformes fecales (NMP/100 ml):</label>
                                                 <div class="col-md-7">
-                                                    <input type="number" class="form-control medicion<?php echo e($m->id); ?>" name="coli_feca" id="coli_feca" value="<?php echo e($m->coli_feca); ?>" readonly>
+                                                    <input type="number" step="0.001" class="form-control medicion<?php echo e($m->id); ?>" name="coli_feca" id="coli_feca" value="<?php echo e($m->coli_feca); ?>" readonly>
                                                 </div>
                                             </div>
 
                                             <div class="form-group ">
                                                 <label for=""class="col-md-5 control-label">Coliformes totales (NMP/100 ml):</label>
                                                 <div class="col-md-7">
-                                                    <input type="number" class="form-control medicion<?php echo e($m->id); ?>" name="coli_tot" id="coli_tot" value="<?php echo e($m->coli_tot); ?>" readonly>
+                                                    <input type="number" step="0.001" class="form-control medicion<?php echo e($m->id); ?>" name="coli_tot" id="coli_tot" value="<?php echo e($m->coli_tot); ?>" readonly>
                                                 </div>
                                             </div>
 
                                             <div class="form-group ">
                                                 <label for=""class="col-md-5 control-label">Salmonella spp (NMP/100 ml):</label>
                                                 <div class="col-md-7">
-                                                    <input type="number" class="form-control medicion<?php echo e($m->id); ?>" name="salmonella" id="salmonella" value="<?php echo e($m->salmonella); ?>" readonly>
+                                                    <input type="number" step="0.001" class="form-control medicion<?php echo e($m->id); ?>" name="salmonella" id="salmonella" value="<?php echo e($m->salmonella); ?>" readonly>
                                                 </div>
                                             </div>
 
@@ -386,7 +386,7 @@
                                             <div class="form-group ">
                                                 <label for=""class="col-md-5 control-label">Zn (mg/l):</label>
                                                 <div class="col-md-7">
-                                                    <input type="number" class="form-control medicion<?php echo e($m->id); ?>" name="zn" id="zn" value="<?php echo e($m->zn); ?>" readonly>
+                                                    <input type="number" step="0.001" class="form-control medicion<?php echo e($m->id); ?>" name="zn" id="zn" value="<?php echo e($m->zn); ?>" readonly>
                                                 </div>
                                             </div>
 
@@ -394,35 +394,35 @@
 
                                                 <label for=""class="col-md-5 control-label">Cd (mg/l):</label>
                                                 <div class="col-md-7">
-                                                    <input type="number" class="form-control medicion<?php echo e($m->id); ?>" name="cd" id="cd" value="<?php echo e($m->cd); ?>" readonly>
+                                                    <input type="number" step="0.001" class="form-control medicion<?php echo e($m->id); ?>" name="cd" id="cd" value="<?php echo e($m->cd); ?>" readonly>
                                                 </div>
                                             </div>
 
                                             <div class="form-group ">
                                                 <label for=""class="col-md-5 control-label">Pb (mg/l):</label>
                                                 <div class="col-md-7">
-                                                    <input type="number" class="form-control medicion<?php echo e($m->id); ?>" name="pb" id="pb" value="<?php echo e($m->pb); ?>" readonly>
+                                                    <input type="number" step="0.001" class="form-control medicion<?php echo e($m->id); ?>" name="pb" id="pb" value="<?php echo e($m->pb); ?>" readonly>
                                                 </div>
                                             </div>
 
                                             <div class="form-group ">
                                                 <label for=""class="col-md-5 control-label">Fe (mg/l):</label>
                                                 <div class="col-md-7">
-                                                    <input type="number" class="form-control medicion<?php echo e($m->id); ?>" name="fe" id="fe" value="<?php echo e($m->fe); ?>" readonly>
+                                                    <input type="number" step="0.001" class="form-control medicion<?php echo e($m->id); ?>" name="fe" id="fe" value="<?php echo e($m->fe); ?>" readonly>
                                                 </div>
                                             </div>
 
                                             <div class="form-group ">
                                                 <label for=""class="col-md-5 control-label">Mn (mg/l):</label>
                                                 <div class="col-md-7">
-                                                    <input type="number" class="form-control medicion<?php echo e($m->id); ?>" name="mn" id="mn" value="<?php echo e($m->mn); ?>" readonly>
+                                                    <input type="number" step="0.001" class="form-control medicion<?php echo e($m->id); ?>" name="mn" id="mn" value="<?php echo e($m->mn); ?>" readonly>
                                                 </div>
                                             </div>
 
                                             <div class="form-group ">
                                                 <label for=""class="col-md-5 control-label">Cu (mg/l):</label>
                                                 <div class="col-md-7">
-                                                    <input type="number" class="form-control medicion<?php echo e($m->id); ?>" name="cu" id="cu" value="<?php echo e($m->cu); ?>" readonly>
+                                                    <input type="number" step="0.001" class="form-control medicion<?php echo e($m->id); ?>" name="cu" id="cu" value="<?php echo e($m->cu); ?>" readonly>
                                                 </div>
                                             </div>
 
@@ -433,37 +433,37 @@
                                             <div class="form-group ">
                                                 <label for=""class="col-md-3 control-label">Hg (mg/l):</label>
                                                 <div class="col-md-5">
-                                                    <input type="number" class="form-control medicion<?php echo e($m->id); ?>" name="hg" id="hg" value="<?php echo e($m->hg); ?>" readonly>
+                                                    <input type="number" step="0.001" class="form-control medicion<?php echo e($m->id); ?>" name="hg" id="hg" value="<?php echo e($m->hg); ?>" readonly>
                                                 </div>
                                             </div>
                                             <div class="form-group ">
                                                 <label for=""class="col-md-3 control-label">As (mg/l):</label>
                                                 <div class="col-md-5">
-                                                    <input type="number" class="form-control medicion<?php echo e($m->id); ?>" name="as" id="as" value="<?php echo e($m->as); ?>" readonly>
+                                                    <input type="number" step="0.001" class="form-control medicion<?php echo e($m->id); ?>" name="as" id="as" value="<?php echo e($m->as); ?>" readonly>
                                                 </div>
                                             </div>
                                             <div class="form-group ">
                                                 <label for=""class="col-md-3 control-label">Cr (mg/l):</label>
                                                 <div class="col-md-5">
-                                                    <input type="number" class="form-control medicion<?php echo e($m->id); ?>" name="cr" id="cr" value="<?php echo e($m->cr); ?>" readonly>
+                                                    <input type="number" step="0.001" class="form-control medicion<?php echo e($m->id); ?>" name="cr" id="cr" value="<?php echo e($m->cr); ?>" readonly>
                                                 </div>
                                             </div>
                                             <div class="form-group ">
                                                 <label for=""class="col-md-3 control-label">Ni (mg/l):</label>
                                                 <div class="col-md-5">
-                                                    <input type="number" class="form-control medicion<?php echo e($m->id); ?>" name="ni" id="ni" value="<?php echo e($m->ni); ?>" readonly>
+                                                    <input type="number" step="0.001" class="form-control medicion<?php echo e($m->id); ?>" name="ni" id="ni" value="<?php echo e($m->ni); ?>" readonly>
                                                 </div>
                                             </div>
                                             <div class="form-group ">
                                                 <label for=""class="col-md-3 control-label">Sb (mg/l):</label>
                                                 <div class="col-md-5">
-                                                    <input type="number" class="form-control medicion<?php echo e($m->id); ?>" name="sb" id="sb" value="<?php echo e($m->sb); ?>" readonly>
+                                                    <input type="number" step="0.001" class="form-control medicion<?php echo e($m->id); ?>" name="sb" id="sb" value="<?php echo e($m->sb); ?>" readonly>
                                                 </div>
                                             </div>
                                             <div class="form-group ">
                                                 <label for=""class="col-md-3 control-label">Se (mg/l):</label>
                                                 <div class="col-md-5">
-                                                    <input type="number" class="form-control medicion<?php echo e($m->id); ?>" name="se" id="se" value="<?php echo e($m->se); ?>" readonly>
+                                                    <input type="number" step="0.001" class="form-control medicion<?php echo e($m->id); ?>" name="se" id="se" value="<?php echo e($m->se); ?>" readonly>
                                                 </div>
                                             </div>
 
