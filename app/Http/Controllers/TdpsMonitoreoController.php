@@ -91,7 +91,34 @@ class TdpsMonitoreoController extends Controller
         }
 
     }
+public function actualizar_estado(Request $request){
+    try {
+        $moni = Monitoreo::find($request->id);
+        if ($request->tipo == 'rema') {
+            $moni->estado_remas = $request->estado;
+            $moni->save();
+        }
+        if ($request->tipo == 'remfc') {
+            $moni->estado_remfc = $request->estado;
+            $moni->save();
+        }
+        if ($request->tipo == 'remli') {
+            $moni->estado_remli = $request->estado;
+            $moni->save();
+        }
+        return response()->json([
+            'status'=>true,
 
+        ],200);
+    }
+    catch (\Exception $e){
+        return response()->json([
+            'status'=>false,
+            'error'=>$e
+        ],403);
+    }
+
+}
     public function updateZonasHidrologicas(Request $request){
 
         $rules=[

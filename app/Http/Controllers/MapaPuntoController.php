@@ -216,7 +216,6 @@ class MapaPuntoController extends Controller
                 try {
                     $request->file('archivo')->move($destinationPath, $fileName); // sube el archivo
 
-//                    Storage::disk('local')->put($fileName, \File::get($request->file('archivo')));
                 }
                 catch (\Exception $e){
                     return $e;
@@ -224,12 +223,9 @@ class MapaPuntoController extends Controller
                 $url=public_path().'/mapas/'.$fileName;
                 if(file_exists($url)){
                     $mapa->archivo=$fileName;
-
-
                 }
                 else
                     return redirect()->back();
-
             }
         }
         if($mapa->save()){
@@ -473,15 +469,24 @@ class MapaPuntoController extends Controller
 
     public function update(Request $request)
     {
+//                return dd($request->all());
         $mapa=MapaPunto::find($request->id);
-
         $mapa->nombre=$request->nombre;
+
+
         if($request->file('archivo')){
             if ($request->file('archivo')->isValid()) {
-                $destinationPath =public_path().'/mapas/tdps/puntos/'; // upload path
+                $destinationPath =public_path().'/mapas/'; // upload path
                 $fileName = $request->file('archivo')->getClientOriginalName();
-                Storage::disk('local')->put('$filename',\File::get($request->file('archivo')));
-                $url=public_path().'/mapas/tdps/puntos/'.$fileName;
+                try {
+                    $request->file('archivo')->move($destinationPath, $fileName); // sube el archivo
+
+//                    Storage::disk('local')->put($fileName, \File::get($request->file('archivo')));
+                }
+                catch (\Exception $e){
+                    return $e;
+                }
+                $url=public_path().'/mapas/'.$fileName;
                 if(file_exists($url)){
                     $mapa->archivo=$fileName;
                     $mapa->descripcion=$request->descripcion;
@@ -496,19 +501,41 @@ class MapaPuntoController extends Controller
 
                 }
                 else
-                    abort(404);
-//                $request->file('archivo')->move($destinationPath, $fileName); // sube el archivo
+                    return redirect()->back();
 
 
 
 
             }
         }
+
+//        if($request->file('archivo')){
+//            if ($request->file('archivo')->isValid()) {
+//                $destinationPath =public_path().'/mapas/'; // upload path
+//                $fileName = $request->file('archivo')->getClientOriginalName();
+//                Storage::disk('local')->put('$filename',\File::get($request->file('archivo')));
+//                $url=public_path().'/mapas/'.$fileName;
+//                if(file_exists($url)){
+//                    $mapa->archivo=$fileName;
+//                    $mapa->descripcion=$request->descripcion;
+//                    if($mapa->save()){
+//
+//                        return redirect()->back();
+//                    }
+//                    else
+//                    {
+//                        return redirect()->back();
+//                    }
+//                }
+//                else
+//                    return redirect()->back();
+////                    abort(404);
+////           $request->file('archivo')->move($destinationPath, $fileName); // sube el archivo
+//            }
+//        }
         else{
             $mapa->save();
             return redirect()->back();
-
-
         }
 
 

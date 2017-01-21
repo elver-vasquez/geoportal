@@ -149,6 +149,7 @@ class TdpsController extends Controller
     {
 
 //        return dd($request->file('archivo'));
+//        return public_path();
         $td=new Tdps();
         $td->nombre=$request->nombre;
         $td->descripcion=$request->descripcion;
@@ -218,6 +219,7 @@ class TdpsController extends Controller
     }
     public function update(Request $request)
     {
+//        return public_path();
         $td= Tdps::find($request->id);
         $td->nombre=$request->nombre;
         if($request->file('archivo')){

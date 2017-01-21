@@ -79,10 +79,11 @@
                             <tr>
                                 <th>Codigo</th>
                                 <th>Nombre</th>
-                                <th>Mapa Remas</th>
+                                <th>Mapa Rema</th>
+
                                 <th>Mapa Remfc</th>
                                 <th>Mapa Remli</th>
-                                                                <th>Num Mpas KML/KM</th>
+                                <th>Num Mpas KML/KM</th>
                                 <th>Mapas KML/KMZ</th>
                                 <th>Acciones</th>
                             </tr>
@@ -92,9 +93,23 @@
                                 <tr>
                                     <td>{{$row->codigo}}</td>
                                     <td>{{$row->nombre}}</td>
-                                    <td>{{$row->archivo_remas}}</td>
-                                    <td>{{$row->archivo_remfc}}</td>
-                                    <td>{{$row->archivo_remli}}</td>
+                                    <td>{{$row->archivo_remas}}
+
+                                        @if($row->archivo_remas!='')
+                                        <input type="checkbox"  class="cb_remas" name="cb_remas"     value="{{$row->id}}"  @if($row->estado_remas==1) checked  @endif/>
+                                        @endif
+                                    </td>
+
+                                    <td>{{$row->archivo_remfc}}
+                                        @if($row->archivo_remfc!='')
+                                            <input type="checkbox" name="cb_remfc" class="cb_remfc" value="{{$row->id}}" @if($row->estado_remfc==1) checked  @endif/>
+                                        @endif
+                                    </td>
+                                    <td>{{$row->archivo_remli}}
+                                        @if($row->archivo_remas!='')
+                                            <input type="checkbox" name="cb_remli" class="cb_remli" value="{{$row->id}}" @if($row->estado_remli==1) checked  @endif/>
+                                        @endif
+                                    </td>
 
                                     <td>{{count($row->puntos)}}</td>
                                     <td>
@@ -178,7 +193,75 @@
                 </div>
 
             </div>
-        </div
+        </div>
     </div>
 @stop
+
+@section('myscripts')
+    <script>
+
+        function actualizarEstado(id,estado,tipo,cb){
+            $url='/admin/monitoreo/actualizar_estado';
+            $.ajax({
+                url:$url,
+                method:'POST',
+                data:{id:id,estado:estado,tipo:tipo},
+                dataType:'json',
+                success:function(data){
+                    if(data.status==true && estado==1){
+                        $(cb).prop('checked',true);
+                    }
+                    if(data.status==true && estado==0){
+                        $(cb).prop('checked',false);
+                    }
+                  },
+
+                  error:function(){
+                    alert('Ocurrio un Error')
+                  }
+            });
+        }
+
+        $(document).ready(function(){
+            $('.cb_remas').click(function(_evt){
+
+           if($(this).is(':checked')){
+               _evt.preventDefault();
+               actualizarEstado($(this).val(),'1','rema',$(this))
+           }
+           else{
+               _evt.preventDefault();
+               actualizarEstado($(this).val(),'0','rema',$(this))
+           }
+            });
+
+
+
+            $('.cb_remfc').click(function(_evt){
+
+                if($(this).is(':checked')){
+                    _evt.preventDefault();
+                    actualizarEstado($(this).val(),'1','remfc',$(this))
+                }
+                else{
+                    _evt.preventDefault();
+                    actualizarEstado($(this).val(),'0','remfc',$(this))
+                }
+            });
+
+            $('.cb_remli').click(function(_evt){
+
+                if($(this).is(':checked')){
+                    _evt.preventDefault();
+                    actualizarEstado($(this).val(),'1','remli',$(this))
+                }
+                else{
+                    _evt.preventDefault();
+                    actualizarEstado($(this).val(),'0','remli',$(this))
+                }
+            });
+
+        });
+    </script>
+    @endsection
 

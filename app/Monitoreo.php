@@ -15,6 +15,9 @@ class Monitoreo extends Model
         'archivo_remas',
         'archivo_remfc',
         'archivo_remli',
+        'estado_remas',
+        'estado_remfc',
+        'estado_remli'
 
 
     ];

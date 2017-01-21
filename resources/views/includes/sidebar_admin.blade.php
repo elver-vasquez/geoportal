@@ -42,7 +42,7 @@
                         </a>
                     </li>
 
-
+                  @if(Auth::user()->rol=='admin')
 
                     <li class="nav-parent">
                         <a>
@@ -50,7 +50,6 @@
                             <span>Mapas</span>
                         </a>
                         <ul class="nav nav-children">
-
                             <li>
                                 <a href="{{url('admin/tdps')}}">
                                    TDPS
@@ -61,11 +60,6 @@
                                    Zonas Hidrologicas
                                 </a>
                             </li>
-
-
-
-
-
                         </ul>
                     </li>
                     <li class="nav-parent">
@@ -95,6 +89,7 @@
                             <span>USUARIOS</span>
                         </a>
                     </li>
+                    @endif
                     @endif
 
                     <li>

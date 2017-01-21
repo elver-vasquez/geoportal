@@ -72,6 +72,8 @@ Route::group(['prefix'=>'admin'],function(){
     Route::get('/zonashidrologicas/destroy/{tdps}','TdpsMonitoreoController@destroy');
 
 
+
+
     Route::get('/zonashidrologicas','TdpsMonitoreoController@indexZonasHidrologicas');
     Route::post('/zonashidrologicas/store','TdpsMonitoreoController@storeZonasHidrologicas');
     Route::post('/zonashidrologicas/update','TdpsMonitoreoController@updateZonasHidrologicas');
@@ -110,6 +112,7 @@ Route::group(['prefix'=>'admin'],function(){
     Route::post('/monitoreo/update','TdpsMonitoreoController@update');
     Route::get('/monitoreo/mapas_monitoreo/{monitoreo}','TdpsMonitoreoController@mapasMonitoreo');
     Route::get('/monitoreo/destroy/{monitoreo}','TdpsMonitoreoController@destroy');
+    Route::post('/monitoreo/actualizar_estado','TdpsMonitoreoController@actualizar_estado');
 
 
     Route::post('/mapaspuntos/store','MapaPuntoController@store');
