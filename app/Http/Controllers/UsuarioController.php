@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Hash;
 class UsuarioController extends Controller
 {
     public function index(){
-        $usuarios=User::where('rol','user')->orderBy('name','DESC')->get();
+        $usuarios=User::where('rol','mapas')->orWhere('rol','moni')->orderBy('name','DESC')->get();
         return view('admin.usuarios',[
             'usuarios'=>$usuarios
         ]);
@@ -66,6 +66,7 @@ class UsuarioController extends Controller
         $user->name=$request->name;
         $user->email=$request->email;
         $user->password= bcrypt($request->password);
+        $user->rol=$request->role;
        $user->save();
 
         return redirect('admin/usuarios');
@@ -76,7 +77,6 @@ class UsuarioController extends Controller
 
     }
     public function store(Request $request){
-//        return dd($request->all());
 
         $rules=[
             'name'=>'required',
@@ -90,7 +90,7 @@ class UsuarioController extends Controller
         $user->name=$request->name;
         $user->email=$request->email;
         $user->password= bcrypt($request->password);
-        $user->rol='user';
+        $user->rol=$request->role;
         $user->save();
 
         return redirect('admin/usuarios');

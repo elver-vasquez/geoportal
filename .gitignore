@@ -1,7 +1,8 @@
-/node_modules
-/public/storage
-/vendor
-/.idea
-Homestead.json
-Homestead.yaml
-.env
+config.php
+routes.php
+schedule-*
+compiled.php
+services.json
+events.scanned.php
+routes.scanned.php
+down

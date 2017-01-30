@@ -1,5 +1,6 @@
 <!-- Vendor -->
 <script src="<?php echo e(asset('assets/vendor/jquery/jquery.js')); ?>"></script>
+<script src="<?php echo e(asset('js/jquery.dataTables.min.js')); ?>"></script>
 <script src="<?php echo e(asset('assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js')); ?>"></script>
 <script src="<?php echo e(asset('assets/vendor/bootstrap/js/bootstrap.js')); ?>"></script>
 <script src="<?php echo e(asset('assets/vendor/nanoscroller/nanoscroller.js')); ?>"></script>

@@ -42,6 +42,15 @@
                                             </div>
                                         </div>
 
+                                        <div class="form-group">
+                                            <label for="" class="control-label col-md-4">Rol de usuario</label>
+                                            <div class="col-md-8">
+                                                <select name="role" id="role" class="form-control">
+                                                    <option value="moni">Monitoreo</option>
+                                                    <option value="mapas">Administrador mapas</option>
+                                                </select>                                            </div>
+                                        </div>
+
 
                                     </div>
                                     <div class="modal-footer">
@@ -64,6 +73,7 @@
                             <tr>
                                 <th>Nombre</th>
                                 <th>Email</th>
+                                <th>Rol</th>
 
                                 <th>Acciones</th>
                             </tr>
@@ -73,6 +83,16 @@
                                 <tr>
                                     <td>{{$row->name}}</td>
                                     <td>{{$row->email}}</td>
+                                    <td>
+                                        @if($row->rol=='moni')
+                                        Monitoreo
+                                            @endif
+                                            @if($row->rol=='mapas')
+                                                Administrador Mapas
+                                            @endif
+
+
+                                    </td>
 
                                     <td>
                                         <a href="#modalEdit{{$row->id}}"  data-toggle="modal" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i> Editar</a>
@@ -111,6 +131,14 @@
                                                         <div class="col-md-8">
                                                             <input type="text" class="form-control" name="password">
                                                         </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="" class="control-label col-md-4">Rol de usuario</label>
+                                                        <div class="col-md-8">
+                                                            <select name="role" id="role" class="form-control">
+                                                                <option value="moni" @if(Auth::user()->rol=='moni') selected @endif>Monitoreo</option>
+                                                                <option value="mapas" @if(Auth::user()->rol=='mapas') selected @endif>Administrador mapas</option>
+                                                            </select>                                            </div>
                                                     </div>
 
 

@@ -20,6 +20,7 @@
                             <span>Inicio</span>
                         </a>
                     </li>
+                    @if(Auth::user()->rol=='admin' || Auth::user()->rol=='moni')
                     <li>
                         <a href="{{url('admin/remas')}}">
 
@@ -41,8 +42,9 @@
                             <span>REMLI</span>
                         </a>
                     </li>
+                    @endif
 
-                  @if(Auth::user()->rol=='admin')
+                  @if(Auth::user()->rol=='admin' || Auth::user()->rol=='mapas')
 
                     <li class="nav-parent">
                         <a>
@@ -80,7 +82,7 @@
                             </li>
                             </ul>
                     </li>
-                    @if(\Illuminate\Support\Facades\Auth::user()->rol=='admin')
+                        @if(Auth::user()->rol=='admin' )
                     <li>
 
                         <a href="{{url('admin/usuarios')}}">
@@ -89,8 +91,11 @@
                             <span>USUARIOS</span>
                         </a>
                     </li>
+                            @endif
+
                     @endif
-                    @endif
+
+
 
                     <li>
                         <form action="{{url('/logout')}}" method="post">

@@ -11,7 +11,7 @@
 
                 <div class="panel-body">
                     <?php if($remas->count()>0): ?>
-                        <table class="table table-responsive table-striped">
+                        <table class="table table-responsive table-striped" id="table">
                             <thead>
                             <tr>
                                 <th>Codigo</th>
@@ -66,5 +66,16 @@
         </div>
     </div>
 <?php $__env->stopSection(); ?>
+<?php $__env->startSection('myscripts'); ?>
+    <script>
+        $(document).ready(function(){
+            $('#table').dataTable({
 
+                "order": [[2, "desc"]],
+                "iDisplayLength": -1,
+
+            });
+        });
+    </script>
+<?php $__env->stopSection(); ?>
 <?php echo $__env->make('layouts.admin', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

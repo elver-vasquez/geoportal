@@ -11,10 +11,10 @@
 
                     <div class="panel-body">
                         <?php if($remas->count()>0): ?>
-                        <table class="table table-responsive table-striped">
+                        <table class="" id="table">
                             <thead>
                             <tr>
-                                <th>Codigo</th>
+                                <th class="col-md-6 ">Codigo</th>
                                 <th>Pto</th>
                                 <th>Pais</th>
                                 <th>Nivel 3</th>
@@ -33,7 +33,7 @@
                             <tbody>
                           <?php $__currentLoopData = $remas; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $r): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
                               <tr>
-                                  <td class="col-md-2 text-primary"><strong><?php echo e($r->codigo); ?></strong></td>
+                                  <td class=" text-primary"  style="font-size:10px;"><strong><?php echo e($r->codigo); ?></strong></td>
                                   <td><?php echo e($r->pto); ?></td>
                                   <td><?php echo e($r->pais); ?></td>
                                   <td><?php echo e($r->nivel3); ?></td>
@@ -47,9 +47,8 @@
                                   <td><?php echo e($r->dpto); ?></td>
                                   <td><?php echo e($r->estacion); ?></td>
                                   <td class="col-md-4">
-                                      
-                                      <a href="<?php echo e(url('admin/campaniasrema')); ?>/<?php echo e($r->id); ?>" class="btn btn-primary btn-sm"><i class="fa fa-rebel"></i></a>
-                                      <a href="<?php echo e(url('admin/createmedicion')); ?>/<?php echo e($r->id); ?>" class="btn btn-success btn-sm"><i class="fa fa-save"></i></a>
+                                      <a href="<?php echo e(url('admin/campaniasrema')); ?>/<?php echo e($r->id); ?>" class="btn btn-primary btn-xs"><i class="fa fa-rebel"></i></a>
+                                      <a href="<?php echo e(url('admin/createmedicion')); ?>/<?php echo e($r->id); ?>" class="btn btn-success btn-xs"><i class="fa fa-save"></i></a>
 
                                   </td>
                               </tr>
@@ -66,5 +65,17 @@
             </div>
         </div>
 <?php $__env->stopSection(); ?>
+<?php $__env->startSection('myscripts'); ?>
+    <script>
+        $(document).ready(function(){
+            $('#table').dataTable({
+
+                "order": [[2, "desc"]],
+                "iDisplayLength": -1,
+
+            });
+        });
+    </script>
+    <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('layouts.admin', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

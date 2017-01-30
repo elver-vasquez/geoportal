@@ -12,6 +12,7 @@
 <!-- Vendor CSS -->
 <link rel="stylesheet" href="{{asset('assets/vendor/bootstrap/css/bootstrap.css')}}" />
 <link rel="stylesheet" href="{{asset('css/jquery-ui-1.10.3.css')}}" />
+<link rel="stylesheet" href="{{asset('css/dataTables.bootstrap.min.css')}}" />
 
 <link rel="stylesheet" href="{{asset('assets/vendor/font-awesome/css/font-awesome.css')}}" />
 <link rel="stylesheet" href="{{asset('assets/vendor/magnific-popup/magnific-popup.css')}}" />

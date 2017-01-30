@@ -13,7 +13,7 @@
 
                 <div class="panel-body">
                     @if($remas->count()>0)
-                        <table class="table table-responsive table-striped">
+                        <table class="table table-responsive table-striped" id="table">
                             <thead>
                             <tr>
                                 <th>Codigo</th>
@@ -68,3 +68,15 @@
         </div>
     </div>
 @endsection
+@section('myscripts')
+    <script>
+        $(document).ready(function(){
+            $('#table').dataTable({
+
+                "order": [[2, "desc"]],
+                "iDisplayLength": -1,
+
+            });
+        });
+    </script>
+@stop

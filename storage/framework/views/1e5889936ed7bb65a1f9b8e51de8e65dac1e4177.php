@@ -20,6 +20,7 @@
                             <span>Inicio</span>
                         </a>
                     </li>
+                    <?php if(Auth::user()->rol=='admin' || Auth::user()->rol=='moni'): ?>
                     <li>
                         <a href="<?php echo e(url('admin/remas')); ?>">
 
@@ -41,8 +42,9 @@
                             <span>REMLI</span>
                         </a>
                     </li>
+                    <?php endif; ?>
 
-                  <?php if(Auth::user()->rol=='admin'): ?>
+                  <?php if(Auth::user()->rol=='admin' || Auth::user()->rol=='mapas'): ?>
 
                     <li class="nav-parent">
                         <a>
@@ -80,7 +82,7 @@
                             </li>
                             </ul>
                     </li>
-                    <?php if(\Illuminate\Support\Facades\Auth::user()->rol=='admin'): ?>
+                        <?php if(Auth::user()->rol=='admin' ): ?>
                     <li>
 
                         <a href="<?php echo e(url('admin/usuarios')); ?>">
@@ -89,8 +91,11 @@
                             <span>USUARIOS</span>
                         </a>
                     </li>
+                            <?php endif; ?>
+
                     <?php endif; ?>
-                    <?php endif; ?>
+
+
 
                     <li>
                         <form action="<?php echo e(url('/logout')); ?>" method="post">

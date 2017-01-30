@@ -12,7 +12,7 @@
 
                 <div class="panel-body">
                     @if($remas->count()>0)
-                        <table class="table table-responsive table-striped">
+                        <table class="table table-responsive table-striped" id="table">
                             <thead>
                             <tr>
                                 <th>Codigo</th>
@@ -34,7 +34,7 @@
                             <tbody>
                             @foreach($remas as $r)
                                 <tr>
-                                    <td class="col-md-2 text-primary"><strong>{{$r->codigo}}</strong></td>
+                                    <td class="text-primary"><strong>{{$r->codigo}}</strong></td>
                                     <td>{{$r->pto}}</td>
                                     <td>{{$r->pais}}</td>
                                     <td>{{$r->nivel3}}</td>
@@ -67,3 +67,15 @@
         </div>
     </div>
 @endsection
+@section('myscripts')
+    <script>
+        $(document).ready(function(){
+            $('#table').dataTable({
+
+                "order": [[2, "desc"]],
+                "iDisplayLength": -1,
+
+            });
+        });
+    </script>
+@stop
