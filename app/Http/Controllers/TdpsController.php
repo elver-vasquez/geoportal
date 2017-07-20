@@ -224,6 +224,7 @@ class TdpsController extends Controller
         $td->nombre=$request->nombre;
         if($request->file('archivo')){
             if ($request->file('archivo')->isValid()) {
+
                 $destinationPath =public_path().'/mapas/'; // upload path
                 $fileName = $request->file('archivo')->getClientOriginalName();
                 $request->file('archivo')->move($destinationPath, $fileName); // sube el archivo

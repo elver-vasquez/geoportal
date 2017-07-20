@@ -14,6 +14,9 @@ class PublicController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function descargar($archivo){
+        return response()->download(public_path('mapas').'/'.$archivo);
+    }
     public function index()
     {
         $tdps=Tdps::where('tipo','tdps')->orderBy('nombre','ASC')->get();

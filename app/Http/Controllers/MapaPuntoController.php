@@ -142,16 +142,17 @@ class MapaPuntoController extends Controller
     }
 
     public function updateCuencaCoipasa50000(Request $request){
-
+//  return dd($request->all());
         $rules=[
             'nombre'=>'required'
         ];
+
         $this->validate($request,$rules);
 
-        $mapa= MapaPunto::find($request->id);
-
-        $mapa->nombre=$request->nombre;
-        $mapa->descripcion=$request->descripcion;
+        $zona= Monitoreo::find($request->id);
+        $zona->nombre=$request->nombre;
+        $zona->codigo=$request->codigo;
+        $zona->tipo='coipasa5';
 
         if($request->file('archivo')){
             if ($request->file('archivo')->isValid()) {
@@ -167,23 +168,29 @@ class MapaPuntoController extends Controller
                 }
                 $url=public_path().'/mapas/'.$fileName;
                 if(file_exists($url)){
-                    $mapa->archivo=$fileName;
+                    $zona->archivo=$fileName;
+                    if($zona->save()){
 
+                        return redirect()->back();
+                    }
+                    else
+                    {
+                        return redirect()->back();
+                    }
 
                 }
                 else
                     return redirect()->back();
 
+
+
+
             }
         }
-        if($mapa->save()){
-
-            return redirect()->back();
+        else{
+            $zona->save();
         }
-        else
-        {
-            return redirect()->back();
-        }
+        return redirect()->back();
     }
 
 

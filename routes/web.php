@@ -21,6 +21,7 @@ Route::get('/remas/importar', 'RemaController@importar');
 Route::get('/remfc/importar', 'RemfcController@importar');
 Route::get('/remli/importar', 'RemliController@importar');
 Route:: get('/remas/buscarCampanias/{codigo}','RemaController@buscarCampanias');
+Route:: get('/descargar/{archivo}','PublicController@descargar');
 Route::post('/reportes/remas','ReporteController@remas');
 
 
@@ -90,6 +91,7 @@ Route::group(['prefix'=>'admin'],function(){
     Route::get('/cuencapoopo/mapas50000/{subcuenca}','MapaPuntoController@cuencaPoopoMapas50000');
 
     Route::post('/cuencapoopo/storesubcuencas','TdpsMonitoreoController@storeSubcuencasPoopo50000');
+    Route::post('/cuencapoopo/subcuencas/update','TdpsMonitoreoController@updateSubcuencasPoopo50000');
     Route::post('/cuencapoopo/storemapaSubcuenca50000','TdpsMonitoreoController@storeSubcuencasPoopo50000');
     Route::post('/cuencapoopo/updateMapa','TdpsController@updateMapaSubcuencaPoopo');
     Route::post('/cuencapoopo/updateMapaSubcuenca','TdpsController@updateMapaSubcuenca');

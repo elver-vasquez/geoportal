@@ -3,6 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
+
 
 class MedicionRemli extends Model
 {
@@ -65,4 +67,16 @@ class MedicionRemli extends Model
         'cont_bentos',
 
     ];
+    public function setFechaAttribute($fecha){
+
+        $pos = strpos($fecha, '/');
+
+        if ($pos === false) {
+
+            $this->attributes['fecha']=Carbon::createFromFormat('Y-m-d',$fecha);
+        } else {
+            $this->attributes['fecha']=Carbon::createFromFormat('Y/m/d',$fecha);
+
+        }
+    }
 }

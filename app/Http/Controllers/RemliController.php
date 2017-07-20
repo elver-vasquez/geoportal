@@ -58,6 +58,7 @@ class RemliController extends Controller
 
 //        return dd($request->all());
 
+        $this->validate($request,['fecha'=>'required']);
 
         $medicion =MedicionRemli::find($request->medicion_id);
 
@@ -127,6 +128,7 @@ class RemliController extends Controller
     {
 
 //        return dd($request->all());
+        $this->validate($request,['fecha'=>'required']);
 
 
         $medicion =new MedicionRemli();

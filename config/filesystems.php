@@ -45,7 +45,7 @@ return [
 
         'local' => [
             'driver' => 'local',
-            'root' => public_path('mapas/tdps/puntos'),
+            'root' => public_path('mapas/'),
         ],
 
         'public' => [

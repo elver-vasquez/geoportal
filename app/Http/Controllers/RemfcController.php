@@ -57,6 +57,8 @@ class RemfcController extends Controller
 
     public function medicionstore(Request $request)
     {
+        $this->validate($request,['fecha'=>'required']);
+
         $medicion =new MedicionRemfc();
         $medicion->id_remfc = $request->id_remfc;
         $medicion->campania = $request->campania;
@@ -131,6 +133,7 @@ class RemfcController extends Controller
     {
 
 //        return dd($request->all());
+        $this->validate($request,['fecha'=>'required']);
 
 
         $medicion =MedicionRemfc::find($request->medicion_id);

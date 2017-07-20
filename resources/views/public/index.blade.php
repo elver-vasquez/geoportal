@@ -149,16 +149,13 @@
   var url_punto=window.location+'mapas/tdps/puntos/';
   var url_tdps=window.location+'mapas/tdps/';
   var url_cuenca=window.location+'mapas/cuencas/';
-//  var url_mapa=window.location+'mapas/';
-  var url_mapa='http://www.fedjuveoruro.com/mapas/';
+  var url_mapa='http://geopostgradouto.com/mapas/';
 
   var i=0;
   var layers = [];
   var codigo='B-012-10B-1-01';
 
   var data_charts=[];
-
-
         function initMap(){
             var options={
                 center:{
@@ -196,10 +193,6 @@
 
 
         $(document).ready(function () {
-//            alert(window.location.protocol+'//'+window.location.hostname)
-
-//            buscarCampaniasRemas('P-017-003-1-01');
-
 
 
             $('#treeCheckbox').jstree({
@@ -229,10 +222,14 @@
             }).on("select_node.jstree", function (event, data) {
 
                 var id=data.node.id;
+
                 var oElement = $("#" + data.node.id)[0];
+
                 var archivo = oElement.attributes["label"].value;
+
                 var tipo =oElement.attributes["tipo"].value;
 //                alert(tipo)
+//                alert(archivo+'  '+id+' '+tipo)
 
 
 
@@ -287,6 +284,9 @@
 
 
              function charts_remas(tdps,tipo) {
+
+
+
                  var aux=[];
                  switch(tipo){
                      case 'ph':{  $(data_charts).each(function(k,v){
@@ -295,43 +295,50 @@
                      } break;
                      case 'temperatura':{  $(data_charts).each(function(k,v){
                          aux.push({'anio':''+v.fecha+'','value':v.temperatura});
+
                      });
                      } break;
                      case 'turbiedad':{  $(data_charts).each(function(k,v){
                          aux.push({'anio':''+v.fecha+'','value':v.turbiedad});
+
                      });
                      } break;
                  }
-
                  $('#titulo_chart').html(tipo)
-
+                 var label=tipo;
                  $(".charts-modal").on("shown.bs.modal", function () {
+
                      setTimeout(function(){
+
+                       $('#area-example').empty();
                          new Morris.Line({
-
                              element: 'area-example',
-
                              data: aux,
-
                              xkey: 'anio',
                              ykeys: ['value'],
-
-                             labels: [tipo]
+                             labels: [label]
                          });
+
                          // When you open modal several times Morris charts over loading. So this is for destory to over loades Morris charts.
                          // If you have better way please share it.
-                         if($('#area-example').find('svg').length > 1){
+                         if($('#area-example').find('svg').length >1){
+
+
                              // Morris Charts creates svg by append, you need to remove first SVG
                              $('#area-example svg:first').remove();
+
                              // Also Morris Charts created for hover div by prepend, you need to remove last DIV
                              $(".morris-hover:last").remove();
+
                          }
+
+
                          // Smooth Loading
                          $('.js-loading').addClass('hidden');
-
-                     },300);
+                     },1);
 
                  }).modal('show')
+
              }
         function modalRemas(campanias,data,cod){
 
@@ -1030,7 +1037,7 @@
 
 <div class="container">
 
-    <div class="modal fade charts-modal" style="z-index: 100000" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+    <div class="modal fade charts-modal" id="modal-graficos" style="z-index: 100000" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
         <div class="modal-dialog ">
             <div class="modal-content">
                 <div class="modal-header">
@@ -1406,15 +1413,15 @@
 
                                     <ul>
                                         <li data-jstree='{ "opened" : true ,"icon":"fa fa-globe"}' label="{{$bolivia->archivo}}">
-                                        {{$bolivia->nombre}}  / <span><a  href="" onclick="javascript:location.href='{{asset('mapas')}}/{{$bolivia->archivo}}'" title="descargar mapa" style="font-size: 10px;"class="text-sm text-warning"><i  style="color:#FFF;"class="fa fa-download "></i> </a> </span>
+                                        {{$bolivia->nombre}}  / <span><a  href="" onclick="javascript:location.href='{{url('descargar')}}/{{$bolivia->archivo}}'" title="descargar mapa" style="font-size: 10px;"class="text-sm text-warning"><i  style="color:#FFF;"class="fa fa-download "></i> </a> </span>
                                         </li>
                                         <li data-jstree='{ "opened" : true ,"icon":"fa fa-globe"}' label="{{$peru->archivo}}">
-                                          {{$peru->nombre}}    / <span><a  href="" onclick="javascript:location.href='{{asset('mapas')}}/{{$peru->archivo}}'" title="descargar mapa" style="font-size: 10px;"class="text-sm text-warning"><i  style="color:#FFF;"class="fa fa-download "></i> </a> </span>
+                                          {{$peru->nombre}}    / <span><a  href="" onclick="javascript:location.href='{{url('descargar')}}/{{$peru->archivo}}'" title="descargar mapa" style="font-size: 10px;"class="text-sm text-warning"><i  style="color:#FFF;"class="fa fa-download "></i> </a> </span>
                                         </li>
                                         @foreach($tdps->where('tipo','tdps') as $td)
 
                                             <li data-jstree='{ "enabled" : true,"icon":"fa fa-globe"}' tipo="tdps"  label="{{$td->archivo}}">
-                                                {{$td->nombre}}   / <span><a  href="" onclick="javascript:location.href='{{asset('mapas')}}/{{$td->archivo}}'" title="descargar mapa" style="font-size: 10px;"class="text-sm text-warning"><i  style="color:#FFF;"class="fa fa-download "></i> </a> </span>
+                                                {{$td->nombre}}   / <span><a  href="" onclick="javascript:location.href='{{url('descargar')}}/{{$td->archivo}}'" title="descargar mapa" style="font-size: 10px;"class="text-sm text-warning"><i  style="color:#FFF;"class="fa fa-download "></i> </a> </span>
 
                                                 <ul>
                                                     @foreach($zh  as $moni)
@@ -1422,11 +1429,11 @@
 
                                                             @if($moni->estado_remas=='1')
                                                         <li data-jstree='{ "opened" : true ,"icon":"fa fa-globe"}' tipo="pm" label="{{$moni->archivo_remas}}" >
-                                                              {{$moni->nombre}}   / <span><a  href="" onclick="javascript:location.href='{{asset('mapas')}}/{{$moni->archivo_remas}}'" title="descargar mapa" style="font-size: 10px;"class="text-sm text-warning"><i  style="color:#FFF;"class="fa fa-download "></i> </a> </span>
+                                                              {{$moni->nombre}}   / <span><a  href="" onclick="javascript:location.href='{{url('descargar')}}/{{$moni->archivo_remas}}'" title="descargar mapa" style="font-size: 10px;"class="text-sm text-warning"><i  style="color:#FFF;"class="fa fa-download "></i> </a> </span>
                                                             <ul>
                                                                 @foreach($moni->puntos as  $punto)
                                                                     <li data-jstree='{ "icon":"fa fa-globe"}' tipo="nn" label="{{$punto->archivo}}">
-                                                                       {{$punto->nombre}}  / <span><a  href="" onclick="javascript:location.href='{{asset('mapas')}}/{{$punto->archivo}}'" title="descargar mapa" style="font-size: 10px;"class="text-sm text-warning"><i  style="color:#FFF;"class="fa fa-download "></i> </a> </span>
+                                                                       {{$punto->nombre}}  / <span><a  href="" onclick="javascript:location.href='{{url('descargar')}}/{{$punto->archivo}}'" title="descargar mapa" style="font-size: 10px;"class="text-sm text-warning"><i  style="color:#FFF;"class="fa fa-download "></i> </a> </span>
                                                                     </li>
                                                                 @endforeach
                                                             </ul>
@@ -1438,11 +1445,11 @@
                                                         @if($td->id==20)
                                                                 @if($moni->estado_remfc=='1')
                                                                 <li data-jstree='{ "opened" : true ,"icon":"fa fa-globe"}' tipo="pm" label="{{$moni->archivo_remfc}}" >
-                                                                 {{$moni->nombre}}  / <span><a  href="" onclick="javascript:location.href='{{asset('mapas')}}/{{$moni->archivo_remfc}}'" title="descargar mapa" style="font-size: 10px;"class="text-sm text-warning"><i  style="color:#FFF;"class="fa fa-download "></i> </a> </span>
+                                                                 {{$moni->nombre}}  / <span><a  href="" onclick="javascript:location.href='{{url('descargar')}}/{{$moni->archivo_remfc}}'" title="descargar mapa" style="font-size: 10px;"class="text-sm text-warning"><i  style="color:#FFF;"class="fa fa-download "></i> </a> </span>
                                                                     <ul>
                                                                         @foreach($moni->puntos as  $punto)
                                                                             <li data-jstree='{ "icon":"fa fa-globe"}' tipo="nn" label="{{$punto->archivo}}">
-                                                                               {{$punto->nombre}}   / <span><a  href="" onclick="javascript:location.href='{{asset('mapas')}}/{{$punto->archivo}}'" title="descargar mapa" style="font-size: 10px;"class="text-sm text-warning"><i  style="color:#FFF;"class="fa fa-download "></i> </a> </span>
+                                                                               {{$punto->nombre}}   / <span><a  href="" onclick="javascript:location.href='{{url('descargar')}}/{{$punto->archivo}}'" title="descargar mapa" style="font-size: 10px;"class="text-sm text-warning"><i  style="color:#FFF;"class="fa fa-download "></i> </a> </span>
                                                                             </li>
                                                                         @endforeach
                                                                     </ul>
@@ -1453,11 +1460,11 @@
                                                         @if($td->id==21)
                                                                 @if($moni->estado_remli=='1')
                                                                 <li data-jstree='{ "opened" : true ,"icon":"fa fa-globe"}' tipo="pm" label="{{$moni->archivo_remli}}" >
-                                                                  {{$moni->nombre}}   / <span><a  href="" onclick="javascript:location.href='{{asset('mapas')}}/{{$moni->archivo_remli}}'" title="descargar mapa" style="font-size: 10px;"class="text-sm text-warning"><i  style="color:#FFF;"class="fa fa-download "></i> </a> </span>
+                                                                  {{$moni->nombre}}   / <span><a  href="" onclick="javascript:location.href='{{url('descargar')}}/{{$moni->archivo_remli}}'" title="descargar mapa" style="font-size: 10px;"class="text-sm text-warning"><i  style="color:#FFF;"class="fa fa-download "></i> </a> </span>
                                                                     <ul>
                                                                         @foreach($moni->puntos as  $punto)
                                                                             <li data-jstree='{ "icon":"fa fa-globe"}' tipo="nn" label="{{$punto->archivo}}">
-                                                                                {{$punto->nombre}}   / <span><a  href="" onclick="javascript:location.href='{{asset('mapas')}}/{{$punto->archivo}}'" title="descargar mapa" style="font-size: 10px;"class="text-sm text-warning"><i  style="color:#FFF;"class="fa fa-download "></i> </a> </span>
+                                                                                {{$punto->nombre}}   / <span><a  href="" onclick="javascript:location.href='{{url('descargar')}}/{{$punto->archivo}}'" title="descargar mapa" style="font-size: 10px;"class="text-sm text-warning"><i  style="color:#FFF;"class="fa fa-download "></i> </a> </span>
                                                                             </li>
                                                                         @endforeach
                                                                     </ul>
@@ -1479,11 +1486,11 @@
                                             </ul>
                                 </li>
 
-                                <li data-jstree='{ "opened" : true ,"icon":"fa fa-globe"}'label="{{$poopo->archivo}}" >
-                                   {{$poopo->nombre}} / <span><a  href="" onclick="javascript:location.href='{{asset('mapas')}}/{{$poopo->archivo}}'" title="descargar mapa" style="font-size: 10px;"class="text-sm text-warning"><i  style="color:#FFF;"class="fa fa-download "></i> </a> </span>
+                                <li data-jstree='{ "opened" : true ,"icon":"fa fa-globe"}'  tipo="tdps" label="{{$poopo->archivo}}" >
+                                   {{$poopo->nombre}} / <span><a  href="" onclick="javascript:location.href='{{url('descargar')}}/{{$poopo->archivo}}'" title="descargar mapa" style="font-size: 10px;"class="text-sm text-warning"><i  style="color:#FFF;"class="fa fa-download "></i> </a> </span>
                                     <ul>
-                                        <li data-jstree='{ "opened" : true ,"icon":"fa fa-globe"}' label="{{$sub_poopo->archivo}}">
-                                           {{$sub_poopo->nombre}}  / <span><a  href="" onclick="javascript:location.href='{{asset('mapas')}}/{{$sub_poopo->archivo}}'" title="descargar mapa" style="font-size: 10px;"class="text-sm text-warning"><i  style="color:#FFF;"class="fa fa-download "></i> </a> </span>
+                                        <li data-jstree='{ "opened" : true ,"icon":"fa fa-globe"}' tipo="pm" label="{{$sub_poopo->archivo}}">
+                                           {{$sub_poopo->nombre}}  / <span><a  href="" onclick="javascript:location.href='{{url('descargar')}}/{{$sub_poopo->archivo}}'" title="descargar mapa" style="font-size: 10px;"class="text-sm text-warning"><i  style="color:#FFF;"class="fa fa-download "></i> </a> </span>
 
                                         </li>
                                         <li>
@@ -1491,12 +1498,12 @@
                                             <ul>
                                                 @foreach($sub_poopo_5 as $sub)
 
-                                                    <li data-jstree='{ "opened" : true ,"icon":"fa fa-globe"}' label="{{$sub->archivo}}">
-                                                        {{$sub->nombre}}   / <span><a  href="" onclick="javascript:location.href='{{asset('mapas')}}/{{$sub->archivo}}'" title="descargar mapa" style="font-size: 10px;"class="text-sm text-warning"><i  style="color:#FFF;"class="fa fa-download "></i> </a> </span>
+                                                    <li data-jstree='{ "opened" : true ,"icon":"fa fa-globe"}' tipo="tdps" label="{{$sub->archivo}}">
+                                                        {{$sub->nombre}}   / <span><a  href="" onclick="javascript:location.href='{{url('descargar')}}/{{$sub->archivo}}'" title="descargar mapa" style="font-size: 10px;"class="text-sm text-warning"><i  style="color:#FFF;"class="fa fa-download "></i> </a> </span>
                                                         <ul>
                                                             @foreach($sub->puntos as $punto)
-                                                                <li data-jstree='{ "opened" : true ,"icon":"fa fa-globe"}' label="{{$punto->archivo}}">
-                                                                    {{$punto->nombre}}   / <span><a  href="" onclick="javascript:location.href='{{asset('mapas')}}/{{$punto->archivo}}'" title="descargar mapa" style="font-size: 10px;"class="text-sm text-warning"><i  style="color:#FFF;"class="fa fa-download "></i> </a> </span>
+                                                                <li data-jstree='{ "opened" : true ,"icon":"fa fa-globe"}'  tipo="pm" label="{{$punto->archivo}}">
+                                                                    {{$punto->nombre}}   / <span><a  href="" onclick="javascript:location.href='{{url('descargar')}}/{{$punto->archivo}}'" title="descargar mapa" style="font-size: 10px;"class="text-sm text-warning"><i  style="color:#FFF;"class="fa fa-download "></i> </a> </span>
                                                                 </li>
                                                             @endforeach
                                                         </ul>
@@ -1509,8 +1516,8 @@
                                             Escala 1:1000000
                                             <ul>
                                                 @foreach($sub_poopo_1 as $punto)
-                                                    <li data-jstree='{ "opened" : true ,"icon":"fa fa-globe"}' label="{{$punto->archivo}}">
-                                                       {{$punto->nombre}}   / <span><a  href="" onclick="javascript:location.href='{{asset('mapas')}}/{{$punto->archivo}}'" title="descargar mapa" style="font-size: 10px;"class="text-sm text-warning"><i  style="color:#FFF;"class="fa fa-download "></i> </a> </span>
+                                                    <li data-jstree='{ "opened" : true ,"icon":"fa fa-globe"}'  tipo="pm" label="{{$punto->archivo}}">
+                                                       {{$punto->nombre}}   / <span><a  href="" onclick="javascript:location.href='{{url('descargar')}}/{{$punto->archivo}}'" title="descargar mapa" style="font-size: 10px;"class="text-sm text-warning"><i  style="color:#FFF;"class="fa fa-download "></i> </a> </span>
                                                     </li>
                                                 @endforeach
 
@@ -1519,23 +1526,23 @@
                                     </ul>
 
                                 </li>
-                                <li data-jstree='{ "opened" : true ,"icon":"fa fa-globe"}' label="{{$coipasa->archivo}}">
-                                     {{$coipasa->nombre}}  / <span><a  href="" onclick="javascript:location.href='{{asset('mapas')}}/{{$coipasa->archivo}}'" title="descargar mapa" style="font-size: 10px;"class="text-sm text-warning"><i  style="color:#FFF;"class="fa fa-download "></i> </a> </span>
+                                <li data-jstree='{ "opened" : true ,"icon":"fa fa-globe"}' tipo="pm" label="{{$coipasa->archivo}}">
+                                     {{$coipasa->nombre}}  / <span><a  href="" onclick="javascript:location.href='{{url('descargar')}}/{{$coipasa->archivo}}'" title="descargar mapa" style="font-size: 10px;"class="text-sm text-warning"><i  style="color:#FFF;"class="fa fa-download "></i> </a> </span>
                                         <ul>
 
-                                               <li data-jstree='{ "opened" : true ,"icon":"fa fa-globe"}' label="{{$sub_coi->archivo}}">
-                                                {{$sub_coi->nombre}}  / <span><a  href="" onclick="javascript:location.href='{{asset('mapas')}}/{{$sub_coi->archivo}}'" title="descargar mapa" style="font-size: 10px;"class="text-sm text-warning"><i  style="color:#FFF;"class="fa fa-download "></i> </a> </span>
+                                               <li data-jstree='{ "opened" : true ,"icon":"fa fa-globe"}' tipo="pm" label="{{$sub_coi->archivo}}">
+                                                {{$sub_coi->nombre}}  / <span><a  href="" onclick="javascript:location.href='{{url('descargar')}}/{{$sub_coi->archivo}}'" title="descargar mapa" style="font-size: 10px;"class="text-sm text-warning"><i  style="color:#FFF;"class="fa fa-download "></i> </a> </span>
                                                </li>
                                                  <li>
                                                      Escala 1:50000
                                                            <ul>
                                                              @foreach($sub_coipasa_5 as $sub)
 
-                                                                  <li data-jstree='{ "icon":"fa fa-globe"}' label="{{$sub->archivo}}">
-                                                                    {{$sub->nombre}} / <span><a  href="" onclick="javascript:location.href='{{asset('mapas')}}/{{$sub->archivo}}'" title="descargar mapa" style="font-size: 10px;"class="text-sm text-warning"><i  style="color:#FFF;"class="fa fa-download "></i> </a> </span>                                                                         <ul>
+                                                                  <li data-jstree='{ "icon":"fa fa-globe"}' tipo="pm" label="{{$sub->archivo}}">
+                                                                    {{$sub->nombre}} / <span><a  href="" onclick="javascript:location.href='{{url('descargar')}}/{{$sub->archivo}}'" title="descargar mapa" style="font-size: 10px;"class="text-sm text-warning"><i  style="color:#FFF;"class="fa fa-download "></i> </a> </span>                                                                         <ul>
                                                                           @foreach($sub->puntos as $punto)
-                                                                            <li data-jstree='{ "opened" : true ,"icon":"fa fa-globe"}' label="{{$punto->archivo}}">
-                                                                              {{$punto->nombre}}   / <span><a  href="" onclick="javascript:location.href='{{asset('mapas')}}/{{$punto->archivo}}'" title="descargar mapa" style="font-size: 10px;"class="text-sm text-warning"><i  style="color:#FFF;"class="fa fa-download "></i> </a> </span>
+                                                                            <li data-jstree='{ "opened" : true ,"icon":"fa fa-globe"}' tipo="pm" label="{{$punto->archivo}}">
+                                                                              {{$punto->nombre}}   / <span><a  href="" onclick="javascript:location.href='{{url('descargar')}}/{{$punto->archivo}}'" title="descargar mapa" style="font-size: 10px;"class="text-sm text-warning"><i  style="color:#FFF;"class="fa fa-download "></i> </a> </span>
                                                                                </li>
                                                                             @endforeach
                                                                           </ul>
@@ -1549,7 +1556,7 @@
                                     <ul>
                                         @foreach($sub_coipasa_1 as $punto1)
                                             <li data-jstree='{"icon":"fa fa-globe"}' label="{{$punto1->archivo}}">
-                                               {{$punto1->nombre}} / <span><a  href="" onclick="javascript:location.href='{{asset('mapas')}}/{{$punto1->archivo}}'" title="descargar mapa" style="font-size: 10px;"class="text-sm text-warning"><i  style="color:#FFF;"class="fa fa-download "></i> </a> </span>
+                                               {{$punto1->nombre}} / <span><a  href="" onclick="javascript:location.href='{{url('descargar')}}/{{$punto1->archivo}}'" title="descargar mapa" style="font-size: 10px;"class="text-sm text-warning"><i  style="color:#FFF;"class="fa fa-download "></i> </a> </span>
                                             </li>
                                         @endforeach
 

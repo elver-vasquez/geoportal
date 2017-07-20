@@ -92,7 +92,7 @@
                                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                 <h4 class="modal-title">Nuevo registro</h4>
                                             </div>
-                                            <form  enctype="multipart/form-data" class="form-horizontal" action="{{url('admin/zonashidrologicas/update')}}" method="post" id="form">
+                                            <form  enctype="multipart/form-data" class="form-horizontal" action="{{url('admin/cuencacoipasa/escala50000/update')}}" method="post" id="form">
                                                 {!! csrf_field() !!}
                                                 <input type="hidden" name="id" value="{{$row->id}}">
 

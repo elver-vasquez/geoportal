@@ -344,6 +344,61 @@ public function actualizar_estado(Request $request){
         return redirect()->back();
 
     }
+    public function updateSubcuencasPoopo50000(Request $request){
+
+
+
+//
+        $rules=[
+//            'archivo'=>'required',
+            'nombre'=>'required'
+
+        ];
+        $this->validate($request,$rules);
+
+        $zona= Monitoreo::find($request->id);
+        $zona->nombre=$request->nombre;
+        $zona->codigo=$request->codigo;
+        $zona->tipo='poopo5';
+
+        if($request->file('archivo')){
+            if ($request->file('archivo')->isValid()) {
+                $destinationPath =public_path().'/mapas/'; // upload path
+                $fileName = $request->file('archivo')->getClientOriginalName();
+                try {
+                    $request->file('archivo')->move($destinationPath, $fileName); // sube el archivo
+
+//                    Storage::disk('local')->put($fileName, \File::get($request->file('archivo')));
+                }
+                catch (\Exception $e){
+                    return $e;
+                }
+                $url=public_path().'/mapas/'.$fileName;
+                if(file_exists($url)){
+                    $zona->archivo=$fileName;
+                    if($zona->save()){
+
+                        return redirect()->back();
+                    }
+                    else
+                    {
+                        return redirect()->back();
+                    }
+
+                }
+                else
+                    return redirect()->back();
+            }
+            else
+                return redirect()->back();
+        }
+        else {
+            $zona->save();
+        }
+        return redirect()->back();
+
+
+    }
 
     public function storeSubcuencasPoopo50000(Request $request){
 

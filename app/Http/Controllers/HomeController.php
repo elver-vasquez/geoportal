@@ -26,5 +26,7 @@ class HomeController extends Controller
         return view('admin.dashboard');
     }
 
-
+  public function descargar($archivo){
+        return response()->download(public_path('mapas').'/'.$archivo);
+  }
 }

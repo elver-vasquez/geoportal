@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class MedicionRema extends Model
@@ -67,4 +68,17 @@ class MedicionRema extends Model
         'se'
 
     ];
+
+    public function setFechaAttribute($fecha){
+
+        $pos = strpos($fecha, '/');
+
+        if ($pos === false) {
+
+            $this->attributes['fecha']=Carbon::createFromFormat('Y-m-d',$fecha);
+        } else {
+            $this->attributes['fecha']=Carbon::createFromFormat('Y/m/d',$fecha);
+
+        }
+    }
 }

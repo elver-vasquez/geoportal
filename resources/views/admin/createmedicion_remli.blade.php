@@ -457,3 +457,16 @@
         </div>
     </div>
 @stop
+@section('myscripts')
+    <script>
+        $(document).ready(function(){
+            $('#fecha').datepicker({
+                dateFormat: 'dd/mm/yy',
+                changeMonth: true,
+                numberOfMonths: 1,
+                buttonImage: 'contact/calendar/calendar.gif',
+                buttonImageOnly: true,
+            });
+        });
+    </script>
+@stop

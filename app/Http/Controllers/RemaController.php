@@ -193,6 +193,8 @@ public function medicionCreate(Rema $rema_id){
     {
 
 //        return dd($request->all());
+
+        $this->validate($request,['fecha'=>'required']);
         $medicion = MedicionRema::find($request->medicion_id);
         $medicion->id_remas = $request->remas_id;
         $medicion->campania = $request->campania;
