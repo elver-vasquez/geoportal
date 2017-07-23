@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="row">
-        <div class="col-md-12 ">
+        <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h4 class="text-center"><strong>RED DE ESTACIONES DE MONITOREO
@@ -12,45 +12,49 @@
 
                 <div class="panel-body">
                     @if($remas->count()>0)
-                        <table class="table table-responsive table-striped" id="table">
+                        <table class=" table-striped" id="table">
                             <thead>
-                            <tr>
-                                <th>Codigo</th>
+                            <tr class="bg-tertiary">
+                                <th >Codigo</th>
                                 <th>Pto</th>
                                 <th>Pais</th>
                                 <th>Nivel 3</th>
-                                <th>Zona <br>Hidrologica</th>
+                                <th>Zona <br>Hidro  <BR> logica</th>
                                 <th>Red</th>
                                 <th>Nro Red</th>
                                 <th>Nombre de Zona <br>Hidrologica TDPS</th>
-                                <th>Coordenada Este</th>
-                                <th>Coordenada Norte</th>
-                                <th>Altura(msnm)</th>
-                                <th>Departamento</th>
+                                <th>Coord <BR> Este</th>
+                                <th>Coord  <BR>Norte</th>
+                                <th>Altura <BR>(msnm)</th>
+                                <th>Departa  <BR>mento</th>
                                 <th>Nombre de Estacion</th>
-                                <th>Acciones</th>
+                                <th>Crear</th>
+                                <th>Editar</th>
                             </tr>
                             </thead>
                             <tbody>
                             @foreach($remas as $r)
                                 <tr>
-                                    <td class="text-primary"><strong>{{$r->codigo}}</strong></td>
+                                    <td  style="font-size: 9px" class=" col-md-3 text-primary"><strong>{{$r->codigo}}</strong></td>
                                     <td>{{$r->pto}}</td>
                                     <td>{{$r->pais}}</td>
                                     <td>{{$r->nivel3}}</td>
-                                    <td>{{$r->zona_hidrologica}}</td>
+                                    <td >{{$r->zona_hidrologica}}</td>
                                     <td>{{$r->red}}</td>
                                     <td>{{$r->nro_red}}</td>
-                                    <td>{{$r->nombre_hidrologica}}</td>
+                                    <td class="col-md-4">{{$r->nombre_hidrologica}}</td>
                                     <td>{{$r->coor_este}}</td>
                                     <td>{{$r->coor_oeste}}</td>
                                     <td>{{$r->altura}}</td>
                                     <td>{{$r->dpto}}</td>
-                                    <td>{{$r->estacion}}</td>
-                                    <td class="col-md-4">
-{{--                                        <a href="{{url('admin/verdetallerema')}}/{{$r->id}}" class="btn btn-primary btn-sm"><i class="fa fa-eye"></i></a>--}}
-                                        <a href="{{url('admin/campanias_remfc')}}/{{$r->id}}" class="btn btn-primary btn-sm"><i class="fa fa-rebel"></i></a>
-                                        <a href="{{url('admin/createmedicion_remfc')}}/{{$r->id}}" class="btn btn-success btn-sm"><i class="fa fa-save"></i></a>
+                                    <td class="col-md-4">{{$r->estacion}}</td>
+                                    <td>
+                                        <a href="{{url('admin/createmedicion_remfc')}}/{{$r->id}}" class="btn btn-success btn-sm"><i class="fa fa-plus"></i></a>
+
+                                    </td>
+                                    <td>
+
+                                        <a href="{{url('admin/campanias_remfc')}}/{{$r->id}}" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></a>
 
                                     </td>
                                 </tr>

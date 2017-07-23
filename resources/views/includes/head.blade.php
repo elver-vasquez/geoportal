@@ -17,7 +17,11 @@
 <link rel="stylesheet" href="{{asset('assets/vendor/font-awesome/css/font-awesome.css')}}" />
 <link rel="stylesheet" href="{{asset('assets/vendor/magnific-popup/magnific-popup.css')}}" />
 <link rel="stylesheet" href="{{asset('assets/vendor/bootstrap-datepicker/css/datepicker3.css')}}" />
-
+<style>
+    .table-striped{
+        font-size: 10px;
+    }
+</style>
 <!-- Theme CSS -->
 <link rel="stylesheet" href="{{asset('assets/stylesheets/theme.css')}}" />
 

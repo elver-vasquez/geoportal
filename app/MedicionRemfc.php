@@ -70,7 +70,12 @@ class MedicionRemfc extends Model
         'cr',
         'ni',
         'sb',
-        'se'
+        'se',
+        'amonio',
+        'cloruro',
+        'nitrato',
+        'nitrito',
+        'cianuro'
 
     ];
     public function setFechaAttribute($fecha){

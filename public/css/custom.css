@@ -1,0 +1,44 @@
+.tablas{
+    font-size: 10px;
+}
+.tablas thead >tr{
+    color: #f89406;
+}
+.claseA{
+    background-color: #eacf7d;
+    color: #0a0a0a;
+    font-weight: bold;
+}
+.claseB{
+    background-color:#e0a46b;
+    color: #0a0a0a;
+    font-weight: bold;
+}
+
+.claseC{
+    background-color:#51aa08;
+    color: #0a0a0a;
+    font-weight: bold;
+}
+.claseD{
+    background-color:#c96202;
+    color: #0a0a0a;
+    font-weight: bold;
+}
+
+.claseE{
+    background-color:#2A00FF;
+    color: #0a0a0a;
+    font-weight: bold;
+}
+
+.claseF{
+    background-color:#d11b1b;
+    color: #0a0a0a;
+    font-weight: bold;
+}
+.claseH{
+    background-color:#dde23b;
+    color: #0a0a0a;
+    font-weight: bold;
+}

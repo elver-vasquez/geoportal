@@ -114,21 +114,21 @@
 
                                             <div class="form-group ">
 
-                                                <label for=""class="col-md-2 control-label">CEV (uS/cm):</label>
+                                                <label for=""class="col-md-2 control-label">Conductividad (uS/cm):</label>
                                                 <div class="col-md-2">
                                                     <input type="number" step="0.001" class="form-control medicion{{$m->id}}" name="ce" id="ce" value="{{$m->ce}}" readonly>
                                                 </div>
                                             </div>
 
                                             <div class="form-group ">
-                                                <label for=""class="col-md-2 control-label">T (°C):</label>
+                                                <label for=""class="col-md-2 control-label">Temperatura (°C):</label>
                                                 <div class="col-md-2">
                                                     <input type="number" step="0.001" class="form-control medicion{{$m->id}}" name="temperatura" id="temperatura" value="{{$m->temperatura}}" readonly>
                                                 </div>
                                             </div>
 
                                             <div class="form-group ">
-                                                <label for=""class="col-md-2 control-label">TURBIEDAD(NTU):</label>
+                                                <label for=""class="col-md-2 control-label">Turbidez(NTU):</label>
                                                 <div class="col-md-2">
                                                     <input type="number" step="0.001" class="form-control medicion{{$m->id}}" name="turbiedad" id="turbiedad" value="{{$m->turbiedad}}" readonly>
                                                 </div>
@@ -141,61 +141,61 @@
                                                 </div>
                                             </div>
                                             <div class="form-group ">
-                                                <label for=""class="col-md-2 control-label">SST(mg/l):</label>
+                                                <label for=""class="col-md-2 control-label">Solidos suspendidos(mg/l):</label>
                                                 <div class="col-md-2">
                                                     <input type="number" step="0.001" class="form-control medicion{{$m->id}}" name="sst" id="sst" value="{{$m->sst}}" readonly>
                                                 </div>
                                             </div>
                                             <div class="form-group ">
-                                                <label for=""class="col-md-2 control-label">SDT(mg/l):</label>
+                                                <label for=""class="col-md-2 control-label">Solidos suspendidos totales(mg/l):</label>
                                                 <div class="col-md-2">
                                                     <input type="number" step="0.001" class="form-control medicion{{$m->id}}" name="sdt" id="sdt" value="{{$m->sdt}}" readonly>
                                                 </div>
                                             </div>
 
-                                            <div class="form-group ">
-                                                <label for=""class="col-md-2 control-label">Disco Sechi</label>
-                                                <div class="col-md-2">
-                                                    <input type="number" step="0.001" class="form-control medicion{{$m->id}}" name="disco" id="disco" value="{{$m->disco}}" readonly>
-                                                </div>
-                                            </div>
+                                            {{--<div class="form-group ">--}}
+                                                {{--<label for=""class="col-md-2 control-label">Disco Sechi</label>--}}
+                                                {{--<div class="col-md-2">--}}
+                                                    {{--<input type="number" step="0.001" class="form-control medicion{{$m->id}}" name="disco" id="disco" value="{{$m->disco}}" readonly>--}}
+                                                {{--</div>--}}
+                                            {{--</div>--}}
 
 
 
                                         </div>
                                         <div id="gases{{$m->id}}" class="tab-pane">
                                             <p>Gases</p>
-                                            <div class="form-group ">
-                                                <label for=""class="col-md-2 control-label">CO2(mg/l):</label>
-                                                <div class="col-md-2">
-                                                    <input type="number" step="0.001" class="form-control medicion{{$m->id}}" name="co" id="co" value="{{$m->co}}" readonly>
-                                                </div>
-                                            </div>
+                                            {{--<div class="form-group ">--}}
+                                                {{--<label for=""class="col-md-2 control-label">CO2(mg/l):</label>--}}
+                                                {{--<div class="col-md-2">--}}
+                                                    {{--<input type="number" step="0.001" class="form-control medicion{{$m->id}}" name="co" id="co" value="{{$m->co}}" readonly>--}}
+                                                {{--</div>--}}
+                                            {{--</div>--}}
 
                                             <div class="form-group ">
 
-                                                <label for=""class="col-md-2 control-label">OD(mg/l):</label>
+                                                <label for=""class="col-md-2 control-label">Oxido disueltoD(mg/l):</label>
                                                 <div class="col-md-2">
                                                     <input type="number" step="0.001" class="form-control medicion{{$m->id}}" name="od" id="od" value="{{$m->od}}" readonly>
                                                 </div>
                                             </div>
-                                            <div class="form-group ">
+                                            {{--<div class="form-group ">--}}
 
-                                                <label for=""class="col-md-2 control-label">OD Saturado (mg/l):</label>
-                                                <div class="col-md-2">
-                                                    <input type="number" step="0.001" class="form-control medicion{{$m->id}}" name="od_satu" id="od_satu" value="{{$m->od_satu}}" readonly>
-                                                </div>
-                                            </div>
-                                            <div class="form-group ">
+                                                {{--<label for=""class="col-md-2 control-label">OD Saturado (mg/l):</label>--}}
+                                                {{--<div class="col-md-2">--}}
+                                                    {{--<input type="number" step="0.001" class="form-control medicion{{$m->id}}" name="od_satu" id="od_satu" value="{{$m->od_satu}}" readonly>--}}
+                                                {{--</div>--}}
+                                            {{--</div>--}}
+                                            {{--<div class="form-group ">--}}
 
-                                                <label for=""class="col-md-2 control-label">Saturación (%):</label>
-                                                <div class="col-md-2">
-                                                    <input type="number" step="0.001" class="form-control medicion{{$m->id}}" name="satu" id="satu" value="{{$m->satu}}" readonly>
-                                                </div>
-                                            </div>
+                                                {{--<label for=""class="col-md-2 control-label">Saturación (%):</label>--}}
+                                                {{--<div class="col-md-2">--}}
+                                                    {{--<input type="number" step="0.001" class="form-control medicion{{$m->id}}" name="satu" id="satu" value="{{$m->satu}}" readonly>--}}
+                                                {{--</div>--}}
+                                            {{--</div>--}}
 
                                             <div class="form-group ">
-                                                <label for=""class="col-md-2 control-label">HS2(mg/l):</label>
+                                                <label for=""class="col-md-2 control-label">Sulfatos(mg/l):</label>
                                                 <div class="col-md-2">
                                                     <input type="number" step="0.001" class="form-control medicion{{$m->id}}" name="hs" id="hs" value="{{$m->hs}}" readonly>
                                                 </div>
@@ -207,7 +207,44 @@
                                             <p>Parametros quimicos</p>
                                             <div class="col-md-4">
                                                 <div class="form-group ">
-                                                    <label for=""class="col-md-5 control-label">Ca (mg/l):</label>
+                                                    <label for=""class="col-md-5 control-label">Amonio(mg/l):</label>
+                                                    <div class="col-md-7">
+                                                        <input type="number" step="0.001" class="form-control medicion{{$m->id}} " readonly value="{{$m->amonio}}" name="amonio" id="amonio"  >
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group ">
+
+                                                    <label for=""class="col-md-5 control-label">Cloruros(mg/l):</label>
+                                                    <div class="col-md-7">
+                                                        <input type="number" step="0.001" class="form-control medicion{{$m->id}} " readonly value="{{$m->cloruro}}" name="cloruro" id="cloruro"  >
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group ">
+                                                    <label for=""class="col-md-5 control-label">Nitrato (mg/l):</label>
+                                                    <div class="col-md-7">
+                                                        <input type="number" step="0.001" class="form-control medicion{{$m->id}} " readonly value="{{$m->nitrato}}" name="nitrato" id="nitrato"  >
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group ">
+                                                    <label for=""class="col-md-5 control-label">Nitrito (mg/l):</label>
+                                                    <div class="col-md-7">
+                                                        <input type="number" step="0.001" class="form-control medicion{{$m->id}} " readonly value="{{$m->nitrito}}" name="nitrito" id="nitrito"  >
+                                                    </div>
+                                                </div>
+                                                <div class="form-group ">
+                                                    <label for=""class="col-md-5 control-label">Cianuros (mg/l):</label>
+                                                    <div class="col-md-7">
+                                                        <input type="number" step="0.001" class="form-control medicion{{$m->id}} " readonly value="{{$m->cianuro}}" name="cianuro" id="cianuro"  >
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group ">
+                                                    <label for=""class="col-md-5 control-label">Calcio (mg/l):</label>
                                                     <div class="col-md-7">
                                                         <input type="number" step="0.001" class="form-control medicion{{$m->id}}" name="ca" id="ca" value="{{$m->ca}}" readonly>
                                                     </div>
@@ -215,160 +252,161 @@
 
                                                 <div class="form-group ">
 
-                                                    <label for=""class="col-md-5 control-label">Mg (mg/l):</label>
+                                                    <label for=""class="col-md-5 control-label">Magnesio (mg/l):</label>
                                                     <div class="col-md-7">
                                                         <input type="number" step="0.001" class="form-control medicion{{$m->id}}" name="mg" id="mg" value="{{$m->mg}}" readonly>
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group ">
-                                                    <label for=""class="col-md-5 control-label">Na (mg/l):</label>
+                                                    <label for=""class="col-md-5 control-label">sodio (mg/l):</label>
                                                     <div class="col-md-7">
                                                         <input type="number" step="0.001" class="form-control medicion{{$m->id}}" name="na" id="na" value="{{$m->na}}" readonly>
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group ">
-                                                    <label for=""class="col-md-5 control-label">K (mg/l):</label>
+                                                    <label for=""class="col-md-5 control-label">Potasio(mg/l):</label>
                                                     <div class="col-md-7">
                                                         <input type="number" step="0.001" class="form-control medicion{{$m->id}}" name="k" id="k" value="{{$m->k}}" readonly>
                                                     </div>
                                                 </div>
 
-                                                <div class="form-group ">
-                                                    <label for=""class="col-md-5 control-label">Na + K (mg/l):</label>
-                                                    <div class="col-md-7">
-                                                        <input type="number" step="0.001" class="form-control medicion{{$m->id}}" name="na_k" id="na_k" value="{{$m->na_k}}" readonly>
-                                                    </div>
-                                                </div>
+                                                {{--<div class="form-group ">--}}
+                                                    {{--<label for=""class="col-md-5 control-label">Na + K (mg/l):</label>--}}
+                                                    {{--<div class="col-md-7">--}}
+                                                        {{--<input type="number" step="0.001" class="form-control medicion{{$m->id}}" name="na_k" id="na_k" value="{{$m->na_k}}" readonly>--}}
+                                                    {{--</div>--}}
+                                                {{--</div>--}}
 
-                                                <div class="form-group ">
-                                                    <label for=""class="col-md-5 control-label">CO3 (mg/l):</label>
-                                                    <div class="col-md-7">
-                                                        <input type="number" step="0.001" class="form-control medicion{{$m->id}}" name="co2" id="co2" value="{{$m->co2}}" readonly>
-                                                    </div>
-                                                </div>
+                                                {{--<div class="form-group ">--}}
+                                                    {{--<label for=""class="col-md-5 control-label">CO3 (mg/l):</label>--}}
+                                                    {{--<div class="col-md-7">--}}
+                                                        {{--<input type="number" step="0.001" class="form-control medicion{{$m->id}}" name="co2" id="co2" value="{{$m->co2}}" readonly>--}}
+                                                    {{--</div>--}}
+                                                {{--</div>--}}
 
 
-
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group ">
-                                                    <label for=""class="col-md-3 control-label">CO3H (mg/l):</label>
-                                                    <div class="col-md-5">
-                                                        <input type="number" step="0.001" class="form-control medicion{{$m->id}}" name="co2h" id="co2h" value="{{$m->co2h}}" readonly>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group ">
-                                                    <label for=""class="col-md-3 control-label">Cl (mg/l):</label>
-                                                    <div class="col-md-5">
-                                                        <input type="number" step="0.001" class="form-control medicion{{$m->id}}" name="ci" id="ci" value="{{$m->ci}}" readonly>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group ">
-                                                    <label for=""class="col-md-3 control-label">(SO4)2- (mg/l):</label>
-                                                    <div class="col-md-5">
-                                                        <input type="number" step="0.001" class="form-control medicion{{$m->id}}" name="so4" id="so4" value="{{$m->so4}}" readonly>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group ">
-                                                    <label for=""class="col-md-3 control-label">Alcalinidad (mg/l) CaCO3:</label>
-                                                    <div class="col-md-5">
-                                                        <input type="number" step="0.001" class="form-control medicion{{$m->id}}" name="alcalinidad" id="alcalinidad" value="{{$m->alcalinidad}}" readonly>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group ">
-                                                    <label for=""class="col-md-3 control-label">Dureza total (mg/l) CaCO3:</label>
-                                                    <div class="col-md-5">
-                                                        <input type="number" step="0.001" class="form-control medicion{{$m->id}}" name="dureza" id="dureza" value="{{$m->dureza}}" readonly>
-                                                    </div>
-                                                </div>
 
                                             </div>
+                                            {{--<div class="col-md-6">--}}
+                                                {{--<div class="form-group ">--}}
+                                                    {{--<label for=""class="col-md-3 control-label">CO3H (mg/l):</label>--}}
+                                                    {{--<div class="col-md-5">--}}
+                                                        {{--<input type="number" step="0.001" class="form-control medicion{{$m->id}}" name="co2h" id="co2h" value="{{$m->co2h}}" readonly>--}}
+                                                    {{--</div>--}}
+                                                {{--</div>--}}
+                                                {{--<div class="form-group ">--}}
+                                                    {{--<label for=""class="col-md-3 control-label">Cl (mg/l):</label>--}}
+                                                    {{--<div class="col-md-5">--}}
+                                                        {{--<input type="number" step="0.001" class="form-control medicion{{$m->id}}" name="ci" id="ci" value="{{$m->ci}}" readonly>--}}
+                                                    {{--</div>--}}
+                                                {{--</div>--}}
+                                                {{--<div class="form-group ">--}}
+                                                    {{--<label for=""class="col-md-3 control-label">(SO4)2- (mg/l):</label>--}}
+                                                    {{--<div class="col-md-5">--}}
+                                                        {{--<input type="number" step="0.001" class="form-control medicion{{$m->id}}" name="so4" id="so4" value="{{$m->so4}}" readonly>--}}
+                                                    {{--</div>--}}
+                                                {{--</div>--}}
+                                                {{--<div class="form-group ">--}}
+                                                    {{--<label for=""class="col-md-3 control-label">Alcalinidad (mg/l) CaCO3:</label>--}}
+                                                    {{--<div class="col-md-5">--}}
+                                                        {{--<input type="number" step="0.001" class="form-control medicion{{$m->id}}" name="alcalinidad" id="alcalinidad" value="{{$m->alcalinidad}}" readonly>--}}
+                                                    {{--</div>--}}
+                                                {{--</div>--}}
+                                                {{--<div class="form-group ">--}}
+                                                    {{--<label for=""class="col-md-3 control-label">Dureza total (mg/l) CaCO3:</label>--}}
+                                                    {{--<div class="col-md-5">--}}
+                                                        {{--<input type="number" step="0.001" class="form-control medicion{{$m->id}}" name="dureza" id="dureza" value="{{$m->dureza}}" readonly>--}}
+                                                    {{--</div>--}}
+                                                {{--</div>--}}
+
+                                            {{--</div>--}}
 
                                         </div>
                                         <div id="nutrientes{{$m->id}}" class="tab-pane">
                                             <p>Nutrientes</p>
                                             <div class="col-md-4">
-                                                <div class="form-group ">
-                                                    <label for=""class="col-md-5 control-label">SiO3 (mg/l):</label>
-                                                    <div class="col-md-7">
-                                                        <input type="number" step="0.001" class="form-control medicion{{$m->id}}" name="sio3" id="sio3" value="{{$m->sio3}}" readonly>
-                                                    </div>
-                                                </div>
+                                                {{--<div class="form-group ">--}}
+                                                    {{--<label for=""class="col-md-5 control-label">SiO3 (mg/l):</label>--}}
+                                                    {{--<div class="col-md-7">--}}
+                                                        {{--<input type="number" step="0.001" class="form-control medicion{{$m->id}}" name="sio3" id="sio3" value="{{$m->sio3}}" readonly>--}}
+                                                    {{--</div>--}}
+                                                {{--</div>--}}
+
+                                                {{--<div class="form-group ">--}}
+
+                                                    {{--<label for=""class="col-md-5 control-label">N-NO3- (mg/l):</label>--}}
+                                                    {{--<div class="col-md-7">--}}
+                                                        {{--<input type="number" step="0.001" class="form-control medicion{{$m->id}}" name="nno3" id="nno3" value="{{$m->nno3}}" readonly>--}}
+                                                    {{--</div>--}}
+                                                {{--</div>--}}
+
+                                                {{--<div class="form-group ">--}}
+                                                    {{--<label for=""class="col-md-5 control-label">N-NO2- (mg/l):</label>--}}
+                                                    {{--<div class="col-md-7">--}}
+                                                        {{--<input type="number" step="0.001" class="form-control medicion{{$m->id}}" name="nno2" id="nno2" value="{{$m->nno2}}" readonly>--}}
+                                                    {{--</div>--}}
+                                                {{--</div>--}}
+
+                                                {{--<div class="form-group ">--}}
+                                                    {{--<label for=""class="col-md-5 control-label">N-NH4+ (mg/l):</label>--}}
+                                                    {{--<div class="col-md-7">--}}
+                                                        {{--<input type="number" step="0.001" class="form-control medicion{{$m->id}}" name="nnh4" id="nnh4" value="{{$m->nnh4}}" readonly>--}}
+                                                    {{--</div>--}}
+                                                {{--</div>--}}
 
                                                 <div class="form-group ">
-
-                                                    <label for=""class="col-md-5 control-label">N-NO3- (mg/l):</label>
-                                                    <div class="col-md-7">
-                                                        <input type="number" step="0.001" class="form-control medicion{{$m->id}}" name="nno3" id="nno3" value="{{$m->nno3}}" readonly>
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group ">
-                                                    <label for=""class="col-md-5 control-label">N-NO2- (mg/l):</label>
-                                                    <div class="col-md-7">
-                                                        <input type="number" step="0.001" class="form-control medicion{{$m->id}}" name="nno2" id="nno2" value="{{$m->nno2}}" readonly>
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group ">
-                                                    <label for=""class="col-md-5 control-label">N-NH4+ (mg/l):</label>
-                                                    <div class="col-md-7">
-                                                        <input type="number" step="0.001" class="form-control medicion{{$m->id}}" name="nnh4" id="nnh4" value="{{$m->nnh4}}" readonly>
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group ">
-                                                    <label for=""class="col-md-5 control-label">Nt (mg/l):</label>
-                                                    <div class="col-md-7">
+                                                    <label for=""class="col-md-6 control-label">Nitrogeno total (mg/l):</label>
+                                                    <div class="col-md-5">
                                                         <input type="number" step="0.001" class="form-control medicion{{$m->id}}" name="nt" id="nt" value="{{$m->nt}}" readonly>
                                                     </div>
                                                 </div>
-
                                                 <div class="form-group ">
-                                                    <label for=""class="col-md-5 control-label">N-Kjeldall (mg/l):</label>
-                                                    <div class="col-md-7">
-                                                        <input type="number" step="0.001" class="form-control medicion{{$m->id}}" name="kjendall" id="kjendall" value="{{$m->kjendall}}" readonly>
-                                                    </div>
-                                                </div>
-
-
-
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group ">
-                                                    <label for=""class="col-md-3 control-label">(PO4)3- (mg/l):</label>
-                                                    <div class="col-md-5">
-                                                        <input type="number" step="0.001" class="form-control medicion{{$m->id}}" name="po4" id="po4" value="{{$m->po4}}" readonly>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group ">
-                                                    <label for=""class="col-md-3 control-label">P (mg/l):</label>
+                                                    <label for=""class="col-md-6 control-label">fosfato total (mg/l):</label>
                                                     <div class="col-md-5">
                                                         <input type="number" step="0.001" class="form-control medicion{{$m->id}}" name="p" id="p" value="{{$m->p}}" readonly>
                                                     </div>
                                                 </div>
                                                 <div class="form-group ">
-                                                    <label for=""class="col-md-3 control-label">Pt (mg/l):</label>
-                                                    <div class="col-md-5">
-                                                        <input type="number" step="0.001" class="form-control medicion{{$m->id}}" name="pt" id="pt" value="{{$m->pt}}" readonly>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group ">
-                                                    <label for=""class="col-md-3 control-label">Si (mg/l):</label>
-                                                    <div class="col-md-5">
-                                                        <input type="number" step="0.001" class="form-control medicion{{$m->id}}" name="si" id="si" value="{{$m->si}}" readonly>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group ">
-                                                    <label for=""class="col-md-3 control-label">B (mg/l):</label>
+                                                    <label for=""class="col-md-6 control-label">Boro (mg/l):</label>
                                                     <div class="col-md-5">
                                                         <input type="number" step="0.001" class="form-control medicion{{$m->id}}" name="b" id="b" value="{{$m->b}}" readonly>
                                                     </div>
                                                 </div>
+                                                {{--<div class="form-group ">--}}
+                                                    {{--<label for=""class="col-md-5 control-label">N-Kjeldall (mg/l):</label>--}}
+                                                    {{--<div class="col-md-7">--}}
+                                                        {{--<input type="number" step="0.001" class="form-control medicion{{$m->id}}" name="kjendall" id="kjendall" value="{{$m->kjendall}}" readonly>--}}
+                                                    {{--</div>--}}
+                                                {{--</div>--}}
+
+
 
                                             </div>
+                                            {{--<div class="col-md-6">--}}
+                                                {{--<div class="form-group ">--}}
+                                                    {{--<label for=""class="col-md-3 control-label">(PO4)3- (mg/l):</label>--}}
+                                                    {{--<div class="col-md-5">--}}
+                                                        {{--<input type="number" step="0.001" class="form-control medicion{{$m->id}}" name="po4" id="po4" value="{{$m->po4}}" readonly>--}}
+                                                    {{--</div>--}}
+                                                {{--</div>--}}
+                                               {{----}}
+                                                {{--<div class="form-group ">--}}
+                                                    {{--<label for=""class="col-md-3 control-label">Pt (mg/l):</label>--}}
+                                                    {{--<div class="col-md-5">--}}
+                                                        {{--<input type="number" step="0.001" class="form-control medicion{{$m->id}}" name="pt" id="pt" value="{{$m->pt}}" readonly>--}}
+                                                    {{--</div>--}}
+                                                {{--</div>--}}
+                                                {{--<div class="form-group ">--}}
+                                                    {{--<label for=""class="col-md-3 control-label">Si (mg/l):</label>--}}
+                                                    {{--<div class="col-md-5">--}}
+                                                        {{--<input type="number" step="0.001" class="form-control medicion{{$m->id}}" name="si" id="si" value="{{$m->si}}" readonly>--}}
+                                                    {{--</div>--}}
+                                                {{--</div>--}}
+                                               {{----}}
+
+                                            {{--</div>--}}
                                         </div>
                                         <div id="sanitarios{{$m->id}}" class="tab-pane">
                                             <p>Indicadores sanitarios Biologicos</p>
@@ -403,7 +441,7 @@
                                                 </div>
 
                                                 <div class="form-group ">
-                                                    <label for=""class="col-md-5 control-label">Salmonella spp (NMP/100 ml):</label>
+                                                    <label for=""class="col-md-5 control-label">Bacterias colif. Termorresistentes</label>
                                                     <div class="col-md-7">
                                                         <input type="number" step="0.001" class="form-control medicion{{$m->id}}" name="salmonella" id="salmonella" value="{{$m->salmonella}}" readonly>
                                                     </div>
@@ -412,33 +450,33 @@
 
 
                                             </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group ">
-                                                    <label for=""class="col-md-5 control-label">Clorofila A (mg/m3):</label>
-                                                    <div class="col-md-7">
-                                                        <input type="number" step="0.001" class="form-control medicion{{$m->id}}" name="clorofilla" id="clorofilla" value="{{$m->clorofilla}}" readonly>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group ">
-                                                    <label for=""class="col-md-5 control-label">Conteo de algas:</label>
-                                                    <div class="col-md-7">
-                                                        <input type="number" step="0.001" class="form-control medicion{{$m->id}}" name="cont_algas" id="cont_algas" value="{{$m->cont_algas}}" readonly>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group ">
-                                                    <label for=""class="col-md-5 control-label">Conteo zooplancton:</label>
-                                                    <div class="col-md-7">
-                                                        <input type="number" step="0.001" class="form-control medicion{{$m->id}}" name="cont_plancton" id="cont_plancton" value="{{$m->cont_plancton}}" readonly>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group ">
-                                                    <label for=""class="col-md-5 control-label">Conteo bentos:</label>
-                                                    <div class="col-md-7">
-                                                        <input type="number" step="0.001" class="form-control medicion{{$m->id}}" name="cont_bentos" id="cont_bentos" value="{{$m->cont_bentos}}" readonly>
-                                                    </div>
-                                                </div>
+                                            {{--<div class="col-md-6">--}}
+                                                {{--<div class="form-group ">--}}
+                                                    {{--<label for=""class="col-md-5 control-label">Clorofila A (mg/m3):</label>--}}
+                                                    {{--<div class="col-md-7">--}}
+                                                        {{--<input type="number" step="0.001" class="form-control medicion{{$m->id}}" name="clorofilla" id="clorofilla" value="{{$m->clorofilla}}" readonly>--}}
+                                                    {{--</div>--}}
+                                                {{--</div>--}}
+                                                {{--<div class="form-group ">--}}
+                                                    {{--<label for=""class="col-md-5 control-label">Conteo de algas:</label>--}}
+                                                    {{--<div class="col-md-7">--}}
+                                                        {{--<input type="number" step="0.001" class="form-control medicion{{$m->id}}" name="cont_algas" id="cont_algas" value="{{$m->cont_algas}}" readonly>--}}
+                                                    {{--</div>--}}
+                                                {{--</div>--}}
+                                                {{--<div class="form-group ">--}}
+                                                    {{--<label for=""class="col-md-5 control-label">Conteo zooplancton:</label>--}}
+                                                    {{--<div class="col-md-7">--}}
+                                                        {{--<input type="number" step="0.001" class="form-control medicion{{$m->id}}" name="cont_plancton" id="cont_plancton" value="{{$m->cont_plancton}}" readonly>--}}
+                                                    {{--</div>--}}
+                                                {{--</div>--}}
+                                                {{--<div class="form-group ">--}}
+                                                    {{--<label for=""class="col-md-5 control-label">Conteo bentos:</label>--}}
+                                                    {{--<div class="col-md-7">--}}
+                                                        {{--<input type="number" step="0.001" class="form-control medicion{{$m->id}}" name="cont_bentos" id="cont_bentos" value="{{$m->cont_bentos}}" readonly>--}}
+                                                    {{--</div>--}}
+                                                {{--</div>--}}
 
-                                                </div>
+                                                {{--</div>--}}
                                         </div>
 
                                     </div>

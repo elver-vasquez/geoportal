@@ -21,20 +21,13 @@
                     
 
                     <div class="right-wrapper pull-right">
-                        <ol class="breadcrumbs">
-                            
-                                
-                                    
-                                
-                            
-                            
-                            
-                        </ol>
-
+                       
                         <a class="sidebar-right-toggle" data-open="sidebar-right"><i class="fa fa-chevron-left"></i></a>
                     </div>
                 </header>
+                <div class=" row col-md-12">
             <?php echo $__env->yieldContent('content'); ?>
+                </div>
                 <!-- start: page -->
 
 

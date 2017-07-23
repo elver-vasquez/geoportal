@@ -105,14 +105,14 @@
 
                                 <div class="form-group ">
 
-                                    <label for=""class="col-md-2 control-label">CEV (uS/cm):</label>
+                                    <label for=""class="col-md-2 control-label">Conductividad (uS/cm):</label>
                                     <div class="col-md-2">
                                         <input type="number" class="form-control " name="ce" id="ce"  >
                                     </div>
                                 </div>
 
                                 <div class="form-group ">
-                                    <label for=""class="col-md-2 control-label">T (°C):</label>
+                                    <label for=""class="col-md-2 control-label">Temperatura (°C):</label>
                                     <div class="col-md-2">
                                         <input type="number" class="form-control " name="temperatura" id="temperatura"  >
                                     </div>
@@ -126,21 +126,21 @@
                                 </div>
 
                                 <div class="form-group ">
-                                    <label for=""class="col-md-2 control-label">TURBIEDAD(NTU):</label>
+                                    <label for=""class="col-md-2 control-label">Turbidez(NTU):</label>
                                     <div class="col-md-2">
                                         <input type="number" class="form-control " name="turbiedad" id="turbiedad"  >
                                     </div>
                                 </div>
 
                                 <div class="form-group ">
-                                    <label for=""class="col-md-2 control-label">SDT(mg/l):</label>
+                                    <label for=""class="col-md-2 control-label">Solidos disueltos totales(mg/l):</label>
                                     <div class="col-md-2">
                                         <input type="number" class="form-control " name="sdt" id="sdt"  >
                                     </div>
                                 </div>
 
                                 <div class="form-group ">
-                                    <label for=""class="col-md-2 control-label">SST(mg/l):</label>
+                                    <label for=""class="col-md-2 control-label">Solidos suspendidos(mg/l):</label>
                                     <div class="col-md-2">
                                         <input type="number" class="form-control " name="sst" id="sst"  >
                                     </div>
@@ -156,38 +156,38 @@
                             </div>
                             <div id="gases" class="tab-pane">
                                 <p>Gases</p>
-                                <div class="form-group ">
-                                    <label for=""class="col-md-2 control-label">CO2(mg/l):</label>
-                                    <div class="col-md-2">
-                                        <input type="number" class="form-control " name="co" id="co"  >
-                                    </div>
-                                </div>
+                                {{--<div class="form-group ">--}}
+                                    {{--<label for=""class="col-md-2 control-label">CO2(mg/l):</label>--}}
+                                    {{--<div class="col-md-2">--}}
+                                        {{--<input type="number" class="form-control " name="co" id="co"  >--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
 
                                 <div class="form-group ">
 
-                                    <label for=""class="col-md-2 control-label">OD(mg/l):</label>
+                                    <label for=""class="col-md-2 control-label">Oxigeno Disuelto(mg/l):</label>
                                     <div class="col-md-2">
                                         <input type="number" class="form-control " name="od" id="od"  >
                                     </div>
                                 </div>
 
-                                <div class="form-group ">
+                                {{--<div class="form-group ">--}}
 
-                                    <label for=""class="col-md-2 control-label">OD Saturado (mg/l):</label>
-                                    <div class="col-md-2">
-                                        <input type="number" class="form-control " name="od_satu" id="od_satu" >
-                                    </div>
-                                </div>
-                                <div class="form-group ">
+                                    {{--<label for=""class="col-md-2 control-label">OD Saturado (mg/l):</label>--}}
+                                    {{--<div class="col-md-2">--}}
+                                        {{--<input type="number" class="form-control " name="od_satu" id="od_satu" >--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
+                                {{--<div class="form-group ">--}}
 
-                                    <label for=""class="col-md-2 control-label">Saturación (%):</label>
-                                    <div class="col-md-2">
-                                        <input type="number" class="form-control " name="saturacion" id="saturacion" >
-                                    </div>
-                                </div>
+                                    {{--<label for=""class="col-md-2 control-label">Saturación (%):</label>--}}
+                                    {{--<div class="col-md-2">--}}
+                                        {{--<input type="number" class="form-control " name="saturacion" id="saturacion" >--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
 
                                 <div class="form-group ">
-                                    <label for=""class="col-md-2 control-label">HS2(mg/l):</label>
+                                    <label for=""class="col-md-2 control-label">Sulfatos(mg/l):</label>
                                     <div class="col-md-2">
                                         <input type="number" class="form-control " name="hs" id="hs"  >
                                     </div>
@@ -199,7 +199,44 @@
                                 <p>Parametros quimicos</p>
                                 <div class="col-md-4">
                                     <div class="form-group ">
-                                        <label for=""class="col-md-5 control-label">Ca (mg/l):</label>
+                                        <label for=""class="col-md-5 control-label">Amonio(mg/l):</label>
+                                        <div class="col-md-7">
+                                            <input type="number" step="0.001" class="form-control " name="amonio" id="amonio"  >
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group ">
+
+                                        <label for=""class="col-md-5 control-label">Cloruros(mg/l):</label>
+                                        <div class="col-md-7">
+                                            <input type="number" step="0.001" class="form-control " name="cloruro" id="cloruro"  >
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group ">
+                                        <label for=""class="col-md-5 control-label">Nitrato (mg/l):</label>
+                                        <div class="col-md-7">
+                                            <input type="number" step="0.001" class="form-control " name="nitrato" id="nitrato"  >
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group ">
+                                        <label for=""class="col-md-5 control-label">Nitrito (mg/l):</label>
+                                        <div class="col-md-7">
+                                            <input type="number" step="0.001" class="form-control " name="nitrito" id="nitrito"  >
+                                        </div>
+                                    </div>
+                                    <div class="form-group ">
+                                        <label for=""class="col-md-5 control-label">Cianuros (mg/l):</label>
+                                        <div class="col-md-7">
+                                            <input type="number" step="0.001" class="form-control " name="cianuro" id="cianuro"  >
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group ">
+                                        <label for=""class="col-md-5 control-label">Calcio (mg/l):</label>
                                         <div class="col-md-7">
                                             <input type="number" class="form-control " name="ca" id="ca"  >
                                         </div>
@@ -207,158 +244,160 @@
 
                                     <div class="form-group ">
 
-                                        <label for=""class="col-md-5 control-label">Mg (mg/l):</label>
+                                        <label for=""class="col-md-5 control-label">Magnesio (mg/l):</label>
                                         <div class="col-md-7">
                                             <input type="number" class="form-control " name="mg" id="mg"  >
                                         </div>
                                     </div>
 
                                     <div class="form-group ">
-                                        <label for=""class="col-md-5 control-label">Na (mg/l):</label>
+                                        <label for=""class="col-md-5 control-label">Sodio(mg/l):</label>
                                         <div class="col-md-7">
                                             <input type="number" class="form-control " name="na" id="na"  >
                                         </div>
                                     </div>
 
                                     <div class="form-group ">
-                                        <label for=""class="col-md-5 control-label">K (mg/l):</label>
+                                        <label for=""class="col-md-5 control-label">Potasio (mg/l):</label>
                                         <div class="col-md-7">
                                             <input type="number" class="form-control " name="k" id="k"  >
                                         </div>
                                     </div>
 
-                                    <div class="form-group ">
-                                        <label for=""class="col-md-5 control-label">Na + K (mg/l):</label>
-                                        <div class="col-md-7">
-                                            <input type="number" class="form-control " name="na_k" id="na_k"  >
-                                        </div>
-                                    </div>
+                                    {{--<div class="form-group ">--}}
+                                        {{--<label for=""class="col-md-5 control-label">Na + K (mg/l):</label>--}}
+                                        {{--<div class="col-md-7">--}}
+                                            {{--<input type="number" class="form-control " name="na_k" id="na_k"  >--}}
+                                        {{--</div>--}}
+                                    {{--</div>--}}
 
-                                    <div class="form-group ">
-                                        <label for=""class="col-md-5 control-label">CO3 (mg/l):</label>
-                                        <div class="col-md-7">
-                                            <input type="number" class="form-control " name="co2" id="co2"  >
-                                        </div>
-                                    </div>
+                                    {{--<div class="form-group ">--}}
+                                        {{--<label for=""class="col-md-5 control-label">CO3 (mg/l):</label>--}}
+                                        {{--<div class="col-md-7">--}}
+                                            {{--<input type="number" class="form-control " name="co2" id="co2"  >--}}
+                                        {{--</div>--}}
+                                    {{--</div>--}}
 
 
-
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group ">
-                                        <label for=""class="col-md-3 control-label">CO3H (mg/l):</label>
-                                        <div class="col-md-5">
-                                            <input type="number" class="form-control " name="co2h" id="co2h"  >
-                                        </div>
-                                    </div>
-                                    <div class="form-group ">
-                                        <label for=""class="col-md-3 control-label">Cl (mg/l):</label>
-                                        <div class="col-md-5">
-                                            <input type="number" class="form-control " name="ci" id="ci"  >
-                                        </div>
-                                    </div>
-                                    <div class="form-group ">
-                                        <label for=""class="col-md-3 control-label">(SO4)2- (mg/l):</label>
-                                        <div class="col-md-5">
-                                            <input type="number" class="form-control " name="so4" id="so4"  >
-                                        </div>
-                                    </div>
-                                    <div class="form-group ">
-                                        <label for=""class="col-md-3 control-label">Alcalinidad (mg/l) CaCO3:</label>
-                                        <div class="col-md-5">
-                                            <input type="number" class="form-control " name="alcalinidad" id="alcalinidad"  >
-                                        </div>
-                                    </div>
-                                    <div class="form-group ">
-                                        <label for=""class="col-md-3 control-label">Dureza total (mg/l) CaCO3:</label>
-                                        <div class="col-md-5">
-                                            <input type="number" class="form-control " name="dureza" id="dureza"  >
-                                        </div>
-                                    </div>
 
                                 </div>
+                                {{--<div class="col-md-6">--}}
+                                    {{--<div class="form-group ">--}}
+                                        {{--<label for=""class="col-md-3 control-label">CO3H (mg/l):</label>--}}
+                                        {{--<div class="col-md-5">--}}
+                                            {{--<input type="number" class="form-control " name="co2h" id="co2h"  >--}}
+                                        {{--</div>--}}
+                                    {{--</div>--}}
+                                    {{--<div class="form-group ">--}}
+                                        {{--<label for=""class="col-md-3 control-label">Cl (mg/l):</label>--}}
+                                        {{--<div class="col-md-5">--}}
+                                            {{--<input type="number" class="form-control " name="ci" id="ci"  >--}}
+                                        {{--</div>--}}
+                                    {{--</div>--}}
+                                    {{--<div class="form-group ">--}}
+                                        {{--<label for=""class="col-md-3 control-label">(SO4)2- (mg/l):</label>--}}
+                                        {{--<div class="col-md-5">--}}
+                                            {{--<input type="number" class="form-control " name="so4" id="so4"  >--}}
+                                        {{--</div>--}}
+                                    {{--</div>--}}
+                                    {{--<div class="form-group ">--}}
+                                        {{--<label for=""class="col-md-3 control-label">Alcalinidad (mg/l) CaCO3:</label>--}}
+                                        {{--<div class="col-md-5">--}}
+                                            {{--<input type="number" class="form-control " name="alcalinidad" id="alcalinidad"  >--}}
+                                        {{--</div>--}}
+                                    {{--</div>--}}
+                                    {{--<div class="form-group ">--}}
+                                        {{--<label for=""class="col-md-3 control-label">Dureza total (mg/l) CaCO3:</label>--}}
+                                        {{--<div class="col-md-5">--}}
+                                            {{--<input type="number" class="form-control " name="dureza" id="dureza"  >--}}
+                                        {{--</div>--}}
+                                    {{--</div>--}}
+
+                                {{--</div>--}}
 
                             </div>
                             <div id="nutrientes" class="tab-pane">
                                 <p>Nutrientes</p>
                                 <div class="col-md-4">
+                                    {{--<div class="form-group ">--}}
+                                        {{--<label for=""class="col-md-5 control-label">SiO3 (mg/l):</label>--}}
+                                        {{--<div class="col-md-7">--}}
+                                            {{--<input type="number" class="form-control " name="sio3" id="sio3"  >--}}
+                                        {{--</div>--}}
+                                    {{--</div>--}}
+
+                                    {{--<div class="form-group ">--}}
+
+                                        {{--<label for=""class="col-md-5 control-label">N-NO3- (mg/l):</label>--}}
+                                        {{--<div class="col-md-7">--}}
+                                            {{--<input type="number" class="form-control " name="nno3" id="nno3"  >--}}
+                                        {{--</div>--}}
+                                    {{--</div>--}}
+
+                                    {{--<div class="form-group ">--}}
+                                        {{--<label for=""class="col-md-5 control-label">N-NO2- (mg/l):</label>--}}
+                                        {{--<div class="col-md-7">--}}
+                                            {{--<input type="number" class="form-control " name="nno2" id="nno2"  >--}}
+                                        {{--</div>--}}
+                                    {{--</div>--}}
+
+                                    {{--<div class="form-group ">--}}
+                                        {{--<label for=""class="col-md-5 control-label">N-NH4+ (mg/l):</label>--}}
+                                        {{--<div class="col-md-7">--}}
+                                            {{--<input type="number" class="form-control " name="nnh4" id="nnh4"  >--}}
+                                        {{--</div>--}}
+                                    {{--</div>--}}
                                     <div class="form-group ">
-                                        <label for=""class="col-md-5 control-label">SiO3 (mg/l):</label>
-                                        <div class="col-md-7">
-                                            <input type="number" class="form-control " name="sio3" id="sio3"  >
+                                        <label for=""class="col-md-6 control-label">fosfato total (mg/l):</label>
+                                        <div class="col-md-5">
+                                            <input type="number" class="form-control " name="p" id="p"  >
                                         </div>
                                     </div>
 
                                     <div class="form-group ">
-
-                                        <label for=""class="col-md-5 control-label">N-NO3- (mg/l):</label>
-                                        <div class="col-md-7">
-                                            <input type="number" class="form-control " name="nno3" id="nno3"  >
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group ">
-                                        <label for=""class="col-md-5 control-label">N-NO2- (mg/l):</label>
-                                        <div class="col-md-7">
-                                            <input type="number" class="form-control " name="nno2" id="nno2"  >
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group ">
-                                        <label for=""class="col-md-5 control-label">N-NH4+ (mg/l):</label>
-                                        <div class="col-md-7">
-                                            <input type="number" class="form-control " name="nnh4" id="nnh4"  >
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group ">
-                                        <label for=""class="col-md-5 control-label">Nt (mg/l):</label>
-                                        <div class="col-md-7">
+                                        <label for=""class="col-md-6 control-label">Nitrogeno total (mg/l):</label>
+                                        <div class="col-md-5">
                                             <input type="number" class="form-control " name="nt" id="nt"  >
                                         </div>
                                     </div>
-
                                     <div class="form-group ">
-                                        <label for=""class="col-md-5 control-label">N-Kjeldall (mg/l):</label>
-                                        <div class="col-md-7">
-                                            <input type="number" class="form-control " name="kjendall" id="kjendall"  >
+                                        <label for=""class="col-md-6 control-label">Boro (mg/l):</label>
+                                        <div class="col-md-5">
+                                            <input type="number" class="form-control " name="b" id="b"  >
                                         </div>
                                     </div>
+
+                                    {{--<div class="form-group ">--}}
+                                        {{--<label for=""class="col-md-5 control-label">N-Kjeldall (mg/l):</label>--}}
+                                        {{--<div class="col-md-7">--}}
+                                            {{--<input type="number" class="form-control " name="kjendall" id="kjendall"  >--}}
+                                        {{--</div>--}}
+                                    {{--</div>--}}
 
 
 
                                 </div>
                                 <div class="col-md-6">
-                                    <div class="form-group ">
-                                        <label for=""class="col-md-3 control-label">(PO4)3- (mg/l):</label>
-                                        <div class="col-md-5">
-                                            <input type="number" class="form-control " name="po4" id="po4"  >
-                                        </div>
-                                    </div>
-                                    <div class="form-group ">
-                                        <label for=""class="col-md-3 control-label">P (mg/l):</label>
-                                        <div class="col-md-5">
-                                            <input type="number" class="form-control " name="p" id="p"  >
-                                        </div>
-                                    </div>
-                                    <div class="form-group ">
-                                        <label for=""class="col-md-3 control-label">Pt (mg/l):</label>
-                                        <div class="col-md-5">
-                                            <input type="number" class="form-control " name="pt" id="pt"  >
-                                        </div>
-                                    </div>
-                                    <div class="form-group ">
-                                        <label for=""class="col-md-3 control-label">Si (mg/l):</label>
-                                        <div class="col-md-5">
-                                            <input type="number" class="form-control " name="si" id="si"  >
-                                        </div>
-                                    </div>
-                                    <div class="form-group ">
-                                        <label for=""class="col-md-3 control-label">B (mg/l):</label>
-                                        <div class="col-md-5">
-                                            <input type="number" class="form-control " name="b" id="b"  >
-                                        </div>
-                                    </div>
+                                    {{--<div class="form-group ">--}}
+                                        {{--<label for=""class="col-md-3 control-label">(PO4)3- (mg/l):</label>--}}
+                                        {{--<div class="col-md-5">--}}
+                                            {{--<input type="number" class="form-control " name="po4" id="po4"  >--}}
+                                        {{--</div>--}}
+                                    {{--</div>--}}
+
+                                    {{--<div class="form-group ">--}}
+                                        {{--<label for=""class="col-md-3 control-label">Pt (mg/l):</label>--}}
+                                        {{--<div class="col-md-5">--}}
+                                            {{--<input type="number" class="form-control " name="pt" id="pt"  >--}}
+                                        {{--</div>--}}
+                                    {{--</div>--}}
+                                    {{--<div class="form-group ">--}}
+                                        {{--<label for=""class="col-md-3 control-label">Si (mg/l):</label>--}}
+                                        {{--<div class="col-md-5">--}}
+                                            {{--<input type="number" class="form-control " name="si" id="si"  >--}}
+                                        {{--</div>--}}
+                                    {{--</div>--}}
+
 
                                 </div>
                             </div>
@@ -394,12 +433,12 @@
                                         </div>
                                     </div>
 
-                                    <div class="form-group ">
-                                        <label for=""class="col-md-5 control-label">Salmonella spp (NMP/100 ml):</label>
-                                        <div class="col-md-7">
-                                            <input type="number" class="form-control " name="salmonella" id="salmonella"  >
-                                        </div>
-                                    </div>
+                                    {{--<div class="form-group ">--}}
+                                        {{--<label for=""class="col-md-5 control-label">Salmonella spp (NMP/100 ml):</label>--}}
+                                        {{--<div class="col-md-7">--}}
+                                            {{--<input type="number" class="form-control " name="salmonella" id="salmonella"  >--}}
+                                        {{--</div>--}}
+                                    {{--</div>--}}
 
                                     <div class="form-group ">
                                         <label for=""class="col-md-5 control-label">Bacterias colif. termorresistentes UFC/100 ml:</label>

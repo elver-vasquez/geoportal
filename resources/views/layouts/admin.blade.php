@@ -22,20 +22,13 @@
                     {{--<h2>{{Auth::user()->username}}</h2>--}}
 
                     <div class="right-wrapper pull-right">
-                        <ol class="breadcrumbs">
-                            {{--<li>--}}
-                                {{--<a href="index.html">--}}
-                                    {{--<i class="fa fa-home"></i>--}}
-                                {{--</a>--}}
-                            {{--</li>--}}
-                            {{--<li><span>Pages</span></li>--}}
-                            {{--<li><span>{Auth::user()->username}}</span></li>--}}
-                        </ol>
-
+                       
                         <a class="sidebar-right-toggle" data-open="sidebar-right"><i class="fa fa-chevron-left"></i></a>
                     </div>
                 </header>
+                <div class=" row col-md-12">
             @yield('content')
+                </div>
                 <!-- start: page -->
 
 

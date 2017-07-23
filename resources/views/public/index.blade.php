@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
     <title>Cuencas </title>
     <link rel="stylesheet" href="{{asset('assets/css/ol.css')}}" />
+    <link rel="stylesheet" href="{{asset('css/custom.css')}}" />
     <link href="{{asset('assets/css/bootstrap.min.css')}}" rel="stylesheet">
     <link rel="stylesheet" href="{{asset('assets/css/font-awesome/css/font-awesome.min.css')}}" />
     <link rel="stylesheet" href="{{asset('assets/vendor/jstree/themes/default/style.css')}}" />
@@ -19,7 +20,7 @@
         #map { position: absolute; top: 50px; bottom: 0px; left: 0px; right: 0px; }
         #map .ol-zoom { font-size: 1.2em; }
         #treeCheckbox {
-            font-size: 11px; !important;
+            font-size: 10px; !important;
 
         }
 
@@ -146,6 +147,224 @@
 
 
     <script type="text/javascript">
+//        $(function(){
+//           alert('asd')
+//        });
+        console.log(formula('cl',0.1));
+
+        function formula(tipo,valor){
+            let x;
+            let q;
+            let result={};
+            if(isNaN(valor) || valor==null || valor=='' ){
+               result={
+                    q:0,
+                    a:0
+                }
+                return result;
+
+            }
+            else {
+                x = valor
+
+                switch (tipo) {
+                    case 'ph':
+                        q=0;
+                    if (x > 0 && x <= 4.5)
+                        q = 0
+                    else if (x > 4.5 && x <= 6.5)
+                        q = (30 * x)-135
+                    else if (x > 6.5 && x <= 7.5)
+                        q = (40 * x)-200
+                    else if (x > 7.5 && x <= 10)
+                        q = 400-(40 * x)
+
+                    result={q:q,a:1}
+                    break;
+
+                    case 'coli_tot':
+                        q=0;
+                        if (x > 0 && x <= 10)
+                            q = 100;
+                        else if (x > 10 && x <= 3000)
+                            q = 140-(40.26*Math.log10(x))
+                        else if (x >3000 )
+                            q =0
+                        result={q:q,a:1}
+                        break;
+
+                    case 'ce':
+                        q=0;
+                        if (x > 0 && x <= 250)
+                            q = 100;
+                        else if (x > 250 && x <= 1000)
+                            q = 120-(0.08*x)
+                        else if (x >1000 && x<=2000 )
+                            q =80-(0.04*x)
+                        result={q:q,a:1}
+                        break;
+
+                    case 'dqo':
+
+                        q =(35000/(27*x+300))-(50/3)
+                        result={q:q,a:0.33333333}
+                        break;
+
+                    case 'dbo':
+
+                        q =(7000/(9*x+60))-(50/3)
+                        result={q:q,a:1}
+                        break;
+
+
+                    case 'od':
+                        q=0;
+                        if (x > 0 && x <= 0.5)
+                            q = 0;
+                        else if (x > 0.5 && x <=8)
+                            q = ((40*x)-20)/3
+                        else if (x >8 && x<=14 )
+                            q =100
+                        else if (x >14 && x<=19 )
+                            q =-(20*x)+380
+                        result={q:q,a:1}
+                        break;
+
+                    case 'sst':
+                        q=0;
+                        if (x > 0 && x <= 30)
+                            q = 100;
+                        else if (x > 30 && x <=120)
+                            q = (1020-(4*x))/9
+                        else if (x >120 && x<=450 )
+                            q =(450-x)/5.5
+                        else if (x >450 && x<=480 )
+                            q =0
+                        result={q:q,a:1}
+                        break;
+
+                    case 'cloruro':
+                        q=0;
+                        if (x > 0 && x <= 400)
+                            q = 100-(0.1*x);
+                        else if (x >400 && x <=2000)
+                            q =75-(0.0375*x)
+
+                        result={q:q,a:0.5}
+                        break;
+
+                    case 'p':
+                        q=0;
+                        if (x > 0 && x <= 3.75)
+                            q = (1500-(400*x))/15
+                        else if (x >3.75)
+                            q =0
+                        result={q:q,a:0.33333333}
+                        break;
+
+                    case 'nitrato':
+                        q=0;
+                        if (x > 0 && x <= 250)
+                            q = 100-(0.4*x)
+                        else if (x >250)
+                            q =0
+                        result={q:q,a:0.33333333}
+                        break;
+
+
+                    case 'hs':
+                        q=0;
+                        if (x > 0 && x <= 1250)
+                            q = 100-(0.08*x)
+                        else if (x >1250 && x<=1600)
+                            q =0
+                        result={q:q,a:0.5}
+                        break;
+
+                    case 'ca':
+                        q=0;
+                        if (x > 0 && x <= 5)
+                            q = 50
+                        else if (x >5 && x<=200)
+                            q =100
+                        else if (x >200 && x<=2000)
+                            q =(2000-x)/30
+                        result={q:q,a:0.33333333}
+                        break;
+
+                    case 'mg':
+                        q=0;
+                        if (x > 0 && x <= 150)
+                            q = 100-((4*x)/15)
+                        else if (x >150 && x<=1000)
+                            q =(6/85)*(1000-x)
+                        result={q:q,a:0.25}
+                        break;
+
+                    case 'na':
+                        q=0;
+                        if (x > 0 && x <=200)
+                            q = 100-(0.25*x)
+                        else if (x >200 && x<=1000)
+                            q =(1000-x)/16
+                        result={q:q,a:0.25}
+                        break;
+
+                    case 'cu':
+                        q=0;
+                        if (x > 0 && x <=0.01)
+                            q = 100
+                        else if (x >0.01 && x<=1)
+                            q =101-(101*x)
+                        result={q:q,a:0.5}
+                        break;
+                    case 'zn':
+                        q=0;
+                        if (x > 0 && x <=5)
+                            q = 100-(20*x)
+                        else if (x >5)
+                            q =0
+                        result={q:q,a:1}
+                        break;
+                    case 'cd':
+                        q=0;
+                        if (x > 0 && x <=0.01)
+                            q = 100-(10000*x)
+                        else if (x >0.01)
+                            q =0
+                        result={q:q,a:1}
+                        break;
+
+                    case 'pb':
+                        q=0;
+                        if (x > 0 && x <=0.2)
+                            q = 100-(500*x)
+
+                        result={q:q,a:1}
+                        break;
+                    case 'cianuro':
+                        q=0;
+                        if (x > 0 && x <=0.025)
+                            q = 100-(4000*x)
+                        else if (x >0.025)
+                            q =0
+                        result={q:q,a:1}
+                        break;
+
+                    case 'cr':
+                        q=0;
+                        if (x > 0 && x <=0.125)
+                            q = 100-(800*x)
+                        else if (x >0.125)
+                            q =0
+                        result={q:q,a:1}
+                        break;
+                     }//fin de switch
+                         return result;
+
+            }
+
+        }
   var url_punto=window.location+'mapas/tdps/puntos/';
   var url_tdps=window.location+'mapas/tdps/';
   var url_cuenca=window.location+'mapas/cuencas/';
@@ -341,7 +560,69 @@
 
              }
         function modalRemas(campanias,data,cod){
+            $('[href="#metales_remas"]').closest('li').show();
+            $('[href="#reportes"]').closest('li').show();
 
+              let datos=[];
+            $(campanias).each(function(k,v){
+                let ph=formula('ph',v.ph)
+                let coli_tot=formula('coli_tot',v.coli_tot)
+                let ce=formula('ce',v.ce)
+                let dqo=formula('dqo',v.dqo)
+                let dbo=formula('dbo',v.dbo5)
+                let od=formula('od',v.od)
+                let sst=formula('sst',v.sst)
+                let cloruro=formula('cloruro',v.cloruro)
+                let p=formula('p',v.p)
+                let nitrato=formula('nitrato',v.nitrato)
+                let hs=formula('hs',v.hs)
+                let ca=formula('ca',v.ca)
+                let mg=formula('mg',v.mg)
+                let na=formula('na',v.na)
+                let cu=formula('cu',v.cu)
+                let zn=formula('zn',v.zn)
+                let cd=formula('cd',v.cd)
+                let pb=formula('pb',v.pb)
+                let cianuro=formula('cianuro',v.cianuro)
+                let cr=formula('cr',v.cr)
+
+                let total=0;
+
+                 let suma= ph.a+coli_tot.a+ce.a+dqo.a+dbo.a+od.a+sst.a+cloruro.a+p.a+nitrato.a+hs.a+ca.a+mg.a+na.a+cu.a+zn.a+cd.a+pb.a+cianuro.a+cr.a;
+
+                total=((ph.a/suma)*ph.q)+((coli_tot.a/suma)*coli_tot.q)+((ce.a/suma)*ce.q)+((dqo.a/suma)*dqo.q)+((dbo.a/suma)*dbo.q)+((od.a/suma)*od.q)+((sst.a/suma)*sst.q)+((cloruro.a/suma)*cloruro.q)+((p.a/suma)*p.q)+((nitrato.a/suma)*nitrato.q)+((hs.a/suma)*hs.q)+((ca.a/suma)*ca.q)+((mg.a/suma)*mg.q)+((na.a/suma)*na.q)+((cu.a/suma)*cu.q)+((zn.a/suma)*zn.q)+((cd.a/suma)*cd.q)+((pb.a/suma)*pb.q)+((cianuro.a/suma)*cianuro.q)+((cr.a/suma)*cr.q);
+
+               datos.push({
+                   campania:v.campania,
+                   total:total,
+                   fecha:v.fecha
+               })
+
+            });
+            $tabla_totales='<table  class="table tablas">'+
+                '<thead>' +
+                '<tr><th>CAMPAÑAS</th>'+
+
+                '<th>ICG</th></tr></thead>';
+            datos.forEach(function(v,k){
+
+                clase='';
+                if(v.total>=85 && v.total<=100)
+                    clase='claseE'
+                else if(v.total>=75 && v.total<85)
+                    clase='claseC'
+                else if(v.total>=65 && v.total<75)
+                    clase='claseH'
+                else if(v.total>=50 && v.total<65)
+                    clase='claseD'
+                else if(v.total<50)
+                    clase='claseF'
+
+                $tabla_totales+='<tr><th>CAMPAÑA '+v.campania+'</th><th class="'+clase+'" style="font-size: 14px; text-align: center" >'+v.total.toFixed(2)+'</th></tr>'
+            })
+            $tabla_totales+='</table>'
+                   $('#div_icg').empty()
+                   $('#div_icg').append($tabla_totales)
     $datos_generales='';
     $ul_gen='';
     $ul_fisico='';
@@ -360,6 +641,11 @@
               $ul_nutrientes+='<ul class="list-inline">';
               $ul_sanitarios+='<ul class="list-inline">';
               $ul_metales+='<ul class="list-inline">';
+
+
+
+
+
             $datos_generales+='<li >Pto:<strong class="text-primary">'+data.pto+'</strong></li>'+
            '<li >Pais:<strong class="text-primary">'+data.pais+'</strong></li>'+
            '<li >Zona Hidrologica:<strong class="text-primary">'+data.zona_hidrologica+'</strong></li>'+
@@ -374,106 +660,560 @@
 
              $('#datos_generales').append($datos_generales);
 
+            $tabla='<table border="1" class="table tablas">'+
+                '<thead>' +
+                '<tr><th>DESC</th>';
+            $(campanias).each(function(k,v){
+                $tabla+='<th>CAMPAÑA '+v.campania+'</th>'
+            });
 
-             $(campanias).each(function(k,v){
-                $ul_gen+='<li>'+
-                        '<ol>'+
-                         '<li  class="text-warning">Campaña:<strong>'+v.campania+'</strong></li>'+
-                 '<li >Codigo campaña: <strong>'+v.cod_campania+'</strong></li>'+
-                 '<li >Laboratorio Responsable: <strong>'+v.laboratorio+'</strong></li>'+
-                 '<li >Fecha d/m/A: <strong>'+v.fecha+'</strong></li>'+
-                 '<li >Hora H:m: <strong>'+v.hora+'</strong></li>'+
-                 '<li >Caudal m3/s: <strong>'+v.caudal+'</strong></li>'+
-                 '</ol>'+
-                 '</li>';
-                 $ul_fisico+='<li>'+
-                         '<ol>'+
-                         '<li  class="text-warning">Campaña:<strong>'+v.campania+'</strong></li>'+
+            $tabla+='</tr></thead>';
+            $tabla+='<tbody>';
+            $tabla+='<tr><th>CODIGO</th>';
+            $(campanias).each(function(k,v){
+                $tabla+='<td>'+v.cod_campania+'</td>'
+            });
+            $tabla+='</tr>';
 
-                         '<li >PH:<strong class="text-primary">'+v.ph+'</strong>  <button  onclick="charts_remas(\'remas\',\'ph\')" class="btn btn-default  btn-xs "><i class="fa fa-line-chart"></i> Grafico</button></li>'+
-                         '<li >CEV (uS/cm):<strong class="text-primary">'+v.ce+'</strong>'+
-                         '<li >T (°C):<strong class="text-primary">'+v.temperatura+'</strong><button onclick="charts_remas(\'remas\',\'temperatura\')" class="btn btn-default  btn-xs"> <i class="fa fa-line-chart"></i> Grafico</button></li>'+
-                         '<li >TURBIEDAD(NTU):<strong class="text-primary">'+v.turbiedad+'</strong><button onclick="charts_remas(\'remas\',\'turbiedad\')" class="btn btn-default  btn-xs"><i class="fa fa-line-chart"></i> Grafico</button></li>'+
-                         '<li >SDT(mg/l):<strong class="text-primary">'+v.sdt+'</strong></li>'+
-                         '<li >SST(mg/l):<strong class="text-primary">'+v.sst+'</strong></li>'+
-                         '<li >Color:<strong class="text-primary">'+v.color+'</strong></li>'+
-                         '</ol>'+
-                         '</li>';
+            $tabla+='<tr><th>LABO.<br>RESPON</th>';
+            $(campanias).each(function(k,v){
+                $tabla+='<td>'+v.laboratorio+'</td>'
+            });
+            $tabla+='</tr>';
 
-                 $ul_gases+='<li>'+
-                         '<ol>'+
-                         '<li  class="text-warning">Campaña:<strong>'+v.campania+'</strong></li>'+
+            $tabla+='<tr><th>FECHA/HORA</th>';
+            $(campanias).each(function(k,v){
+                $tabla+='<td>'+v.fecha+'|'+v.hora+'</td>'
+            });
+            $tabla+='</tr>';
 
-                         '<li >CO2(mg/l):<strong class="text-primary">'+v.co+'</strong></li>'+
-                         '<li> OD(mg/l):<strong class="text-primary">'+v.od+'</strong></li>'+
-                         '<li> HS2(mg/l):<strong class="text-primary">'+v.hs+'</strong></li>'+
-                         '</ol>'+
-                         '</li>';
+            $tabla+='<tr><th>CAUDAL m3/s</th>';
+            $(campanias).each(function(k,v){
+                $tabla+='<td>'+v.caudal+'</td>'
+            });
+            $tabla+='</tr>';
 
-
-                 $ul_quimicos+='<li>'+
-                         '<ol>'+
-                         '<li  class="text-warning">Campaña:<strong>'+v.campania+'</strong></li>'+
-                        '<li >Ca (mg/l):<strong class="text-primary">'+v.ca+'</strong></li>'+
-                        '<li> Mg (mg/l):<strong class="text-primary">'+v.mg+'</strong></li>'+
-                        '<li> Na (mg/l):<strong class="text-primary">'+v.na+'</strong></li>'+
-                        '<li> K (mg/l):<strong class="text-primary">'+v.k+'</strong></li>'+
-                        '<li> Na + K (mg/l):<strong class="text-primary">'+v.na_k+'</strong></li>'+
-                        '<li> CO3 (mg/l):<strong class="text-primary">'+v.co2+'</strong></li>'+
-                        '<li> CO3H (mg/l):<strong class="text-primary">'+v.co2h+'</strong></li>'+
-                        '<li> Cl (mg/l):<strong class="text-primary">'+v.ci+'</strong></li>'+
-                        '<li> (SO4)2- (mg/l):<strong class="text-primary">'+v.so4+'</strong></li>'+
-                        '<li> Alcalinidad (mg/l) CaCO3:<strong class="text-primary">'+v.alcalinidad+'</strong></li>'+
-                        '<li> Dureza total (mg/l) CaCO3:<strong class="text-primary">'+v.dureza +'</strong></li>'+
-                         '</ol>'+
-                         '</li>';
+            $tabla+='</tbody>';
+            $tabla+='</table>';
 
 
-                 $ul_nutrientes+='<li>'+
-                         '<ol>'+
-                         '<li  class="text-warning">Campaña:<strong>'+v.campania+'</strong></li>'+
-                         '<li >SiO3 (mg/l):<strong class="text-primary">'+v.sio3+'</strong></li>'+
-                         '<li> N-NO3- (mg/l):<strong class="text-primary">'+v.nno3+'</strong></li>'+
-                         '<li> N-NO2- (mg/l):<strong class="text-primary">'+v.nno2+'</strong></li>'+
-                         '<li> N-NH4+ (mg/l):<strong class="text-primary">'+v.nnh4+'</strong></li>'+
-                         '<li> Nt (mg/l):<strong class="text-primary">'+v.nt+'</strong></li>'+
-                         '<li> N-Kjeldall (mg/l):<strong class="text-primary">'+v.kjendall+'</strong></li>'+
-                         '<li> (PO4)3- (mg/l):<strong class="text-primary">'+v.po4+'</strong></li>'+
-                         '<li> P (mg/l):<strong class="text-primary">'+v.p+'</strong></li>'+
-                         '<li> Pt (mg/l):<strong class="text-primary">'+v.pt+'</strong></li>'+
-                         '<li> B (mg/l):<strong class="text-primary">'+v.b+'</strong></li>'+
-                         '</ol>'+
-                         '</li>';
+            $tabla_fisicos='<table class="table table-responsive tablas">'+
+                '<thead>' +
+                '<tr><th style="width:15px">GRAFICO</th><th style="width:150px">PARAMETROS</th><th>UNID.</th><th>CLASE A</th><th>CLASE B</th><th>CLASE C</th><th>CLASE D</th>';
+            $(campanias).each(function(k,v){
+                $tabla_fisicos+='<th> '+v.campania+'</th>'
+            });
+            $tabla_fisicos+='</tr></thead>';
+            $tabla_fisicos+='<tbody>';
 
-                 $ul_sanitarios+='<li>'+
-                         '<ol>'+
-                         '<li  class="text-warning">Campaña:<strong>'+v.campania+'</strong></li>'+
-                         '<li >DBO5 (mg/l):<strong class="text-primary">'+v.dbo5+'</strong></li>'+
-                         '<li >DQO (mg/l):<strong class="text-primary">'+v.dqo+'</strong></li>'+
-                         '<li >Coliformes fecales (NMP/100 ml):<strong class="text-primary">'+v.coli_feca+'</strong></li>'+
-                         '<li >Coliformes totales (NMP/100 ml):<strong class="text-primary">'+v.coli_tot+'</strong></li>'+
-                         '<li >Salmonella spp (NMP/100 ml):<strong class="text-primary">'+v.salmonella+'</strong></li>'+
-                         '</ol>'+
-                         '</li>';
+            $tabla_fisicos+='<tr><th><button  onclick="charts_remas(\'remas\',\'ph\')" class="btn btn-default  btn-xs "><i class="fa fa-line-chart"></i></button></th><th>PH</th><th></th><th class="claseA">6 A 8,5</th><th class="claseB">6 a 9</th><th class="claseC" >6 a 9</th><th class="claseD">6 a 9</th>';
+            $(campanias).each(function(k,v){
+               let clase=''
+                if(v.ph>=6 && v.ph<=8.5)
+                    clase='claseA'
+                else if(v.ph>8.5)
+                    clase='claseB'
 
-                 $ul_metales+='<li>'+
-                         '<ol>'+
-                         '<li  class="text-warning">Campaña:<strong>'+v.campania+'</strong></li>'+
-                         '<li >Zn (mg/l):<strong class="text-primary">'+v.zn+'</strong></li>'+
-                         '<li >Cd (mg/l):<strong class="text-primary">'+v.cd+'</strong></li>'+
-                         '<li >Pb (mg/l):<strong class="text-primary">'+v.pb+'</strong></li>'+
-                         '<li >Fe (mg/l):<strong class="text-primary">'+v.fe+'</strong></li>'+
-                         '<li >Mn (mg/l):<strong class="text-primary">'+v.mn+'</strong></li>'+
-                         '<li >Cu (mg/l):<strong class="text-primary">'+v.cu+'</strong></li>'+
-                         '<li >Hg (mg/l):<strong class="text-primary">'+v.hg+'</strong></li>'+
-                         '<li >As (mg/l):<strong class="text-primary">'+v.as+'</strong></li>'+
-                         '<li >Cr (mg/l):<strong class="text-primary">'+v.cr+'</strong></li>'+
-                         '<li >Ni (mg/l):<strong class="text-primary">'+v.ni+'</strong></li>'+
-                         '<li >Sb (mg/l):<strong class="text-primary">'+v.sb+'</strong></li>'+
-                         '<li >Se (mg/l):<strong class="text-primary">'+v.se+'</strong></li>'+
-                         '</ol>'+
-                         '</li>';
-             });
+
+                $tabla_fisicos+='<td class="'+clase+'">'+v.ph+'</td>'
+
+            });
+            $tabla_fisicos+='</tr>';
+
+            $tabla_fisicos+='<tr><th><button  onclick="charts_remas(\'remas\',\'temperatura\')" class="btn btn-default  btn-xs "><i class="fa fa-line-chart"></i></button></th><th>TEMP</th><th>°C</th><th >+/-3°  C. <BR>receptor</th><th >+/-3°C. <BR> receptor</th><th  >+/-3°C.  <BR>receptor</th><th>+/-3°C.  <BR>receptor</th>';
+            $(campanias).each(function(k,v){
+                $tabla_fisicos+='<td>'+v.temperatura+'</td>'
+            });
+            $tabla_fisicos+='</tr>';
+
+            $tabla_fisicos+='<tr><th></th><th>CONDUCTIVIDAD</th><th>uS/cm</th><th ></th><th></th><th></th><th></th>';
+            $(campanias).each(function(k,v){
+                $tabla_fisicos+='<td>'+v.ce+'</td>'
+            });
+            $tabla_fisicos+='</tr>';
+
+            $tabla_fisicos+='<tr><th></th><th>SOLIDOS  SUSPENDIDOS</th><th>mgl</th><th class="claseA" ></th><th class="claseB"></th><th class="claseC"></th><th class="claseD"></th>';
+            $(campanias).each(function(k,v){
+                $tabla_fisicos+='<td>'+v.sst+'</td>'
+            });
+            $tabla_fisicos+='</tr>';
+
+            $tabla_fisicos+='<tr><th></th><th>SOLIDOS  DISUELTOS TOTALES</th><th>mg/l</th><th class="claseA" ></th><th class="claseB"></th><th class="claseC"></th><th class="claseD"></th>';
+            $(campanias).each(function(k,v){
+                let clase=''
+                if(v.sdt<=1000)
+                    clase='claseA'
+                else if(v.sdt>1000 && v.sdt<=1500)
+                    clase='claseC'
+
+               $tabla_fisicos+='<td>'+v.sdt+'</td>'
+            });
+            $tabla_fisicos+='</tr>';
+
+
+            $tabla_fisicos+='<tr><th><button onclick="charts_remas(\'remas\',\'turbiedad\')" class="btn btn-default  btn-xs"><i class="fa fa-line-chart"></i></button></th><th>TURBIDEZ</th><th>UNT</th><th class="claseA" ><10</th><th class="claseB"><50</th><th class="claseC"><100</th><th class="claseD"><200</th>';
+            $(campanias).each(function(k,v){
+                let clase=''
+                if(v.turbiedad<=10)
+                    clase='claseA'
+                else if(v.turbiedad>10 && v.turbiedad<=50)
+                    clase='claseB'
+
+                else if(v.turbiedad>50 && v.turbiedad<=100)
+                    clase='claseC'
+                else if(v.turbiedad>100 )
+                    clase='claseD'
+                $tabla_fisicos+='<td class="'+clase+'">'+v.turbiedad    +'</td>'
+            });
+            $tabla_fisicos+='</tr>';
+
+            $tabla_fisicos+='<tr><th></th><th>COLOR</th><th>mg/l</th><th class="claseA" ><10</th><th class="claseB"><50</th><th class="claseC"><100</th><th class="claseD"><200</th>';
+            $(campanias).each(function(k,v){
+                let clase=''
+                if(v.color<=10)
+                    clase='claseA'
+                else if(v.color>10 && v.color<=50)
+                    clase='claseB'
+
+                else if(v.color>50 && v.color<=100)
+                    clase='claseC'
+                else if(v.color>100 )
+                    clase='claseD'
+                $tabla_fisicos+='<td class="'+clase+'">'+v.color    +'</td>'
+            });
+            $tabla_fisicos+='</tr>';
+            $tabla_fisicos+='</tbody>';
+            $tabla_fisicos+='</table>';
+
+//                ***************GASES**********************
+            $tabla_gases='<table class="table table-responsive tablas">'+
+                '<thead>' +
+                '<tr><th style="width:15px">GRAFICO</th><th style="width:150px">PARAMETROS</th><th>UNID.</th><th>CLASE A</th><th>CLASE B</th><th>CLASE C</th><th>CLASE D</th>';
+            $(campanias).each(function(k,v){
+                $tabla_gases+='<th> '+v.campania+'</th>'
+            });
+            $tabla_gases+='</tr></thead>';
+            $tabla_gases+='<tbody>';
+
+            $tabla_gases+='<tr><th></th><th>OXIGINENO DISUELTO</th><th>mg/l</th><th class="claseA"></th><th class="claseB"></th><th class="claseC" ></th><th class="claseD"></th>';
+            $(campanias).each(function(k,v){
+                  $tabla_gases+='<td >'+v.od+'</td>'
+
+            });
+            $tabla_gases+='</tr>';
+
+            $tabla_gases+='<tr><th></th><th>SULFATOS</th><th>mg/l</th><th class="claseA">300</th><th class="claseB">400</th><th class="claseC" >400</th><th class="claseD">400</th>';
+            $(campanias).each(function(k,v){
+                let clase=''
+                if(v.hs<=300)
+                    clase='claseA'
+                else if(v.hs>300 && v.hs<=400)
+                    clase='claseB'
+
+                $tabla_gases+='<td class="'+clase+'">'+v.hs+'</td>'
+            });
+            $tabla_gases+='</tr>';
+            $tabla_gases+='</tbody>';
+            $tabla_gases+='</table>';
+
+
+
+
+            //                ***************QUIMICOS**********************
+            $tabla_quimicos='<table class="table table-responsive tablas">'+
+                '<thead>' +
+                '<tr><th style="width:15px">GRAFICO</th><th style="width:150px">PARAMETROS</th><th>UNID.</th><th>CLASE A</th><th>CLASE B</th><th>CLASE C</th><th>CLASE D</th>';
+            $(campanias).each(function(k,v){
+                $tabla_quimicos+='<th> '+v.campania+'</th>'
+            });
+            $tabla_quimicos+='</tr></thead>';
+            $tabla_quimicos+='<tbody>';
+
+            $tabla_quimicos+='<tr><th></th><th>AMONIO</th><th>mg/l</th><th class="claseA"></th><th class="claseB"></th><th class="claseC" ></th><th class="claseD"></th>';
+            $(campanias).each(function(k,v){
+                $tabla_quimicos+='<td >'+v.amonio+'</td>'
+
+            });
+            $tabla_quimicos+='</tr>';
+
+            $tabla_quimicos+='<tr><th></th><th>CLORUROS</th><th>mg/l</th><th class="claseA">250</th><th class="claseB">300</th><th class="claseC" >400</th><th class="claseD">500</th>';
+            $(campanias).each(function(k,v){
+                let clase=''
+                if(v.cloruro<=250)
+                    clase='claseA'
+                else if(v.cloruro>250 && v.cloruro<=300)
+                    clase='claseB'
+                else if(v.cloruro>300 && v.cloruro<=400)
+                    clase='claseB'
+                else if(v.cloruro>400 && v.cloruro<=500)
+                    clase='claseB'
+
+                $tabla_quimicos+='<td class="'+clase+'">'+v.cloruro+'</td>'
+            });
+            $tabla_quimicos+='</tr>';
+
+            $tabla_quimicos+='<tr><th></th><th>NITRATO</th><th>mg/l</th><th class="claseA">20</th><th class="claseB">50</th><th class="claseC" >50</th><th class="claseD">50</th>';
+            $(campanias).each(function(k,v){
+                let clase=''
+                if(v.nitrato<=20)
+                    clase='claseA'
+                else if(v.nitrato>20 && v.nitrato<=50)
+                    clase='claseB'
+
+
+                $tabla_quimicos+='<td class="'+clase+'">'+v.nitrato+'</td>'
+            });
+            $tabla_quimicos+='</tr>';
+
+            $tabla_quimicos+='<tr><th></th><th>NITRITO</th><th>mg/l</th><th class="claseA"><1.0</th><th class="claseB">1</th><th class="claseC" >1</th><th class="claseD">1</th>';
+            $(campanias).each(function(k,v){
+                let clase=''
+                if(v.nitrito<1)
+                    clase='claseA'
+                else if(v.nitrito>=1)
+                    clase='claseB'
+
+
+                $tabla_quimicos+='<td class="'+clase+'">'+v.nitrito+'</td>'
+            });
+            $tabla_quimicos+='</tr>';
+
+
+            $tabla_quimicos+='<tr><th></th><th>CALCIO</th><th>mg/l</th><th class="claseA">200</th><th class="claseB">300</th><th class="claseC" >300</th><th class="claseD">400</th>';
+            $(campanias).each(function(k,v){
+                let clase=''
+                if(v.ca<=200)
+                    clase='claseA'
+                else if(v.ca>200 && v.ca<=300)
+                    clase='claseB'
+                else if(v.ca>300 && v.ca<=400)
+                    clase='claseC'
+
+
+                $tabla_quimicos+='<td class="'+clase+'">'+v.ca+'</td>'
+            });
+            $tabla_quimicos+='</tr>';
+
+
+            $tabla_quimicos+='<tr><th></th><th>MAGNESIO</th><th>mg/l</th><th class="claseA">100</th><th class="claseB">100</th><th class="claseC" >150</th><th class="claseD">150</th>';
+            $(campanias).each(function(k,v){
+                let clase=''
+                if(v.mg<=100)
+                    clase='claseA'
+                else if(v.mg>100&& v.mg<=150)
+                    clase='claseC'
+
+
+                $tabla_quimicos+='<td class="'+clase+'">'+v.mg+'</td>'
+            });
+            $tabla_quimicos+='</tr>';
+
+            $tabla_quimicos+='<tr><th></th><th>POTASIO</th><th>mg/l</th><th class="claseA"></th><th class="claseB"></th><th class="claseC" ></th><th class="claseD"></th>';
+            $(campanias).each(function(k,v){
+
+                $tabla_quimicos+='<td >'+v.k+'</td>'
+            });
+            $tabla_quimicos+='</tr>';
+
+
+            $tabla_quimicos+='<tr><th></th><th>SODIO</th><th>mg/l</th><th class="claseA">200</th><th class="claseB">200</th><th class="claseC" >200</th><th class="claseD">200</th>';
+            $(campanias).each(function(k,v){
+                let clase=''
+                if(v.na<=200)
+                    clase='claseA'
+                               $tabla_quimicos+='<td class="'+clase+'">'+v.na+'</td>'
+            });
+            $tabla_quimicos+='</tr>';
+
+            $tabla_quimicos+='<tr><th></th><th>CIANUROS</th><th>mg/l</th><th class="claseA">0.02</th><th class="claseB">0.1</th><th class="claseC" >0.2</th><th class="claseD">0.2</th>';
+            $(campanias).each(function(k,v){
+                let clase=''
+                if(v.cianuro<=0.02)
+                    clase='claseA'
+                else if(v.cianuro>0.02 && v.cianuro<=0.1)
+                    clase='claseB'
+                else if(v.cianuro>0.1 && v.cianuro<=0.2)
+                    clase='claseC'
+                $tabla_quimicos+='<td class="'+clase+'">'+v.cianuro+'</td>'
+            });
+            $tabla_quimicos+='</tr>';
+           $tabla_quimicos+='</tbody>';
+            $tabla_quimicos+='</table>';
+
+
+            //                ***************NUTRIENTES**********************
+            $tabla_nutrientes='<table class="table table-responsive tablas">'+
+                '<thead>' +
+                '<tr><th style="width:15px">GRAFICO</th><th style="width:150px">PARAMETROS</th><th>UNID.</th><th>CLASE A</th><th>CLASE B</th><th>CLASE C</th><th>CLASE D</th>';
+            $(campanias).each(function(k,v){
+                $tabla_nutrientes+='<th> '+v.campania+'</th>'
+            });
+            $tabla_nutrientes+='</tr></thead>';
+            $tabla_nutrientes+='<tbody>';
+
+            $tabla_nutrientes+='<tr><th></th><th>FOSFATO TOTAL</th><th>mg/l</th><th class="claseA">0.4</th><th class="claseB">0.5</th><th class="claseC" >1</th><th class="claseD">1</th>';
+            $(campanias).each(function(k,v){
+                let clase=''
+                if(v.p<=0.4)
+                    clase='claseA'
+                else if(v.p>0.4 && v.p<=0.5)
+                    clase='claseB'
+                else if(v.p>0.5 && v.p<=1)
+                    clase='claseC'
+
+                $tabla_nutrientes+='<td class="'+clase+'">'+v.p+'</td>'
+
+            });
+            $tabla_nutrientes+='</tr>';
+
+
+            $tabla_nutrientes+='<tr><th></th><th>NITROGENO TOTAL</th><th>mg/l</th><th class="claseA">5</th><th class="claseB">12</th><th class="claseC" >12</th><th class="claseD">12</th>';
+            $(campanias).each(function(k,v){
+                let clase=''
+                if(v.nt<=5)
+                    clase='claseA'
+                else if(v.nt>5 && v.nt<=12)
+                    clase='claseB'
+
+
+                $tabla_nutrientes+='<td  class="'+clase+'">'+v.nt+'</td>'
+
+            });
+            $tabla_nutrientes+='</tr>';
+
+
+            $tabla_nutrientes+='<tr><th></th><th>BORO</th><th>mg/l</th><th>1.0c. B</th><th>1.0c. B</th><th>1.0c. B</th><th>1.0c. B</th>';
+            $(campanias).each(function(k,v){
+
+                $tabla_nutrientes+='<td >'+v.b+'</td>'
+
+            });
+            $tabla_nutrientes+='</tr>';
+            $tabla_nutrientes+='</tbody>';
+            $tabla_nutrientes+='</table>';
+
+
+            //                ***************SANITARIOS**********************
+            $tabla_sanitarios='<table class="table table-responsive tablas">'+
+                '<thead>' +
+                '<tr><th style="width:15px">GRAFICO</th><th style="width:150px">PARAMETROS</th><th>UNID.</th><th>CLASE A</th><th>CLASE B</th><th>CLASE C</th><th>CLASE D</th>';
+            $(campanias).each(function(k,v){
+                $tabla_sanitarios+='<th> '+v.campania+'</th>'
+            });
+            $tabla_sanitarios+='</tr></thead>';
+            $tabla_sanitarios+='<tbody>';
+
+            $tabla_sanitarios+='<tr><th></th><th>COLIFORMES TOTALES</th><th>UFC</th><th ></th><th ></th><th></th><th></th>';
+            $(campanias).each(function(k,v){
+
+                $tabla_sanitarios+='<td >'+v.coli_tot+'</td>'
+
+            });
+            $tabla_sanitarios+='</tr>';
+
+            $tabla_sanitarios+='<tr><th></th><th>DQO</th><th>mg/l</th><th class="claseA"><5</th><th class="claseB"><10</th><th class="claseC" ><40</th><th class="claseD"><60</th>';
+            $(campanias).each(function(k,v){
+                let clase=''
+                if(v.dqo<=5)
+                    clase='claseA'
+                else if(v.dqo>5 && v.dqo<=10)
+                    clase='claseB'
+                else if(v.dqo>5 && v.dqo<=40)
+                    clase='claseC'
+                else if(v.dqo>40 && v.dqo<=60)
+                    clase='claseC'
+                $tabla_sanitarios+='<td class="'+clase+'">'+v.dqo+'</td>'
+            });
+            $tabla_sanitarios+='</tr>';
+
+            $tabla_sanitarios+='<tr><th></th><th>DBO5</th><th>mg/l</th><th class="claseA"><2</th><th class="claseB"><5</th><th class="claseC" ><20</th><th class="claseD"><30</th>';
+            $(campanias).each(function(k,v){
+                let clase=''
+                if(v.dbo5<=2)
+                    clase='claseA'
+                else if(v.dbo5>2 && v.dbo5<=5)
+                    clase='claseB'
+                else if(v.dbo5>5 && v.dbo5<=20)
+                    clase='claseC'
+                else if(v.dbo5>20 && v.dbo5<=30)
+                    clase='claseC'
+                $tabla_sanitarios+='<td class="'+clase+'">'+v.dbo5+'</td>'
+            });
+            $tabla_sanitarios+='</tr>';
+
+            $tabla_sanitarios+='<tr><th></th><th>NMP COLIFECALES</th><th>N/100ml</th><th ><50y<5en80%de muestras</th><th ><1000 y <200 en 80%de muestras</th><th><5000 y <1000 en 80%de muestra</th><th><50000 y <5000 en 80% de muestras</th>';
+            $(campanias).each(function(k,v){
+
+                $tabla_sanitarios+='<td>'+v.coli_feca+'</td>'
+
+            });
+            $tabla_sanitarios+='</tr>';
+
+            $tabla_sanitarios+='</tbody>';
+            $tabla_sanitarios+='</table>';
+
+
+
+            //                ***************METALES**********************
+            $tabla_metales='<table class="table table-responsive tablas">'+
+                '<thead>' +
+                '<tr><th style="width:15px">GRAFICO</th><th style="width:150px">PARAMETROS</th><th>UNID.</th><th>CLASE A</th><th>CLASE B</th><th>CLASE C</th><th>CLASE D</th>';
+            $(campanias).each(function(k,v){
+                $tabla_metales+='<th> '+v.campania+'</th>'
+            });
+            $tabla_metales+='</tr></thead>';
+            $tabla_metales+='<tbody>';
+
+            $tabla_metales+='<tr><th></th><th>COBRE</th><th>mg/l</th><th class="claseA">0.05</th><th class="claseB">1</th><th class="claseC" >1</th><th class="claseD">1</th>';
+            $(campanias).each(function(k,v){
+
+                let clase=''
+                if(v.cu<=0.05)
+                    clase='claseA'
+                else if(v.cu>0.05 && v.cu<=1)
+                    clase='claseB'
+
+                $tabla_metales+='<td class="'+clase+'">'+v.cu+'</td>'
+
+            });
+            $tabla_metales+='</tr>';
+
+
+            $tabla_metales+='<tr><th></th><th>HIERRO SOLUBLE</th><th>mg/l</th><th class="claseA">0.3</th><th class="claseB">0.3</th><th class="claseC" >1</th><th class="claseD">1</th>';
+            $(campanias).each(function(k,v){
+
+                let clase=''
+                if(v.fe<=0.3)
+                    clase='claseA'
+                else if(v.fe>0.3 && v.fe<=1)
+                    clase='claseC'
+
+                $tabla_metales+='<td class="'+clase+'">'+v.fe+'</td>'
+
+            });
+            $tabla_metales+='</tr>';
+
+
+            $tabla_metales+='<tr><th></th><th>Zinc PLAGUICIDAS</th><th>mg/l</th><th class="claseA">0.2</th><th class="claseB">0.2</th><th class="claseC" >5</th><th class="claseD">5</th>';
+            $(campanias).each(function(k,v){
+
+                let clase=''
+                if(v.zn<=0.2)
+                    clase='claseA'
+                else if(v.zn>0.2 && v.zn<=5)
+                    clase='claseC'
+
+                $tabla_metales+='<td class="'+clase+'">'+v.zn+'</td>'
+
+            });
+            $tabla_metales+='</tr>';
+
+            $tabla_metales+='<tr><th></th><th>ARSENICO TOTAL</th><th>mg/l</th><th class="claseA">0.05</th><th class="claseB">0.05</th><th class="claseC" >0.05</th><th class="claseD">0.1</th>';
+            $(campanias).each(function(k,v){
+
+                let clase=''
+                if(v.as<=0.05)
+                    clase='claseA'
+                else if(v.as>0.05 && v.as<=0.1)
+                    clase='claseD'
+
+                $tabla_metales+='<td class="'+clase+'">'+v.as+'</td>'
+
+            });
+            $tabla_metales+='</tr>';
+
+            $tabla_metales+='<tr><th></th><th>CADMIO</th><th>mg/l</th><th class="claseA">0.005</th><th class="claseB">0.005</th><th class="claseC" >0.005</th><th class="claseD">0.005</th>';
+            $(campanias).each(function(k,v){
+
+                let clase=''
+                if(v.cd<=0.005)
+                    clase='claseA'
+                $tabla_metales+='<td class="'+clase+'">'+v.cd+'</td>'
+
+            });
+            $tabla_metales+='</tr>';
+
+
+            $tabla_metales+='<tr><th></th><th>PLOMO</th><th>mg/l</th><th class="claseA">0.05</th><th class="claseB">0.05</th><th class="claseC" >0.05</th><th class="claseD">0.1</th>';
+            $(campanias).each(function(k,v){
+
+                let clase=''
+                if(v.pb<=0.05)
+                    clase='claseA'
+                else if(v.pb>0.05 && v.pb<=0.1)
+                    clase='claseD'
+
+                $tabla_metales+='<td class="'+clase+'">'+v.pb+'</td>'
+
+            });
+            $tabla_metales+='</tr>';
+
+
+            $tabla_metales+='<tr><th></th><th>CROMO HEXAVALENTE</th><th>mg/l</th><th class="claseA">0.05</th><th class="claseB">0.05</th><th class="claseC" >0.05</th><th class="claseD">0.05</th>';
+            $(campanias).each(function(k,v){
+
+                let clase=''
+                if(v.cr<=0.05)
+                    clase='claseA'
+
+               $tabla_metales+='<td class="'+clase+'">'+v.cr+'</td>'
+
+            });
+            $tabla_metales+='</tr>';
+
+
+            $tabla_metales+='<tr><th></th><th>MANGANESO</th><th>mg/l</th><th class="claseA">0.05</th><th class="claseB">1</th><th class="claseC" >1</th><th class="claseD">1</th>';
+            $(campanias).each(function(k,v){
+
+                let clase=''
+                if(v.mn<=0.05)
+                    clase='claseA'
+                else if(v.mn>0.05 && v.mn<=1)
+                    clase='claseB'
+                $tabla_metales+='<td class="'+clase+'">'+v.mn+'</td>'
+
+            });
+            $tabla_metales+='</tr>';
+
+
+            $tabla_metales+='<tr><th></th><th>ANTIMONIO</th><th>mg/l</th><th >0.01c. Sb</th><th>0.01c. Sb</th><th>  0.01c. Sb</th><th >0.01c. Sb</th>';
+            $(campanias).each(function(k,v){
+
+                $tabla_metales+='<td>'+v.sb+'</td>'
+
+            });
+            $tabla_metales+='</tr>';
+
+
+            $tabla_metales+='<tr><th></th><th>MERCURIO</th><th>mg/l</th><th >0.001 Hg</th><th>0.001 Hg</th><th>  0.001 Hg</th><th >0.001 Hg</th>';
+            $(campanias).each(function(k,v){
+
+                $tabla_metales+='<td>'+v.hg+'</td>'
+
+            });
+            $tabla_metales+='</tr>';
+
+
+            $tabla_metales+='<tr><th></th><th>NIQUEL</th><th>mg/l</th><th >0.05c.Ni</th><th>0.05c.Ni</th><th>  0.05c.Ni</th><th >0.05c.Ni</th>';
+            $(campanias).each(function(k,v){
+
+                $tabla_metales+='<td>'+v.ni+'</td>'
+
+            });
+            $tabla_metales+='</tr>';
+
+            $tabla_metales+='<tr><th></th><th>SELENIO</th><th>mg/l</th><th >0.01c Se</th><th>0.01c Se</th><th>  0.01c Se</th><th >0.01c Se</th>';
+            $(campanias).each(function(k,v){
+
+                $tabla_metales+='<td>'+v.se+'</td>'
+
+            });
+            $tabla_metales+='</tr>';
+            $tabla_metales+='</tbody>';
+            $tabla_metales+='</table>';
+
+
+
 
                 $ul_reporte+='<form method="POST" action="{{url('reportes/remas')}}" id="reporte-remas" >'+
                                 '<input type="hidden" name="codigo_rema" value="'+cod+'"/>'+
@@ -493,7 +1233,7 @@
                         '<li>'+
                         '<ol>'+
                         '<li  class="text-warning"> Gases</li>'+
-                        '<li >CO2(mg/l)<input type="checkbox" value="co" name="reporte[]" ></li>'+
+
                         '<li> OD(mg/l)<input type="checkbox" value="od" name="reporte[]" ></li>'+
                         '<li> HS2(mg/l)<input type="checkbox" value="hs" name="reporte[]" ></li>'+
                         '</ol>'+
@@ -503,7 +1243,6 @@
                         '<li  class="text-warning"> Quimicos</li>'+
                         '<li >Ca (mg/l) <input type="checkbox" value="ca" name="reporte[]" ></li>'+
                         '<li> Mg (mg/l) <input type="checkbox" value="mg" name="reporte[]" ></li>'+
-                        '<li> Na (mg/l) <input type="checkbox" value="na" name="reporte[]" ></li>'+
                         '<li> K (mg/l) <input type="checkbox" value="k" name="reporte[]" ></li>'+
                         '<li> Na + K (mg/l) <input type="checkbox" value="na_k" name="reporte[]" ></li>'+
                         '<li> CO3 (mg/l) <input type="checkbox" value="co2" name="reporte[]" ></li>'+
@@ -511,7 +1250,6 @@
                         '<li> Cl (mg/l) <input type="checkbox" value="ci" name="reporte[]" ></li>'+
                         '<li> (SO4)2- (mg/l) <input type="checkbox" value="so4" name="reporte[]" ></li>'+
                         '<li> Alcalinidad (mg/l) CaCO3 <input type="checkbox" value="alcalinidad" name="reporte[]" ></li>'+
-                        '<li> Dureza total (mg/l) CaCO3 <input type="checkbox" value="dureza" name="reporte[]" ></li>'+
                         '</ol>'+
                         '</li>'+
                        '<li>'+
@@ -567,13 +1305,15 @@
                  $ul_sanitarios+='</li>';
                  $ul_metales+='</li>';
 
-                 $('#general_remas').append($ul_gen);
-                 $('#fisico_remas').append($ul_fisico);
-                 $('#gases_remas').append($ul_gases);
-                 $('#quimicos_remas').append($ul_quimicos);
-                 $('#nutrientes_remas').append($ul_nutrientes);
-                 $('#sanitarios_remas').append($ul_sanitarios);
-                 $('#metales_remas').append($ul_metales);
+                 $('#general_remas').append($tabla);
+//                 $('#general_remas').append( $ul_gen);
+//                 $('#fisico_remas').append($ul_fisico);
+                 $('#fisico_remas').append($tabla_fisicos);
+                 $('#gases_remas').append($tabla_gases);
+                 $('#quimicos_remas').append($tabla_quimicos);
+                 $('#nutrientes_remas').append($tabla_nutrientes);
+                 $('#sanitarios_remas').append($tabla_sanitarios);
+                 $('#metales_remas').append($tabla_metales);
                  $('#reportes').append($ul_reporte);
 
 
@@ -582,6 +1322,76 @@
 
 
   function modalRemfc(campanias,data,cod){
+
+      $('[href="#metales_remas"]').closest('li').show();
+      $('[href="#icg"]').closest('li').show();
+      $('[href="#reportes"]').closest('li').hide();
+
+      let datos=[];
+      $(campanias).each(function(k,v){
+          let ph=formula('ph',v.ph)
+          let coli_tot=formula('coli_tot',v.coli_tot)
+          let ce=formula('ce',v.ce)
+          let dqo=formula('dqo',v.dqo)
+          let dbo=formula('dbo',v.dbo5)
+          let od=formula('od',v.od)
+          let sst=formula('sst',v.sst)
+          let cloruro=formula('cloruro',v.cloruro)
+          let p=formula('p',v.p)
+          let nitrato=formula('nitrato',v.nitrato)
+          let hs=formula('hs',v.hs)
+          let ca=formula('ca',v.ca)
+          let mg=formula('mg',v.mg)
+          let na=formula('na',v.na)
+          let cu=formula('cu',v.cu)
+          let zn=formula('zn',v.zn)
+          let cd=formula('cd',v.cd)
+          let pb=formula('pb',v.pb)
+          let cianuro=formula('cianuro',v.cianuro)
+          let cr=formula('cr',v.cr)
+
+          let total=0;
+
+
+          let suma= ph.a+coli_tot.a+ce.a+dqo.a+dbo.a+od.a+sst.a+cloruro.a+p.a+nitrato.a+hs.a+ca.a+mg.a+na.a+cu.a+zn.a+cd.a+pb.a+cianuro.a+cr.a;
+
+          total=((ph.a/suma)*ph.q)+((coli_tot.a/suma)*coli_tot.q)+((ce.a/suma)*ce.q)+((dqo.a/suma)*dqo.q)+((dbo.a/suma)*dbo.q)+((od.a/suma)*od.q)+((sst.a/suma)*sst.q)+((cloruro.a/suma)*cloruro.q)+((p.a/suma)*p.q)+((nitrato.a/suma)*nitrato.q)+((hs.a/suma)*hs.q)+((ca.a/suma)*ca.q)+((mg.a/suma)*mg.q)+((na.a/suma)*na.q)+((cu.a/suma)*cu.q)+((zn.a/suma)*zn.q)+((cd.a/suma)*cd.q)+((pb.a/suma)*pb.q)+((cianuro.a/suma)*cianuro.q)+((cr.a/suma)*cr.q);
+               console.log(suma)
+          datos.push({
+              campania:v.campania,
+              total:total,
+              fecha:v.fecha
+          })
+
+      });
+      $tabla_totales='<table  class="table tablas">'+
+          '<thead>' +
+          '<tr><th>CAMPAÑAS</th>'+
+
+          '<th>ICG</th></tr></thead>';
+      datos.forEach(function(v,k){
+
+          clase='';
+
+          if(v.total>=85 && v.total<=100)
+              clase='claseE'
+          else if(v.total>=75 && v.total<85)
+              clase='claseC'
+          else if(v.total>=65 && v.total<75)
+              clase='claseH'
+          else if(v.total>=50 && v.total<65)
+              clase='claseD'
+          else if(v.total<50)
+              clase='claseF'
+
+          $tabla_totales+='<tr><th>CAMPAÑA '+v.campania+'</th><th class="'+clase+'" style="font-size: 14px; text-align: center" >'+v.total.toFixed(2)+'</th></tr>'
+      })
+      $tabla_totales+='</table>'
+      $('#div_icg').empty()
+      $('#div_icg').append($tabla_totales)
+
+
+
       $datos_generales='';
       $ul_gen='';
       $ul_fisico='';
@@ -590,7 +1400,6 @@
       $ul_nutrientes='';
       $ul_sanitarios='';
       $ul_metales='';
-
       $('#cod_remas').html(cod)
       $ul_gen+='<ul class="list-inline">';
       $ul_fisico+='<ul class="list-inline">';
@@ -599,10 +1408,6 @@
       $ul_nutrientes+='<ul class="list-inline">';
       $ul_sanitarios+='<ul class="list-inline">';
       $ul_metales+='<ul class="list-inline">';
-
-
-
-
       $datos_generales+='<li >Pto:<strong class="text-primary">'+data.pto+'</strong></li>'+
               '<li >Pais:<strong class="text-primary">'+data.pais+'</strong></li>'+
               '<li >Zona Hidrologica:<strong class="text-primary">'+data.zona_hidrologica+'</strong></li>'+
@@ -617,125 +1422,582 @@
 
       $('#datos_generales').append($datos_generales);
 
-
+      $tabla='<table  class="table tablas">'+
+          '<thead>' +
+          '<tr><th>DESC</th>';
       $(campanias).each(function(k,v){
-          $ul_gen+='<li>'+
-                  '<ol>'+
-                  '<li  class="text-warning">Campaña:<strong>'+v.campania+'</strong></li>'+
-                  '<li >Codigo campaña: <strong>'+v.cod_campania+'</strong></li>'+
-                  '<li >Laboratorio Responsable: <strong>'+v.laboratorio+'</strong></li>'+
-                  '<li >Fecha d/m/A: <strong>'+v.fecha+'</strong></li>'+
-                  '<li >Hora H:m: <strong>'+v.hora+'</strong></li>'+
-                  '<li >Caudal m3/s: <strong>'+v.caudal+'</strong></li>'+
-                  '</ol>'+
-                  '</li>';
-          $ul_fisico+='<li>'+
-                  '<ol>'+
-                  '<li  class="text-warning">Campaña:<strong>'+v.campania+'</strong></li>'+
-
-                  '<li >PH:<strong class="text-primary">'+v.ph+'</strong>  <button  onclick="charts_remas(\'remas\',\'ph\')" class="btn btn-primary  btn-xs ">Graficar</button></li>'+
-                  '<li >CEV (uS/cm):<strong class="text-primary">'+v.ce+'</strong><a href="###" onclick="charts_remas(\'remas\',\'ce\')" class="text-warning ">Graficar</a></i>'+
-                  '<li >T (°C):<strong class="text-primary">'+v.temperatura+'</strong></li>'+
-                  '<li >Aceites y grasas (mg/l):<strong class="text-primary">'+v.aceites+'</strong></li>'+
-                  '<li >TURBIEDAD(NTU):<strong class="text-primary">'+v.turbiedad+'</strong></li>'+
-                  '<li >SDT(mg/l):<strong class="text-primary">'+v.sdt+'</strong></li>'+
-                  '<li >SST(mg/l):<strong class="text-primary">'+v.sst+'</strong></li>'+
-                  '<li >Color:<strong class="text-primary">'+v.color+'</strong></li>'+
-                  '</ol>'+
-                  '</li>';
-
-          $ul_gases+='<li>'+
-                  '<ol>'+
-                  '<li  class="text-warning">Campaña:<strong>'+v.campania+'</strong></li>'+
-
-                  '<li >CO2(mg/l):<strong class="text-primary">'+v.co+'</strong></li>'+
-                  '<li> OD(mg/l):<strong class="text-primary">'+v.od+'</strong></li>'+
-                  '<li> OD Saturado (mg/l):<strong class="text-primary">'+v.od_satu+'</strong></li>'+
-                  '<li> Saturación (%):<strong class="text-primary">'+v.saturacion+'</strong></li>'+
-                  '<li> HS2(mg/l):<strong class="text-primary">'+v.hs+'</strong></li>'+
-                  '</ol>'+
-                  '</li>';
-
-
-          $ul_quimicos+='<li>'+
-                  '<ol>'+
-                  '<li  class="text-warning">Campaña:<strong>'+v.campania+'</strong></li>'+
-                  '<li >Ca (mg/l):<strong class="text-primary">'+v.ca+'</strong></li>'+
-                  '<li> Mg (mg/l):<strong class="text-primary">'+v.mg+'</strong></li>'+
-                  '<li> Na (mg/l):<strong class="text-primary">'+v.na+'</strong></li>'+
-                  '<li> K (mg/l):<strong class="text-primary">'+v.k+'</strong></li>'+
-                  '<li> Na + K (mg/l):<strong class="text-primary">'+v.na_k+'</strong></li>'+
-                  '<li> CO3 (mg/l):<strong class="text-primary">'+v.co2+'</strong></li>'+
-                  '<li> CO3H (mg/l):<strong class="text-primary">'+v.co2h+'</strong></li>'+
-                  '<li> Cl (mg/l):<strong class="text-primary">'+v.ci+'</strong></li>'+
-                  '<li> (SO4)2- (mg/l):<strong class="text-primary">'+v.so4+'</strong></li>'+
-                  '<li> Alcalinidad (mg/l) CaCO3:<strong class="text-primary">'+v.alcalinidad+'</strong></li>'+
-                  '<li> Dureza total (mg/l) CaCO3:<strong class="text-primary">'+v.dureza +'</strong></li>'+
-                  '</ol>'+
-                  '</li>';
-
-
-          $ul_nutrientes+='<li>'+
-                  '<ol>'+
-                  '<li  class="text-warning">Campaña:<strong>'+v.campania+'</strong></li>'+
-                  '<li >SiO3 (mg/l):<strong class="text-primary">'+v.sio3+'</strong></li>'+
-                  '<li> N-NO3- (mg/l):<strong class="text-primary">'+v.nno3+'</strong></li>'+
-                  '<li> N-NO2- (mg/l):<strong class="text-primary">'+v.nno2+'</strong></li>'+
-                  '<li> N-NH4+ (mg/l):<strong class="text-primary">'+v.nnh4+'</strong></li>'+
-                  '<li> Nt (mg/l):<strong class="text-primary">'+v.nt+'</strong></li>'+
-                  '<li> N-Kjeldall (mg/l):<strong class="text-primary">'+v.kjendall+'</strong></li>'+
-                  '<li> (PO4)3- (mg/l):<strong class="text-primary">'+v.po4+'</strong></li>'+
-                  '<li> P (mg/l):<strong class="text-primary">'+v.p+'</strong></li>'+
-                  '<li> Pt (mg/l):<strong class="text-primary">'+v.pt+'</strong></li>'+
-                  '<li> B (mg/l):<strong class="text-primary">'+v.b+'</strong></li>'+
-                  '</ol>'+
-                  '</li>';
-
-          $ul_sanitarios+='<li>'+
-                  '<ol>'+
-                  '<li  class="text-warning">Campaña:<strong>'+v.campania+'</strong></li>'+
-                  '<li >DBO5 (mg/l):<strong class="text-primary">'+v.dbo5+'</strong></li>'+
-                  '<li >DQO (mg/l):<strong class="text-primary">'+v.dqo+'</strong></li>'+
-                  '<li >Coliformes fecales (NMP/100 ml):<strong class="text-primary">'+v.coli_feca+'</strong></li>'+
-                  '<li >Coliformes totales (NMP/100 ml):<strong class="text-primary">'+v.coli_tot+'</strong></li>'+
-                  '<li >Salmonella spp (NMP/100 ml):<strong class="text-primary">'+v.salmonella+'</strong></li>'+
-                  '<li >Bacterias colif. termorresistentes UFC/100 ml:<strong class="text-primary">'+v.bact_coli+'</strong></li>'+
-                  '</ol>'+
-                  '</li>';
-
-          $ul_metales+='<li>'+
-                  '<ol>'+
-                  '<li  class="text-warning">Campaña:<strong>'+v.campania+'</strong></li>'+
-                  '<li >Zn (mg/l):<strong class="text-primary">'+v.zn+'</strong></li>'+
-                  '<li >Cd (mg/l):<strong class="text-primary">'+v.cd+'</strong></li>'+
-                  '<li >Pb (mg/l):<strong class="text-primary">'+v.pb+'</strong></li>'+
-                  '<li >Fe (mg/l):<strong class="text-primary">'+v.fe+'</strong></li>'+
-                  '<li >Mn (mg/l):<strong class="text-primary">'+v.mn+'</strong></li>'+
-                  '<li >Cu (mg/l):<strong class="text-primary">'+v.cu+'</strong></li>'+
-                  '<li >Hg (mg/l):<strong class="text-primary">'+v.hg+'</strong></li>'+
-                  '<li >As (mg/l):<strong class="text-primary">'+v.as+'</strong></li>'+
-                  '<li >Cr (mg/l):<strong class="text-primary">'+v.cr+'</strong></li>'+
-                  '<li >Ni (mg/l):<strong class="text-primary">'+v.ni+'</strong></li>'+
-                  '<li >Sb (mg/l):<strong class="text-primary">'+v.sb+'</strong></li>'+
-                  '<li >Se (mg/l):<strong class="text-primary">'+v.se+'</strong></li>'+
-                  '</ol>'+
-                  '</li>';
+          $tabla+='<th>CAMPAÑA '+v.campania+'</th>'
       });
-      $ul_gen+='</li>';
-      $ul_fisico+='</li>';
-      $ul_gases+='</li>';
-      $ul_quimicos+='</li>';
-      $ul_nutrientes+='</li>';
-      $ul_sanitarios+='</li>';
-      $ul_metales+='</li>';
 
-      $('#general_remas').append($ul_gen);
-      $('#fisico_remas').append($ul_fisico);
-      $('#gases_remas').append($ul_gases);
-      $('#quimicos_remas').append($ul_quimicos);
-      $('#nutrientes_remas').append($ul_nutrientes);
-      $('#sanitarios_remas').append($ul_sanitarios);
-      $('#metales_remas').append($ul_metales);
+      $tabla+='</tr></thead>';
+      $tabla+='<tbody>';
+      $tabla+='<tr><th>CODIGO</th>';
+      $(campanias).each(function(k,v){
+
+//          console.log(Object.keys(v)[k])
+          $tabla+='<td>'+v.cod_campania+'</td>'
+      });
+      $tabla+='</tr>';
+
+      $tabla+='<tr><th>LABO.<br>RESPON</th>';
+      $(campanias).each(function(k,v){
+          $tabla+='<td>'+v.laboratorio+'</td>'
+      });
+      $tabla+='</tr>';
+
+      $tabla+='<tr><th>FECHA/HORA</th>';
+      $(campanias).each(function(k,v){
+          $tabla+='<td>'+v.fecha+'|'+v.hora+'</td>'
+      });
+      $tabla+='</tr>';
+
+      $tabla+='<tr><th>CAUDAL m3/s</th>';
+      $(campanias).each(function(k,v){
+          $tabla+='<td>'+v.caudal+'</td>'
+      });
+      $tabla+='</tr>';
+
+      $tabla+='</tbody>';
+      $tabla+='</table>';
+
+      //                ***************FISICOS**********************
+      $tabla_fisicos='<table class="table table-responsive tablas">'+
+          '<thead>' +
+          '<tr><th style="width:15px">GRAFICO</th><th style="width:150px">PARAMETROS</th><th>UNID.</th><th style="width:50px">CANCERIGENOS</th><th>CLASE A</th><th>CLASE B</th><th>CLASE C</th><th>CLASE D</th>';
+      $(campanias).each(function(k,v){
+          $tabla_fisicos+='<th> '+v.campania+'</th>'
+      });
+      $tabla_fisicos+='</tr></thead>';
+      $tabla_fisicos+='<tbody>';
+
+      $tabla_fisicos+='<tr><th><button  onclick="charts_remas(\'remas\',\'ph\')" class="btn btn-default  btn-xs "><i class="fa fa-line-chart"></i></button></th><th>PH</th><th></th><th></th><th class="claseA">6 A 8,5</th><th class="claseB">6 a 9</th><th class="claseC" >6 a 9</th><th class="claseD">6 a 9</th>';
+      $(campanias).each(function(k,v){
+          let clase=''
+          if(v.ph>=6 && v.ph<=8.5)
+              clase='claseA'
+          else if(v.ph>8.5)
+              clase='claseB'
+
+
+          $tabla_fisicos+='<td class="'+clase+'">'+v.ph+'</td>'
+
+      });
+      $tabla_fisicos+='</tr>';
+
+      $tabla_fisicos+='<tr><th></th><th>TEMPERATURA</th><th>°C</th><th>NO</th><th >+/-3°  C. <BR>receptor</th><th >+/-3°C. <BR> receptor</th><th  >+/-3°C.  <BR>receptor</th><th>+/-3°C.  <BR>receptor</th>';
+      $(campanias).each(function(k,v){
+          $tabla_fisicos+='<td>'+v.temperatura+'</td>'
+      });
+      $tabla_fisicos+='</tr>';
+
+      $tabla_fisicos+='<tr><th></th><th>CONDUCTIVIDAD</th><th>uS/cm</th><th ></th><th></th><th></th><th></th>';
+      $(campanias).each(function(k,v){
+          $tabla_fisicos+='<td>'+v.ce+'</td>'
+      });
+      $tabla_fisicos+='</tr>';
+
+      $tabla_fisicos+='<tr><th></th><th>SOLIDOS  SUSPENDIDOS</th><th>mgl</th><th></th><th class="claseA" ></th><th class="claseB"></th><th class="claseC"></th><th class="claseD"></th>';
+      $(campanias).each(function(k,v){
+          $tabla_fisicos+='<td>'+v.sst+'</td>'
+      });
+      $tabla_fisicos+='</tr>';
+
+      $tabla_fisicos+='<tr><th></th><th>SOLIDOS  DISUELTOS TOTALES</th><th>mg/l</th><th></th><th class="claseA" >1000</th><th class="claseB">1000</th><th class="claseC">1500</th><th class="claseD">1500</th>';
+      $(campanias).each(function(k,v){
+          let clase=''
+          if(v.sdt<=1000)
+              clase='claseA'
+          else if(v.sdt>1000 && v.sdt<=1500)
+              clase='claseC'
+
+          $tabla_fisicos+='<td class="'+clase+'">'+v.sdt+'</td>'
+      });
+      $tabla_fisicos+='</tr>';
+
+
+      $tabla_fisicos+='<tr><th></th><th>TURBIDEZ</th><th>UNT</th><th>NO</th><th class="claseA" ><10</th><th class="claseB"><50</th><th class="claseC"><100</th><th class="claseD"><200</th>';
+      $(campanias).each(function(k,v){
+          let clase=''
+          if(v.turbiedad<=10)
+              clase='claseA'
+          else if(v.turbiedad>10 && v.turbiedad<=50)
+              clase='claseB'
+
+          else if(v.turbiedad>50 && v.turbiedad<=100)
+              clase='claseC'
+          else if(v.turbiedad>100 )
+              clase='claseD'
+          $tabla_fisicos+='<td class="'+clase+'">'+v.turbiedad    +'</td>'
+      });
+      $tabla_fisicos+='</tr>';
+
+      $tabla_fisicos+='<tr><th></th><th>COLOR</th><th>mg/l</th><th>NO</th><th class="claseA" ><10</th><th class="claseB"><50</th><th class="claseC"><100</th><th class="claseD"><200</th>';
+      $(campanias).each(function(k,v){
+          let clase=''
+          if(v.color<=10)
+              clase='claseA'
+          else if(v.color>10 && v.color<=50)
+              clase='claseB'
+
+          else if(v.color>50 && v.color<=100)
+              clase='claseC'
+          else if(v.color>100 )
+              clase='claseD'
+          $tabla_fisicos+='<td class="'+clase+'">'+v.color    +'</td>'
+      });
+      $tabla_fisicos+='</tr>';
+
+
+      $tabla_fisicos+='<tr><th></th><th>ACEITES Y GRASAS</th><th>mg/l</th><th>NO</th><th >Ausentes</th><th> Ausentes</th><th>0.3</th><th>1</th>';
+      $(campanias).each(function(k,v){
+           $tabla_fisicos+='<td >'+v.aceites    +'</td>'
+      });
+      $tabla_fisicos+='</tr>';
+      $tabla_fisicos+='</tbody>';
+      $tabla_fisicos+='</table>';
+
+
+
+//  ***************GASES**********************
+      $tabla_gases='<table class="table table-responsive tablas">'+
+          '<thead>' +
+          '<tr><th style="width:15px">GRAFICO</th><th style="width:150px">PARAMETROS</th><th>UNID.</th><th style="width:30px">CANCERIGENOS</th><th>CLASE A</th><th>CLASE B</th><th>CLASE C</th><th>CLASE D</th>';
+      $(campanias).each(function(k,v){
+          $tabla_gases+='<th> '+v.campania+'</th>'
+      });
+      $tabla_gases+='</tr></thead>';
+      $tabla_gases+='<tbody>';
+
+      $tabla_gases+='<tr><th></th><th>OXIGINENO DISUELTO</th><th>mg/l</th><th>NO</th><th class="claseA"></th><th class="claseB"></th><th class="claseC" ></th><th class="claseD"></th>';
+      $(campanias).each(function(k,v){
+          $tabla_gases+='<td >'+v.od+'</td>'
+
+      });
+      $tabla_gases+='</tr>';
+
+      $tabla_gases+='<tr><th></th><th>SULFATOS</th><th>mg/l</th><th>NO</th><th class="claseA">300</th><th class="claseB">400</th><th class="claseC" >400</th><th class="claseD">400</th>';
+      $(campanias).each(function(k,v){
+          let clase=''
+          if(v.hs<=300)
+              clase='claseA'
+          else if(v.hs>300 && v.hs<=400)
+              clase='claseB'
+
+          $tabla_gases+='<td class="'+clase+'">'+v.hs+'</td>'
+      });
+      $tabla_gases+='</tr>';
+      $tabla_gases+='</tbody>';
+      $tabla_gases+='</table>';
+
+
+      //                ***************QUIMICOS**********************
+      $tabla_quimicos='<table class="table table-responsive tablas">'+
+          '<thead>' +
+          '<tr><th style="width:15px">GRAFICO</th><th style="width:150px">PARAMETROS</th><th>UNID.</th><th>CANCERIGENOS</th><th>CLASE A</th><th>CLASE B</th><th>CLASE C</th><th>CLASE D</th>';
+      $(campanias).each(function(k,v){
+          $tabla_quimicos+='<th> '+v.campania+'</th>'
+      });
+      $tabla_quimicos+='</tr></thead>';
+      $tabla_quimicos+='<tbody>';
+
+      $tabla_quimicos+='<tr><th></th><th>AMONIO</th><th>mg/l</th><TH></TH><th class="claseA"></th><th class="claseB"></th><th class="claseC" ></th><th class="claseD"></th>';
+      $(campanias).each(function(k,v){
+          $tabla_quimicos+='<td >'+v.amonio+'</td>'
+
+      });
+      $tabla_quimicos+='</tr>';
+
+      $tabla_quimicos+='<tr><th></th><th>CLORUROS</th><th>mg/l</th><th>NO</th><th class="claseA">250</th><th class="claseB">300</th><th class="claseC" >400</th><th class="claseD">500</th>';
+      $(campanias).each(function(k,v){
+          let clase=''
+          if(v.cloruro<=250)
+              clase='claseA'
+          else if(v.cloruro>250 && v.cloruro<=300)
+              clase='claseB'
+          else if(v.cloruro>300 && v.cloruro<=400)
+              clase='claseB'
+          else if(v.cloruro>400 && v.cloruro<=500)
+              clase='claseB'
+
+          $tabla_quimicos+='<td class="'+clase+'">'+v.cloruro+'</td>'
+      });
+      $tabla_quimicos+='</tr>';
+
+      $tabla_quimicos+='<tr><th></th><th>NITRATO</th><th>mg/l</th><th>NO</th><th class="claseA">20</th><th class="claseB">50</th><th class="claseC" >50</th><th class="claseD">50</th>';
+      $(campanias).each(function(k,v){
+          let clase=''
+          if(v.nitrato<=20)
+              clase='claseA'
+          else if(v.nitrato>20 && v.nitrato<=50)
+              clase='claseB'
+
+
+          $tabla_quimicos+='<td class="'+clase+'">'+v.nitrato+'</td>'
+      });
+      $tabla_quimicos+='</tr>';
+
+      $tabla_quimicos+='<tr><th></th><th>NITRITO</th><th>mg/l</th><th>NO</th><th class="claseA"><1.0</th><th class="claseB">1</th><th class="claseC" >1</th><th class="claseD">1</th>';
+      $(campanias).each(function(k,v){
+          let clase=''
+          if(v.nitrito<1)
+              clase='claseA'
+          else if(v.nitrito>=1)
+              clase='claseB'
+
+
+          $tabla_quimicos+='<td class="'+clase+'">'+v.nitrito+'</td>'
+      });
+      $tabla_quimicos+='</tr>';
+
+
+      $tabla_quimicos+='<tr><th></th><th>CALCIO</th><th>mg/l</th><th>NO</th><th class="claseA">200</th><th class="claseB">300</th><th class="claseC" >300</th><th class="claseD">400</th>';
+      $(campanias).each(function(k,v){
+          let clase=''
+          if(v.ca<=200)
+              clase='claseA'
+          else if(v.ca>200 && v.ca<=300)
+              clase='claseB'
+          else if(v.ca>300 && v.ca<=400)
+              clase='claseC'
+
+
+          $tabla_quimicos+='<td class="'+clase+'">'+v.ca+'</td>'
+      });
+      $tabla_quimicos+='</tr>';
+
+
+      $tabla_quimicos+='<tr><th></th><th>MAGNESIO</th><th>mg/l</th><th>NO</th><th class="claseA">100</th><th class="claseB">100</th><th class="claseC" >150</th><th class="claseD">150</th>';
+      $(campanias).each(function(k,v){
+          let clase=''
+          if(v.mg<=100)
+              clase='claseA'
+          else if(v.mg>100&& v.mg<=150)
+              clase='claseC'
+
+
+          $tabla_quimicos+='<td class="'+clase+'">'+v.mg+'</td>'
+      });
+      $tabla_quimicos+='</tr>';
+
+      $tabla_quimicos+='<tr><th></th><th>POTASIO</th><th>mg/l</th><th></th><th class="claseA"></th><th class="claseB"></th><th class="claseC" ></th><th class="claseD"></th>';
+      $(campanias).each(function(k,v){
+
+          $tabla_quimicos+='<td >'+v.k+'</td>'
+      });
+      $tabla_quimicos+='</tr>';
+
+
+      $tabla_quimicos+='<tr><th></th><th>SODIO</th><th>mg/l</th><th>NO</th><th class="claseA">200</th><th class="claseB">200</th><th class="claseC" >200</th><th class="claseD">200</th>';
+      $(campanias).each(function(k,v){
+          let clase=''
+          if(v.na<=200)
+              clase='claseA'
+          $tabla_quimicos+='<td class="'+clase+'">'+v.na+'</td>'
+      });
+      $tabla_quimicos+='</tr>';
+
+      $tabla_quimicos+='<tr><th></th><th>CIANUROS</th><th>mg/l</th><th>NO</th><th class="claseA">0.02</th><th class="claseB">0.1</th><th class="claseC" >0.2</th><th class="claseD">0.2</th>';
+      $(campanias).each(function(k,v){
+          let clase=''
+          if(v.cianuro<=0.02)
+              clase='claseA'
+          else if(v.cianuro>0.02 && v.cianuro<=0.1)
+              clase='claseB'
+          else if(v.cianuro>0.1 && v.cianuro<=0.2)
+              clase='claseC'
+          $tabla_quimicos+='<td class="'+clase+'">'+v.cianuro+'</td>'
+      });
+      $tabla_quimicos+='</tr>';
+      $tabla_quimicos+='</tbody>';
+      $tabla_quimicos+='</table>';
+
+      //                ***************NUTRIENTES**********************
+      $tabla_nutrientes='<table class="table table-responsive tablas">'+
+          '<thead>' +
+          '<tr><th style="width:15px">GRAFICO</th><th style="width:150px">PARAMETROS</th><th>UNID.</th><th>CANCERIGENOS</th><th>CLASE A</th><th>CLASE B</th><th>CLASE C</th><th>CLASE D</th>';
+      $(campanias).each(function(k,v){
+          $tabla_nutrientes+='<th> '+v.campania+'</th>'
+      });
+      $tabla_nutrientes+='</tr></thead>';
+      $tabla_nutrientes+='<tbody>';
+
+      $tabla_nutrientes+='<tr><th></th><th>FOSFATO TOTAL</th><th>mg/l</th><th>NO</th><th class="claseA">0.4</th><th class="claseB">0.5</th><th class="claseC" >1</th><th class="claseD">1</th>';
+      $(campanias).each(function(k,v){
+          let clase=''
+          if(v.p<=0.4)
+              clase='claseA'
+          else if(v.p>0.4 && v.p<=0.5)
+              clase='claseB'
+          else if(v.p>0.5 && v.p<=1)
+              clase='claseC'
+
+          $tabla_nutrientes+='<td class="'+clase+'">'+v.p+'</td>'
+
+      });
+      $tabla_nutrientes+='</tr>';
+
+
+      $tabla_nutrientes+='<tr><th></th><th>NITROGENO TOTAL</th><th>mg/l</th><th>NO</th><th class="claseA">5</th><th class="claseB">12</th><th class="claseC" >12</th><th class="claseD">12</th>';
+      $(campanias).each(function(k,v){
+          let clase=''
+          if(v.nt<=5)
+              clase='claseA'
+          else if(v.nt>5 && v.nt<=12)
+              clase='claseB'
+
+
+          $tabla_nutrientes+='<td  class="'+clase+'">'+v.nt+'</td>'
+
+      });
+      $tabla_nutrientes+='</tr>';
+
+
+      $tabla_nutrientes+='<tr><th></th><th>BORO</th><th>mg/l</th><th></th><th>1.0c. B</th><th>1.0c. B</th><th>1.0c. B</th><th>1.0c. B</th>';
+      $(campanias).each(function(k,v){
+
+          $tabla_nutrientes+='<td >'+v.b+'</td>'
+
+      });
+      $tabla_nutrientes+='</tr>';
+      $tabla_nutrientes+='</tbody>';
+      $tabla_nutrientes+='</table>';
+
+      //                ***************SANITARIOS**********************
+      $tabla_sanitarios='<table class="table table-responsive tablas">'+
+          '<thead>' +
+          '<tr><th style="width:15px">GRAFICO</th><th style="width:150px">PARAMETROS</th><th>UNID.</th><th>CANCERIGENOS </th><th>CLASE A</th><th>CLASE B</th><th>CLASE C</th><th>CLASE D</th>';
+      $(campanias).each(function(k,v){
+          $tabla_sanitarios+='<th> '+v.campania+'</th>'
+      });
+      $tabla_sanitarios+='</tr></thead>';
+      $tabla_sanitarios+='<tbody>';
+
+      $tabla_sanitarios+='<tr><th></th><th>COLIFORMES TOTALES</th><th>UFC</th><th ></th><th ></th><th ></th><th></th><th></th>';
+      $(campanias).each(function(k,v){
+
+          $tabla_sanitarios+='<td >'+v.coli_tot+'</td>'
+
+      });
+      $tabla_sanitarios+='</tr>';
+
+      $tabla_sanitarios+='<tr><th></th><th>DQO</th><th>mg/l</th><th >NO</th><th class="claseA"><5</th><th class="claseB"><10</th><th class="claseC" ><40</th><th class="claseD"><60</th>';
+      $(campanias).each(function(k,v){
+          let clase=''
+          if(v.dqo<=5)
+              clase='claseA'
+          else if(v.dqo>5 && v.dqo<=10)
+              clase='claseB'
+          else if(v.dqo>5 && v.dqo<=40)
+              clase='claseC'
+          else if(v.dqo>40 && v.dqo<=60)
+              clase='claseC'
+          $tabla_sanitarios+='<td class="'+clase+'">'+v.dqo+'</td>'
+      });
+      $tabla_sanitarios+='</tr>';
+
+      $tabla_sanitarios+='<tr><th></th><th>DBO5</th><th>mg/l</th><th >NO</th><th class="claseA"><2</th><th class="claseB"><5</th><th class="claseC" ><20</th><th class="claseD"><30</th>';
+      $(campanias).each(function(k,v){
+          let clase=''
+          if(v.dbo5<=2)
+              clase='claseA'
+          else if(v.dbo5>2 && v.dbo5<=5)
+              clase='claseB'
+          else if(v.dbo5>5 && v.dbo5<=20)
+              clase='claseC'
+          else if(v.dbo5>20 && v.dbo5<=30)
+              clase='claseC'
+          $tabla_sanitarios+='<td class="'+clase+'">'+v.dbo5+'</td>'
+      });
+      $tabla_sanitarios+='</tr>';
+
+      $tabla_sanitarios+='<tr><th></th><th>NMP COLIFECALES</th><th>N/100ml</th><th >NO</th><th ><50y<5en80%de muestras</th><th ><1000 y <200 en 80%de muestras</th><th><5000 y <1000 en 80%de muestra</th><th><50000 y <5000 en 80% de muestras</th>';
+      $(campanias).each(function(k,v){
+
+          $tabla_sanitarios+='<td>'+v.coli_feca+'</td>'
+
+      });
+      $tabla_sanitarios+='</tr>';
+
+      $tabla_sanitarios+='<tr><th></th><th>Bacterias colif. Termorresistentes</th><th>UFC/100 ml</th><th ></th><th ></th><th ></th><th></th><th></th>';
+      $(campanias).each(function(k,v){
+
+          $tabla_sanitarios+='<td>'+v.bact_coli+'</td>'
+
+      });
+      $tabla_sanitarios+='</tr>';
+
+      $tabla_sanitarios+='</tbody>';
+      $tabla_sanitarios+='</table>';
+
+
+      //                ***************METALES**********************
+      $tabla_metales='<table class="table table-responsive tablas">'+
+          '<thead>' +
+          '<tr><th style="width:15px">GRAFICO</th><th style="width:150px">PARAMETROS</th><th>UNID.</th><TH>CANCERIGENOS</TH><th>CLASE A</th><th>CLASE B</th><th>CLASE C</th><th>CLASE D</th>';
+      $(campanias).each(function(k,v){
+          $tabla_metales+='<th> '+v.campania+'</th>'
+      });
+      $tabla_metales+='</tr></thead>';
+      $tabla_metales+='<tbody>';
+
+      $tabla_metales+='<tr><th></th><th>COBRE</th><th>mg/l</th><th>NO</th><th class="claseA">0.05</th><th class="claseB">1</th><th class="claseC" >1</th><th class="claseD">1</th>';
+      $(campanias).each(function(k,v){
+
+          let clase=''
+          if(v.cu<=0.05)
+              clase='claseA'
+          else if(v.cu>0.05 && v.cu<=1)
+              clase='claseB'
+
+          $tabla_metales+='<td class="'+clase+'">'+v.cu+'</td>'
+
+      });
+      $tabla_metales+='</tr>';
+
+
+      $tabla_metales+='<tr><th></th><th>HIERRO SOLUBLE</th><th>mg/l</th><th>NO</th><th class="claseA">0.3</th><th class="claseB">0.3</th><th class="claseC" >1</th><th class="claseD">1</th>';
+      $(campanias).each(function(k,v){
+
+          let clase=''
+          if(v.fe<=0.3)
+              clase='claseA'
+          else if(v.fe>0.3 && v.fe<=1)
+              clase='claseC'
+
+          $tabla_metales+='<td class="'+clase+'">'+v.fe+'</td>'
+
+      });
+      $tabla_metales+='</tr>';
+
+
+      $tabla_metales+='<tr><th></th><th>Zinc PLAGUICIDAS</th><th>mg/l</th><th>NO</th><th class="claseA">0.2</th><th class="claseB">0.2</th><th class="claseC" >5</th><th class="claseD">5</th>';
+      $(campanias).each(function(k,v){
+
+          let clase=''
+          if(v.zn<=0.2)
+              clase='claseA'
+          else if(v.zn>0.2 && v.zn<=5)
+              clase='claseC'
+
+          $tabla_metales+='<td class="'+clase+'">'+v.zn+'</td>'
+
+      });
+      $tabla_metales+='</tr>';
+
+      $tabla_metales+='<tr><th></th><th>ARSENICO TOTAL</th><th>mg/l</th><th>SI</th><th class="claseA">0.05</th><th class="claseB">0.05</th><th class="claseC" >0.05</th><th class="claseD">0.1</th>';
+      $(campanias).each(function(k,v){
+
+          let clase=''
+          if(v.as<=0.05)
+              clase='claseA'
+          else if(v.as>0.05 && v.as<=0.1)
+              clase='claseD'
+
+          $tabla_metales+='<td class="'+clase+'">'+v.as+'</td>'
+
+      });
+      $tabla_metales+='</tr>';
+
+      $tabla_metales+='<tr><th></th><th>CADMIO</th><th>mg/l</th><th>NO</th><th class="claseA">0.005</th><th class="claseB">0.005</th><th class="claseC" >0.005</th><th class="claseD">0.005</th>';
+      $(campanias).each(function(k,v){
+
+          let clase=''
+          if(v.cd<=0.005)
+              clase='claseA'
+          $tabla_metales+='<td class="'+clase+'">'+v.cd+'</td>'
+
+      });
+      $tabla_metales+='</tr>';
+
+
+      $tabla_metales+='<tr><th></th><th>PLOMO</th><th>mg/l</th><th>NO</th><th class="claseA">0.05</th><th class="claseB">0.05</th><th class="claseC" >0.05</th><th class="claseD">0.1</th>';
+      $(campanias).each(function(k,v){
+
+          let clase=''
+          if(v.pb<=0.05)
+              clase='claseA'
+          else if(v.pb>0.05 && v.pb<=0.1)
+              clase='claseD'
+
+          $tabla_metales+='<td class="'+clase+'">'+v.pb+'</td>'
+
+      });
+      $tabla_metales+='</tr>';
+
+
+      $tabla_metales+='<tr><th></th><th>CROMO HEXAVALENTE</th><th>mg/l</th><th>SI</th><th class="claseA">0.05</th><th class="claseB">0.05</th><th class="claseC" >0.05</th><th class="claseD">0.05</th>';
+      $(campanias).each(function(k,v){
+
+          let clase=''
+          if(v.cr<=0.05)
+              clase='claseA'
+
+          $tabla_metales+='<td class="'+clase+'">'+v.cr+'</td>'
+
+      });
+      $tabla_metales+='</tr>';
+
+
+      $tabla_metales+='<tr><th></th><th>MANGANESO</th><th>mg/l</th><th>NO</th><th class="claseA">0.05</th><th class="claseB">1</th><th class="claseC" >1</th><th class="claseD">1</th>';
+      $(campanias).each(function(k,v){
+
+          let clase=''
+          if(v.mn<=0.05)
+              clase='claseA'
+          else if(v.mn>0.05 && v.mn<=1)
+              clase='claseB'
+          $tabla_metales+='<td class="'+clase+'">'+v.mn+'</td>'
+
+      });
+      $tabla_metales+='</tr>';
+
+
+      $tabla_metales+='<tr><th></th><th>ANTIMONIO</th><th>mg/l</th><th>NO</th><th >0.01c. Sb</th><th>0.01c. Sb</th><th>  0.01c. Sb</th><th >0.01c. Sb</th>';
+      $(campanias).each(function(k,v){
+
+          $tabla_metales+='<td>'+v.sb+'</td>'
+
+      });
+      $tabla_metales+='</tr>';
+
+
+      $tabla_metales+='<tr><th></th><th>MERCURIO</th><th>mg/l</th><th>NO</th><th >0.001 Hg</th><th>0.001 Hg</th><th>  0.001 Hg</th><th >0.001 Hg</th>';
+      $(campanias).each(function(k,v){
+
+          $tabla_metales+='<td>'+v.hg+'</td>'
+
+      });
+      $tabla_metales+='</tr>';
+
+
+      $tabla_metales+='<tr><th></th><th>NIQUEL</th><th>mg/l</th><th>SI</th><th >0.05c.Ni</th><th>0.05c.Ni</th><th>  0.05c.Ni</th><th >0.05c.Ni</th>';
+      $(campanias).each(function(k,v){
+
+          $tabla_metales+='<td>'+v.ni+'</td>'
+
+      });
+      $tabla_metales+='</tr>';
+
+      $tabla_metales+='<tr><th></th><th>SELENIO</th><th>mg/l</th><th>NO</th><th >0.01c Se</th><th>0.01c Se</th><th>  0.01c Se</th><th >0.01c Se</th>';
+      $(campanias).each(function(k,v){
+
+          $tabla_metales+='<td>'+v.se+'</td>'
+
+      });
+      $tabla_metales+='</tr>';
+      $tabla_metales+='</tbody>';
+      $tabla_metales+='</table>';
+
+
+
+
+      $('#general_remas').append($tabla);
+      $('#fisico_remas').append($tabla_fisicos);
+      $('#gases_remas').append($tabla_gases);
+      $('#quimicos_remas').append($tabla_quimicos);
+      $('#nutrientes_remas').append($tabla_nutrientes);
+      $('#sanitarios_remas').append($tabla_sanitarios);
+      $('#metales_remas').append($tabla_metales);
 
       $('#myModal').modal('show');
   }
@@ -771,110 +2033,435 @@
               '<li >Nombre de Estacion:<strong class="text-primary">'+data.estacion+'</strong></li>';
 
       $('#datos_generales').append($datos_generales);
+      $tabla='<table  class="table tablas">'+
+          '<thead>' +
+          '<tr><th>DESC</th>';
       $(campanias).each(function(k,v){
-          $ul_gen+='<li>'+
-                  '<ol>'+
-
-                  '<li  class="text-warning">Campaña:<strong>'+v.campania+'</strong></li>'+
-                  '<li >Codigo campaña: <strong>'+v.cod_campania+'</strong></li>'+
-                  '<li >Laboratorio Responsable: <strong>'+v.laboratorio+'</strong></li>'+
-                  '<li >Fecha d/m/A: <strong>'+v.fecha+'</strong></li>'+
-                  '<li >Hora H:m: <strong>'+v.hora+'</strong></li>'+
-                  '<li >Profundidad. (m): <strong>'+v.prof+'</strong></li>'+
-                  '</ol>'+
-                  '</li>';
-          $ul_fisico+='<li>'+
-                  '<ol>'+
-                  '<li  class="text-warning">Campaña:<strong>'+v.campania+'</strong></li>'+
-
-                  '<li >PH:<strong class="text-primary">'+v.ph+'</strong>  <button  onclick="charts_remas(\'remas\',\'ph\')" class="btn btn-primary  btn-xs ">Graficar</button></li>'+
-                  '<li >CEV (uS/cm):<strong class="text-primary">'+v.ce+'</strong><a href="###" onclick="charts_remas(\'remas\',\'ce\')" class="text-warning ">Graficar</a></i>'+
-                  '<li >T (°C):<strong class="text-primary">'+v.temperatura+'</strong></li>'+
-                  '<li >TURBIEDAD(NTU):<strong class="text-primary">'+v.turbiedad+'</strong></li>'+
-                  '<li >Color:<strong class="text-primary">'+v.color+'</strong></li>'+
-                  '<li >SST(mg/l):<strong class="text-primary">'+v.sst+'</strong></li>'+
-                  '<li >SDT(mg/l):<strong class="text-primary">'+v.sdt+'</strong></li>'+
-                  '<li >Disco Sechi:<strong class="text-primary">'+v.disco+'</strong></li>'+
-                  '</ol>'+
-                  '</li>';
-
-          $ul_gases+='<li>'+
-                  '<ol>'+
-                  '<li  class="text-warning">Campaña:<strong>'+v.campania+'</strong></li>'+
-
-                  '<li >CO2(mg/l):<strong class="text-primary">'+v.co+'</strong></li>'+
-                  '<li> OD(mg/l):<strong class="text-primary">'+v.od+'</strong></li>'+
-                  '<li> OD Saturado (mg/l):<strong class="text-primary">'+v.od_satu+'</strong></li>'+
-                  '<li> Saturación (%):<strong class="text-primary">'+v.saturacion+'</strong></li>'+
-                  '<li> HS2(mg/l):<strong class="text-primary">'+v.hs+'</strong></li>'+
-                  '</ol>'+
-                  '</li>';
-
-
-          $ul_quimicos+='<li>'+
-                  '<ol>'+
-                  '<li  class="text-warning">Campaña:<strong>'+v.campania+'</strong></li>'+
-                  '<li >Ca (mg/l):<strong class="text-primary">'+v.ca+'</strong></li>'+
-                  '<li> Mg (mg/l):<strong class="text-primary">'+v.mg+'</strong></li>'+
-                  '<li> Na (mg/l):<strong class="text-primary">'+v.na+'</strong></li>'+
-                  '<li> K (mg/l):<strong class="text-primary">'+v.k+'</strong></li>'+
-                  '<li> Na + K (mg/l):<strong class="text-primary">'+v.na_k+'</strong></li>'+
-                  '<li> CO3 (mg/l):<strong class="text-primary">'+v.co2+'</strong></li>'+
-                  '<li> CO3H (mg/l):<strong class="text-primary">'+v.co2h+'</strong></li>'+
-                  '<li> Cl (mg/l):<strong class="text-primary">'+v.ci+'</strong></li>'+
-                  '<li> (SO4)2- (mg/l):<strong class="text-primary">'+v.so4+'</strong></li>'+
-                  '<li> Alcalinidad (mg/l) CaCO3:<strong class="text-primary">'+v.alcalinidad+'</strong></li>'+
-                  '<li> Dureza total (mg/l) CaCO3:<strong class="text-primary">'+v.dureza +'</strong></li>'+
-                  '</ol>'+
-                  '</li>';
-
-
-          $ul_nutrientes+='<li>'+
-                  '<ol>'+
-                  '<li  class="text-warning">Campaña:<strong>'+v.campania+'</strong></li>'+
-                  '<li >SiO3 (mg/l):<strong class="text-primary">'+v.sio3+'</strong></li>'+
-                  '<li> N-NO3- (mg/l):<strong class="text-primary">'+v.nno3+'</strong></li>'+
-                  '<li> N-NO2- (mg/l):<strong class="text-primary">'+v.nno2+'</strong></li>'+
-                  '<li> N-NH4+ (mg/l):<strong class="text-primary">'+v.nnh4+'</strong></li>'+
-                  '<li> Nt (mg/l):<strong class="text-primary">'+v.nt+'</strong></li>'+
-                  '<li> N-Kjeldall (mg/l):<strong class="text-primary">'+v.kjendall+'</strong></li>'+
-                  '<li> (PO4)3- (mg/l):<strong class="text-primary">'+v.po4+'</strong></li>'+
-                  '<li> P (mg/l):<strong class="text-primary">'+v.p+'</strong></li>'+
-                  '<li> Pt (mg/l):<strong class="text-primary">'+v.pt+'</strong></li>'+
-                  '<li>Si (mg/l):<strong class="text-primary">'+v.si+'</strong></li>'+
-                  '<li> B (mg/l):<strong class="text-primary">'+v.b+'</strong></li>'+
-                  '</ol>'+
-                  '</li>';
-
-          $ul_sanitarios+='<li>'+
-                  '<ol>'+
-                  '<li  class="text-warning">Campaña:<strong>'+v.campania+'</strong></li>'+
-                  '<li >DBO5 (mg/l):<strong class="text-primary">'+v.dbo5+'</strong></li>'+
-                  '<li >DQO (mg/l):<strong class="text-primary">'+v.dqo+'</strong></li>'+
-                  '<li >Coliformes fecales (NMP/100 ml):<strong class="text-primary">'+v.coli_feca+'</strong></li>'+
-                  '<li >Coliformes totales (NMP/100 ml):<strong class="text-primary">'+v.coli_tot+'</strong></li>'+
-                  '<li >Salmonella spp (NMP/100 ml):<strong class="text-primary">'+v.salmonella+'</strong></li>'+
-                  '<li >Clorofila A (mg/m3):<strong class="text-primary">'+v.clorofilla+'</strong></li>'+
-                  '<li >Conteo de algas:<strong class="text-primary">'+v.cont_algas+'</strong></li>'+
-                  '<li >Conteo zooplancton:<strong class="text-primary">'+v.cont_plancton+'</strong></li>'+
-                  '<li >Conteo bentos:<strong class="text-primary">'+v.cont_bentos+'</strong></li>'+
-                  '</ol>'+
-                  '</li>';
+          $tabla+='<th>CAMPAÑA '+v.campania+'</th>'
       });
+
+      $tabla+='</tr></thead>';
+      $tabla+='<tbody>';
+      $tabla+='<tr><th>CODIGO</th>';
+      $(campanias).each(function(k,v){
+          $tabla+='<td>'+v.cod_campania+'</td>'
+      });
+      $tabla+='</tr>';
+
+      $tabla+='<tr><th>LABO.<br>RESPON</th>';
+      $(campanias).each(function(k,v){
+          $tabla+='<td>'+v.laboratorio+'</td>'
+      });
+      $tabla+='</tr>';
+
+      $tabla+='<tr><th>FECHA/HORA</th>';
+      $(campanias).each(function(k,v){
+          $tabla+='<td>'+v.fecha+'|'+v.hora+'</td>'
+      });
+      $tabla+='</tr>';
+
+      $tabla+='<tr><th>PROFUNDIDAD (m)</th>';
+      $(campanias).each(function(k,v){
+          $tabla+='<td>'+v.prof+'</td>'
+      });
+      $tabla+='</tr>';
+
+      $tabla+='</tbody>';
+      $tabla+='</table>';
+
+      //                ***************FISICOS**********************
+      $tabla_fisicos='<table class="table table-responsive tablas">'+
+          '<thead>' +
+          '<tr><th style="width:15px">GRAFICO</th><th style="width:150px">PARAMETROS</th><th>UNID.</th><th style="width:50px">CANCERIGENOS</th><th>CLASE A</th><th>CLASE B</th><th>CLASE C</th><th>CLASE D</th>';
+      $(campanias).each(function(k,v){
+          $tabla_fisicos+='<th> '+v.campania+'</th>'
+      });
+      $tabla_fisicos+='</tr></thead>';
+      $tabla_fisicos+='<tbody>';
+
+      $tabla_fisicos+='<tr><th><button  onclick="charts_remas(\'remas\',\'ph\')" class="btn btn-default  btn-xs "><i class="fa fa-line-chart"></i></button></th><th>PH</th><th></th><th></th><th class="claseA">6 A 8,5</th><th class="claseB">6 a 9</th><th class="claseC" >6 a 9</th><th class="claseD">6 a 9</th>';
+      $(campanias).each(function(k,v){
+          let clase=''
+          if(v.ph>=6 && v.ph<=8.5)
+              clase='claseA'
+          else if(v.ph>8.5)
+              clase='claseB'
+
+
+          $tabla_fisicos+='<td class="'+clase+'">'+v.ph+'</td>'
+
+      });
+      $tabla_fisicos+='</tr>';
+
+      $tabla_fisicos+='<tr><th></th><th>TEMPERATURA</th><th>°C</th><th>NO</th><th >+/-3°  C. <BR>receptor</th><th >+/-3°C. <BR> receptor</th><th  >+/-3°C.  <BR>receptor</th><th>+/-3°C.  <BR>receptor</th>';
+      $(campanias).each(function(k,v){
+          $tabla_fisicos+='<td>'+v.temperatura+'</td>'
+      });
+      $tabla_fisicos+='</tr>';
+
+      $tabla_fisicos+='<tr><th></th><th>CONDUCTIVIDAD</th><th>uS/cm</th><th ></th><th></th><th></th><th></th>';
+      $(campanias).each(function(k,v){
+          $tabla_fisicos+='<td>'+v.ce+'</td>'
+      });
+      $tabla_fisicos+='</tr>';
+
+      $tabla_fisicos+='<tr><th></th><th>SOLIDOS  SUSPENDIDOS</th><th>mgl</th><th></th><th class="claseA" ></th><th class="claseB"></th><th class="claseC"></th><th class="claseD"></th>';
+      $(campanias).each(function(k,v){
+          $tabla_fisicos+='<td>'+v.sst+'</td>'
+      });
+      $tabla_fisicos+='</tr>';
+
+      $tabla_fisicos+='<tr><th></th><th>SOLIDOS  DISUELTOS TOTALES</th><th>mg/l</th><th></th><th class="claseA" >1000</th><th class="claseB">1000</th><th class="claseC">1500</th><th class="claseD">1500</th>';
+      $(campanias).each(function(k,v){
+          let clase=''
+          if(v.sdt<=1000)
+              clase='claseA'
+          else if(v.sdt>1000 && v.sdt<=1500)
+              clase='claseC'
+
+          $tabla_fisicos+='<td class="'+clase+'">'+v.sdt+'</td>'
+      });
+      $tabla_fisicos+='</tr>';
+
+
+      $tabla_fisicos+='<tr><th></th><th>TURBIDEZ</th><th>UNT</th><th>NO</th><th class="claseA" ><10</th><th class="claseB"><50</th><th class="claseC"><100</th><th class="claseD"><200</th>';
+      $(campanias).each(function(k,v){
+          let clase=''
+          if(v.turbiedad<=10)
+              clase='claseA'
+          else if(v.turbiedad>10 && v.turbiedad<=50)
+              clase='claseB'
+
+          else if(v.turbiedad>50 && v.turbiedad<=100)
+              clase='claseC'
+          else if(v.turbiedad>100 )
+              clase='claseD'
+          $tabla_fisicos+='<td class="'+clase+'">'+v.turbiedad    +'</td>'
+      });
+      $tabla_fisicos+='</tr>';
+
+      $tabla_fisicos+='<tr><th></th><th>COLOR</th><th>mg/l</th><th>NO</th><th class="claseA" ><10</th><th class="claseB"><50</th><th class="claseC"><100</th><th class="claseD"><200</th>';
+      $(campanias).each(function(k,v){
+          let clase=''
+          if(v.color<=10)
+              clase='claseA'
+          else if(v.color>10 && v.color<=50)
+              clase='claseB'
+
+          else if(v.color>50 && v.color<=100)
+              clase='claseC'
+          else if(v.color>100 )
+              clase='claseD'
+          $tabla_fisicos+='<td class="'+clase+'">'+v.color    +'</td>'
+      });
+      $tabla_fisicos+='</tr>';
+
+
+      $tabla_fisicos+='<tr><th></th><th>ACEITES Y GRASAS</th><th>mg/l</th><th>NO</th><th >Ausentes</th><th> Ausentes</th><th>0.3</th><th>1</th>';
+      $(campanias).each(function(k,v){
+          $tabla_fisicos+='<td >'+v.aceites    +'</td>'
+      });
+      $tabla_fisicos+='</tr>';
+      $tabla_fisicos+='</tbody>';
+      $tabla_fisicos+='</table>';
+
+
+
+//  ***************GASES**********************
+      $tabla_gases='<table class="table table-responsive tablas">'+
+          '<thead>' +
+          '<tr><th style="width:15px">GRAFICO</th><th style="width:150px">PARAMETROS</th><th>UNID.</th><th style="width:30px">CANCERIGENOS</th><th>CLASE A</th><th>CLASE B</th><th>CLASE C</th><th>CLASE D</th>';
+      $(campanias).each(function(k,v){
+          $tabla_gases+='<th> '+v.campania+'</th>'
+      });
+      $tabla_gases+='</tr></thead>';
+      $tabla_gases+='<tbody>';
+
+      $tabla_gases+='<tr><th></th><th>OXIGINENO DISUELTO</th><th>mg/l</th><th>NO</th><th class="claseA"></th><th class="claseB"></th><th class="claseC" ></th><th class="claseD"></th>';
+      $(campanias).each(function(k,v){
+          $tabla_gases+='<td >'+v.od+'</td>'
+
+      });
+      $tabla_gases+='</tr>';
+
+      $tabla_gases+='<tr><th></th><th>SULFATOS</th><th>mg/l</th><th>NO</th><th class="claseA">300</th><th class="claseB">400</th><th class="claseC" >400</th><th class="claseD">400</th>';
+      $(campanias).each(function(k,v){
+          let clase=''
+          if(v.hs<=300)
+              clase='claseA'
+          else if(v.hs>300 && v.hs<=400)
+              clase='claseB'
+
+          $tabla_gases+='<td class="'+clase+'">'+v.hs+'</td>'
+      });
+      $tabla_gases+='</tr>';
+      $tabla_gases+='</tbody>';
+      $tabla_gases+='</table>';
+
+
+      //                ***************QUIMICOS**********************
+      $tabla_quimicos='<table class="table table-responsive tablas">'+
+          '<thead>' +
+          '<tr><th style="width:15px">GRAFICO</th><th style="width:150px">PARAMETROS</th><th>UNID.</th><th>CANCERIGENOS</th><th>CLASE A</th><th>CLASE B</th><th>CLASE C</th><th>CLASE D</th>';
+      $(campanias).each(function(k,v){
+          $tabla_quimicos+='<th> '+v.campania+'</th>'
+      });
+      $tabla_quimicos+='</tr></thead>';
+      $tabla_quimicos+='<tbody>';
+
+      $tabla_quimicos+='<tr><th></th><th>AMONIO</th><th>mg/l</th><TH></TH><th class="claseA"></th><th class="claseB"></th><th class="claseC" ></th><th class="claseD"></th>';
+      $(campanias).each(function(k,v){
+          $tabla_quimicos+='<td >'+v.amonio+'</td>'
+
+      });
+      $tabla_quimicos+='</tr>';
+
+      $tabla_quimicos+='<tr><th></th><th>CLORUROS</th><th>mg/l</th><th>NO</th><th class="claseA">250</th><th class="claseB">300</th><th class="claseC" >400</th><th class="claseD">500</th>';
+      $(campanias).each(function(k,v){
+          let clase=''
+          if(v.cloruro<=250)
+              clase='claseA'
+          else if(v.cloruro>250 && v.cloruro<=300)
+              clase='claseB'
+          else if(v.cloruro>300 && v.cloruro<=400)
+              clase='claseB'
+          else if(v.cloruro>400 && v.cloruro<=500)
+              clase='claseB'
+
+          $tabla_quimicos+='<td class="'+clase+'">'+v.cloruro+'</td>'
+      });
+      $tabla_quimicos+='</tr>';
+
+      $tabla_quimicos+='<tr><th></th><th>NITRATO</th><th>mg/l</th><th>NO</th><th class="claseA">20</th><th class="claseB">50</th><th class="claseC" >50</th><th class="claseD">50</th>';
+      $(campanias).each(function(k,v){
+          let clase=''
+          if(v.nitrato<=20)
+              clase='claseA'
+          else if(v.nitrato>20 && v.nitrato<=50)
+              clase='claseB'
+
+
+          $tabla_quimicos+='<td class="'+clase+'">'+v.nitrato+'</td>'
+      });
+      $tabla_quimicos+='</tr>';
+
+      $tabla_quimicos+='<tr><th></th><th>NITRITO</th><th>mg/l</th><th>NO</th><th class="claseA"><1.0</th><th class="claseB">1</th><th class="claseC" >1</th><th class="claseD">1</th>';
+      $(campanias).each(function(k,v){
+          let clase=''
+          if(v.nitrito<1)
+              clase='claseA'
+          else if(v.nitrito>=1)
+              clase='claseB'
+
+
+          $tabla_quimicos+='<td class="'+clase+'">'+v.nitrito+'</td>'
+      });
+      $tabla_quimicos+='</tr>';
+
+
+      $tabla_quimicos+='<tr><th></th><th>CALCIO</th><th>mg/l</th><th>NO</th><th class="claseA">200</th><th class="claseB">300</th><th class="claseC" >300</th><th class="claseD">400</th>';
+      $(campanias).each(function(k,v){
+          let clase=''
+          if(v.ca<=200)
+              clase='claseA'
+          else if(v.ca>200 && v.ca<=300)
+              clase='claseB'
+          else if(v.ca>300 && v.ca<=400)
+              clase='claseC'
+
+
+          $tabla_quimicos+='<td class="'+clase+'">'+v.ca+'</td>'
+      });
+      $tabla_quimicos+='</tr>';
+
+
+      $tabla_quimicos+='<tr><th></th><th>MAGNESIO</th><th>mg/l</th><th>NO</th><th class="claseA">100</th><th class="claseB">100</th><th class="claseC" >150</th><th class="claseD">150</th>';
+      $(campanias).each(function(k,v){
+          let clase=''
+          if(v.mg<=100)
+              clase='claseA'
+          else if(v.mg>100&& v.mg<=150)
+              clase='claseC'
+
+
+          $tabla_quimicos+='<td class="'+clase+'">'+v.mg+'</td>'
+      });
+      $tabla_quimicos+='</tr>';
+
+      $tabla_quimicos+='<tr><th></th><th>POTASIO</th><th>mg/l</th><th></th><th class="claseA"></th><th class="claseB"></th><th class="claseC" ></th><th class="claseD"></th>';
+      $(campanias).each(function(k,v){
+
+          $tabla_quimicos+='<td >'+v.k+'</td>'
+      });
+      $tabla_quimicos+='</tr>';
+
+
+      $tabla_quimicos+='<tr><th></th><th>SODIO</th><th>mg/l</th><th>NO</th><th class="claseA">200</th><th class="claseB">200</th><th class="claseC" >200</th><th class="claseD">200</th>';
+      $(campanias).each(function(k,v){
+          let clase=''
+          if(v.na<=200)
+              clase='claseA'
+          $tabla_quimicos+='<td class="'+clase+'">'+v.na+'</td>'
+      });
+      $tabla_quimicos+='</tr>';
+
+      $tabla_quimicos+='<tr><th></th><th>CIANUROS</th><th>mg/l</th><th>NO</th><th class="claseA">0.02</th><th class="claseB">0.1</th><th class="claseC" >0.2</th><th class="claseD">0.2</th>';
+      $(campanias).each(function(k,v){
+          let clase=''
+          if(v.cianuro<=0.02)
+              clase='claseA'
+          else if(v.cianuro>0.02 && v.cianuro<=0.1)
+              clase='claseB'
+          else if(v.cianuro>0.1 && v.cianuro<=0.2)
+              clase='claseC'
+          $tabla_quimicos+='<td class="'+clase+'">'+v.cianuro+'</td>'
+      });
+      $tabla_quimicos+='</tr>';
+      $tabla_quimicos+='</tbody>';
+      $tabla_quimicos+='</table>';
+
+      //                ***************NUTRIENTES**********************
+      $tabla_nutrientes='<table class="table table-responsive tablas">'+
+          '<thead>' +
+          '<tr><th style="width:15px">GRAFICO</th><th style="width:150px">PARAMETROS</th><th>UNID.</th><th>CANCERIGENOS</th><th>CLASE A</th><th>CLASE B</th><th>CLASE C</th><th>CLASE D</th>';
+      $(campanias).each(function(k,v){
+          $tabla_nutrientes+='<th> '+v.campania+'</th>'
+      });
+      $tabla_nutrientes+='</tr></thead>';
+      $tabla_nutrientes+='<tbody>';
+
+      $tabla_nutrientes+='<tr><th></th><th>FOSFATO TOTAL</th><th>mg/l</th><th>NO</th><th class="claseA">0.4</th><th class="claseB">0.5</th><th class="claseC" >1</th><th class="claseD">1</th>';
+      $(campanias).each(function(k,v){
+          let clase=''
+          if(v.p<=0.4)
+              clase='claseA'
+          else if(v.p>0.4 && v.p<=0.5)
+              clase='claseB'
+          else if(v.p>0.5 && v.p<=1)
+              clase='claseC'
+
+          $tabla_nutrientes+='<td class="'+clase+'">'+v.p+'</td>'
+
+      });
+      $tabla_nutrientes+='</tr>';
+
+
+      $tabla_nutrientes+='<tr><th></th><th>NITROGENO TOTAL</th><th>mg/l</th><th>NO</th><th class="claseA">5</th><th class="claseB">12</th><th class="claseC" >12</th><th class="claseD">12</th>';
+      $(campanias).each(function(k,v){
+          let clase=''
+          if(v.nt<=5)
+              clase='claseA'
+          else if(v.nt>5 && v.nt<=12)
+              clase='claseB'
+
+
+          $tabla_nutrientes+='<td  class="'+clase+'">'+v.nt+'</td>'
+
+      });
+      $tabla_nutrientes+='</tr>';
+
+
+      $tabla_nutrientes+='<tr><th></th><th>BORO</th><th>mg/l</th><th></th><th>1.0c. B</th><th>1.0c. B</th><th>1.0c. B</th><th>1.0c. B</th>';
+      $(campanias).each(function(k,v){
+
+          $tabla_nutrientes+='<td >'+v.b+'</td>'
+
+      });
+      $tabla_nutrientes+='</tr>';
+      $tabla_nutrientes+='</tbody>';
+      $tabla_nutrientes+='</table>';
+
+      //                ***************SANITARIOS**********************
+      $tabla_sanitarios='<table class="table table-responsive tablas">'+
+          '<thead>' +
+          '<tr><th style="width:15px">GRAFICO</th><th style="width:150px">PARAMETROS</th><th>UNID.</th><th>CANCERIGENOS </th><th>CLASE A</th><th>CLASE B</th><th>CLASE C</th><th>CLASE D</th>';
+      $(campanias).each(function(k,v){
+          $tabla_sanitarios+='<th> '+v.campania+'</th>'
+      });
+      $tabla_sanitarios+='</tr></thead>';
+      $tabla_sanitarios+='<tbody>';
+
+      $tabla_sanitarios+='<tr><th></th><th>COLIFORMES TOTALES</th><th>UFC</th><th ></th><th ></th><th ></th><th></th><th></th>';
+      $(campanias).each(function(k,v){
+
+          $tabla_sanitarios+='<td >'+v.coli_tot+'</td>'
+
+      });
+      $tabla_sanitarios+='</tr>';
+
+      $tabla_sanitarios+='<tr><th></th><th>DQO</th><th>mg/l</th><th >NO</th><th class="claseA"><5</th><th class="claseB"><10</th><th class="claseC" ><40</th><th class="claseD"><60</th>';
+      $(campanias).each(function(k,v){
+          let clase=''
+          if(v.dqo<=5)
+              clase='claseA'
+          else if(v.dqo>5 && v.dqo<=10)
+              clase='claseB'
+          else if(v.dqo>5 && v.dqo<=40)
+              clase='claseC'
+          else if(v.dqo>40 && v.dqo<=60)
+              clase='claseC'
+          $tabla_sanitarios+='<td class="'+clase+'">'+v.dqo+'</td>'
+      });
+      $tabla_sanitarios+='</tr>';
+
+      $tabla_sanitarios+='<tr><th></th><th>DBO5</th><th>mg/l</th><th >NO</th><th class="claseA"><2</th><th class="claseB"><5</th><th class="claseC" ><20</th><th class="claseD"><30</th>';
+      $(campanias).each(function(k,v){
+          let clase=''
+          if(v.dbo5<=2)
+              clase='claseA'
+          else if(v.dbo5>2 && v.dbo5<=5)
+              clase='claseB'
+          else if(v.dbo5>5 && v.dbo5<=20)
+              clase='claseC'
+          else if(v.dbo5>20 && v.dbo5<=30)
+              clase='claseC'
+          $tabla_sanitarios+='<td class="'+clase+'">'+v.dbo5+'</td>'
+      });
+      $tabla_sanitarios+='</tr>';
+
+      $tabla_sanitarios+='<tr><th></th><th>NMP COLIFECALES</th><th>N/100ml</th><th >NO</th><th ><50y<5en80%de muestras</th><th ><1000 y <200 en 80%de muestras</th><th><5000 y <1000 en 80%de muestra</th><th><50000 y <5000 en 80% de muestras</th>';
+      $(campanias).each(function(k,v){
+
+          $tabla_sanitarios+='<td>'+v.coli_feca+'</td>'
+
+      });
+      $tabla_sanitarios+='</tr>';
+
+      $tabla_sanitarios+='<tr><th></th><th>Bacterias colif. Termorresistentes</th><th>UFC/100 ml</th><th ></th><th ></th><th ></th><th></th><th></th>';
+      $(campanias).each(function(k,v){
+
+          $tabla_sanitarios+='<td>'+v.salmonella+'</td>'
+
+      });
+      $tabla_sanitarios+='</tr>';
+
+      $tabla_sanitarios+='</tbody>';
+      $tabla_sanitarios+='</table>';
+
+
+
+
+
+
+
       $ul_gen+='</li>';
       $ul_fisico+='</li>';
       $ul_gases+='</li>';
       $ul_quimicos+='</li>';
       $ul_nutrientes+='</li>';
       $ul_sanitarios+='</li>';
+      $tabla_metales='<div style="height:150px "></div>';
 
-      $('#general_remas').append($ul_gen);
-      $('#fisico_remas').append($ul_fisico);
-      $('#gases_remas').append($ul_gases);
-      $('#quimicos_remas').append($ul_quimicos);
-      $('#nutrientes_remas').append($ul_nutrientes);
-      $('#sanitarios_remas').append($ul_sanitarios);
-
+      $('[href="#metales_remas"]').closest('li').hide();
+      $('[href="#reportes"]').closest('li').hide();
+      $('[href="#icg"]').closest('li').hide();
+      $('#general_remas').append($tabla);
+      $('#fisico_remas').append($tabla_fisicos);
+      $('#gases_remas').append($tabla_gases);
+      $('#quimicos_remas').append($tabla_quimicos);
+      $('#nutrientes_remas').append($tabla_nutrientes);
+      $('#sanitarios_remas').append($tabla_sanitarios);
+      $('#metales_remas').append($tabla_metales);
       $('#myModal').modal('show');
   }
 
@@ -991,7 +2578,7 @@
         function showInContentWindow(text) {
             var sidediv = document.getElementById('content-window');
 
-            sidediv.innerHTML = text;
+//            sidediv.innerHTML = text;
         }
 
         $(function(){
@@ -1090,11 +2677,14 @@
                             <li>
                                 <a href="#sanitarios_remas" data-toggle="tab" >Indicadores <br>sanitarios Biologicos</a>
                             </li>
-                            <li>
+                            <li id="tab_metales">
                                 <a href="#metales_remas" data-toggle="tab" >Metales y <br>no Metales trazas</a>
                             </li>
-                            <li>
+                            <li class="tab-reporte">
                                 <a href="#reportes" data-toggle="tab" >Reporte</a>
+                            </li>
+                            <li class="tab-icg">
+                                <a href="#icg" data-toggle="tab" >ICG</a>
                             </li>
                         </ul>
                         <div class="tab-content" style="font-size: 12px;">
@@ -1122,10 +2712,6 @@
 
                             </div>
                             <div id="sanitarios_remas" class="tab-pane">
-
-
-
-
                             </div>
                             <div id="metales_remas" class="tab-pane">
 
@@ -1134,6 +2720,21 @@
                             </div>
 
                             <div id="reportes" class="tab-pane">
+
+
+
+                            </div>
+
+                            <div id="icg" class=" row tab-pane">
+                                <div class=" col-md-6"  id="div_icg">
+
+                                </div>
+                                <div class=" col-md-6"  id="div_icg">
+                                    <h6>La clasificacion de la aguas  en funcion de su ICG se  muestra en la siguiente tabla:</h6>
+                                    <br>
+                                    <img  style="margin: auto" src="{{asset('img/icg.png')}}" alt="">
+                                </div>
+
 
 
 

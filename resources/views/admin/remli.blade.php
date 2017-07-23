@@ -13,29 +13,30 @@
 
                 <div class="panel-body">
                     @if($remas->count()>0)
-                        <table class="table table-responsive table-striped" id="table">
+                        <table class=" table-striped" id="table">
                             <thead>
-                            <tr>
+                            <tr class="bg-tertiary">
                                 <th>Codigo</th>
                                 <th>Pto</th>
                                 <th>Pais</th>
                                 <th>Nivel 3</th>
-                                <th>Zona <br>Hidrologica</th>
+                                <th>Zona <br>Hidro <br>logica</th>
                                 <th>Red</th>
                                 <th>Nro Red</th>
                                 <th>Nombre de Zona <br>Hidrologica TDPS</th>
                                 <th>Coordenada Este</th>
                                 <th>Coordenada Norte</th>
                                 <th>Altura(msnm)</th>
-                                <th>Departamento</th>
+                                <th>Depto</th>
                                 <th>Nombre de Estacion</th>
-                                <th>Acciones</th>
+                                <th>Crear</th>
+                                <th>Editar</th>
                             </tr>
                             </thead>
                             <tbody>
                             @foreach($remas as $r)
                                 <tr>
-                                    <td class="col-md-2 text-primary"><strong>{{$r->codigo}}</strong></td>
+                                    <td class="col-md-1 text-primary" style="font-size: 9px"><strong>{{$r->codigo}}</strong></td>
                                     <td>{{$r->pto}}</td>
                                     <td>{{$r->pais}}</td>
                                     <td>{{$r->nivel3}}</td>
@@ -48,10 +49,13 @@
                                     <td>{{$r->altura}}</td>
                                     <td>{{$r->dpto}}</td>
                                     <td>{{$r->estacion}}</td>
-                                    <td class="col-md-4">
+                                    <td>
+                                        <a href="{{url('admin/createmedicion_remli')}}/{{$r->id}}" class="btn btn-success btn-sm"><i class="fa fa-plus"></i></a>
+
+                                    </td>
+                                    <td >
                                         {{--                                        <a href="{{url('admin/verdetallerema')}}/{{$r->id}}" class="btn btn-primary btn-sm"><i class="fa fa-eye"></i></a>--}}
-                                        <a href="{{url('admin/campanias_remli')}}/{{$r->id}}" class="btn btn-primary btn-sm"><i class="fa fa-rebel"></i></a>
-                                        <a href="{{url('admin/createmedicion_remli')}}/{{$r->id}}" class="btn btn-success btn-sm"><i class="fa fa-save"></i></a>
+                                        <a href="{{url('admin/campanias_remli')}}/{{$r->id}}" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></a>
 
                                     </td>
                                 </tr>

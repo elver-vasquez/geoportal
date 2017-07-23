@@ -65,7 +65,13 @@ class MedicionRema extends Model
         'cr',
         'ni',
         'sb',
-        'se'
+        'se',
+        'amonio',
+        'cloruro',
+        'nitrato',
+        'nitrito',
+        'cianuro'
+
 
     ];
 
@@ -81,4 +87,57 @@ class MedicionRema extends Model
 
         }
     }
+
+    public function getLaboratorioAttribute(){
+        if(is_null($this->attributes['laboratorio'])){
+            return 'S/L';
+        }
+        else{
+            return $this->attributes['laboratorio'];
+        }
+    }
+
+    public function getTurbiedadAttribute(){
+        if(is_null($this->attributes['turbiedad'])){
+            return 0;
+        }
+        else{
+            return round($this->attributes['turbiedad'],3);
+        }
+    }
+    public function getColorAttribute(){
+        if(is_null($this->attributes['color'])){
+            return 0;
+        }
+        else{
+            return round($this->attributes['color'],3);
+        }
+    }
+
+    public function getSstAttribute(){
+        if(is_null($this->attributes['sst'])){
+            return '-';
+        }
+        else{
+            return round($this->attributes['sst'],3);
+        }
+    }
+    public function getOdAttribute(){
+        if(is_null($this->attributes['od'])){
+            return 0;
+        }
+        else{
+            return round($this->attributes['od'],3);
+        }
+    }
+    public function getHsAttribute(){
+        if(is_null($this->attributes['hs'])){
+            return '-';
+        }
+        else{
+            return round($this->attributes['hs'],3);
+        }
+    }
+
+
 }

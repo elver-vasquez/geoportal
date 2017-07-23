@@ -1,20 +1,19 @@
-@extends('layouts.admin')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
     <div class="row">
         <div class="panel panel-default">
             <div class="panel panel-heading">
                 <h2><strong>Registrar Nueva Medicion Remli</strong></h2>
                 <ul class="list-inline">
-                    <li><h4><strong>Codigo:</strong>{{$rema->codigo}}</h4></li>
-                    <li><h4><strong>Nombre:</strong>{{$rema->nombre_hidrologica}}</h4></li>
-                    <li><h4><strong>Estacion:</strong>{{$rema->estacion}}</h4></li>
-                    <li><h4><strong>dpto:</strong>{{$rema->dpto}}</h4></li>
+                    <li><h4><strong>Codigo:</strong><?php echo e($rema->codigo); ?></h4></li>
+                    <li><h4><strong>Nombre:</strong><?php echo e($rema->nombre_hidrologica); ?></h4></li>
+                    <li><h4><strong>Estacion:</strong><?php echo e($rema->estacion); ?></h4></li>
+                    <li><h4><strong>dpto:</strong><?php echo e($rema->dpto); ?></h4></li>
                 </ul>
 
             </div>
-            <form  method="post" action="{{url('admin/medicionstore_remli')}}" class="form form-horizontal ">
-                {!! csrf_field() !!}
+            <form  method="post" action="<?php echo e(url('admin/medicionstore_remli')); ?>" class="form form-horizontal ">
+                <?php echo csrf_field(); ?>
+
                 <div class="panel panel-body">
                     <div class="tabs">
                         <ul class="nav nav-tabs">
@@ -153,24 +152,24 @@
                                     </div>
                                 </div>
 
-                                {{--<div class="form-group ">--}}
-                                    {{--<label for=""class="col-md-2 control-label">Disco Sechi</label>--}}
-                                    {{--<div class="col-md-2">--}}
-                                        {{--<input type="number" step="0.001" class="form-control " name="disco" id="disco" >--}}
-                                    {{--</div>--}}
-                                {{--</div>--}}
+                                
+                                    
+                                    
+                                        
+                                    
+                                
 
 
 
                             </div>
                             <div id="gases" class="tab-pane">
                                 <p>Gases</p>
-                                {{--<div class="form-group ">--}}
-                                    {{--<label for=""class="col-md-2 control-label">CO2(mg/l):</label>--}}
-                                    {{--<div class="col-md-2">--}}
-                                        {{--<input type="number" step="0.001" class="form-control " name="co" id="co" >--}}
-                                    {{--</div>--}}
-                                {{--</div>--}}
+                                
+                                    
+                                    
+                                        
+                                    
+                                
 
                                 <div class="form-group ">
 
@@ -179,20 +178,20 @@
                                         <input type="number" step="0.001" class="form-control " name="od" id="od" >
                                     </div>
                                 </div>
-                                {{--<div class="form-group ">--}}
+                                
 
-                                    {{--<label for=""class="col-md-2 control-label">OD Saturado (mg/l):</label>--}}
-                                    {{--<div class="col-md-2">--}}
-                                        {{--<input type="number" step="0.001" class="form-control " name="od_satu" id="od_satu" >--}}
-                                    {{--</div>--}}
-                                {{--</div>--}}
-                                {{--<div class="form-group ">--}}
+                                    
+                                    
+                                        
+                                    
+                                
+                                
 
-                                    {{--<label for=""class="col-md-2 control-label">Saturación (%):</label>--}}
-                                    {{--<div class="col-md-2">--}}
-                                        {{--<input type="number" step="0.001" class="form-control " name="satu" id="satu" >--}}
-                                    {{--</div>--}}
-                                {{--</div>--}}
+                                    
+                                    
+                                        
+                                    
+                                
 
                                 <div class="form-group ">
                                     <label for=""class="col-md-2 control-label">Sulfatos(mg/l):</label>
@@ -272,89 +271,89 @@
                                         </div>
                                     </div>
 
-                                    {{--<div class="form-group ">--}}
-                                        {{--<label for=""class="col-md-5 control-label">Na + K (mg/l):</label>--}}
-                                        {{--<div class="col-md-7">--}}
-                                            {{--<input type="number" step="0.001" class="form-control " name="na_k" id="na_k" >--}}
-                                        {{--</div>--}}
-                                    {{--</div>--}}
+                                    
+                                        
+                                        
+                                            
+                                        
+                                    
 
-                                    {{--<div class="form-group ">--}}
-                                        {{--<label for=""class="col-md-5 control-label">CO3 (mg/l):</label>--}}
-                                        {{--<div class="col-md-7">--}}
-                                            {{--<input type="number" step="0.001" class="form-control " name="co2" id="co2" >--}}
-                                        {{--</div>--}}
-                                    {{--</div>--}}
+                                    
+                                        
+                                        
+                                            
+                                        
+                                    
 
 
 
                                 </div>
-                                {{--<div class="col-md-6">--}}
-                                    {{--<div class="form-group ">--}}
-                                        {{--<label for=""class="col-md-3 control-label">CO3H (mg/l):</label>--}}
-                                        {{--<div class="col-md-5">--}}
-                                            {{--<input type="number" step="0.001" class="form-control " name="co2h" id="co2h" >--}}
-                                        {{--</div>--}}
-                                    {{--</div>--}}
-                                    {{--<div class="form-group ">--}}
-                                        {{--<label for=""class="col-md-3 control-label">Cl (mg/l):</label>--}}
-                                        {{--<div class="col-md-5">--}}
-                                            {{--<input type="number" step="0.001" class="form-control " name="ci" id="ci" >--}}
-                                        {{--</div>--}}
-                                    {{--</div>--}}
-                                    {{--<div class="form-group ">--}}
-                                        {{--<label for=""class="col-md-3 control-label">(SO4)2- (mg/l):</label>--}}
-                                        {{--<div class="col-md-5">--}}
-                                            {{--<input type="number" step="0.001" class="form-control " name="so4" id="so4" >--}}
-                                        {{--</div>--}}
-                                    {{--</div>--}}
-                                    {{--<div class="form-group ">--}}
-                                        {{--<label for=""class="col-md-3 control-label">Alcalinidad (mg/l) CaCO3:</label>--}}
-                                        {{--<div class="col-md-5">--}}
-                                            {{--<input type="number" step="0.001" class="form-control " name="alcalinidad" id="alcalinidad" >--}}
-                                        {{--</div>--}}
-                                    {{--</div>--}}
-                                    {{--<div class="form-group ">--}}
-                                        {{--<label for=""class="col-md-3 control-label">Dureza total (mg/l) CaCO3:</label>--}}
-                                        {{--<div class="col-md-5">--}}
-                                            {{--<input type="number" step="0.001" class="form-control " name="dureza" id="dureza" >--}}
-                                        {{--</div>--}}
-                                    {{--</div>--}}
+                                
+                                    
+                                        
+                                        
+                                            
+                                        
+                                    
+                                    
+                                        
+                                        
+                                            
+                                        
+                                    
+                                    
+                                        
+                                        
+                                            
+                                        
+                                    
+                                    
+                                        
+                                        
+                                            
+                                        
+                                    
+                                    
+                                        
+                                        
+                                            
+                                        
+                                    
 
-                                {{--</div>--}}
+                                
 
                             </div>
                             <div id="nutrientes" class="tab-pane">
                                 <p>Nutrientes</p>
                                 <div class="col-md-4">
-                                    {{--<div class="form-group ">--}}
-                                        {{--<label for=""class="col-md-5 control-label">SiO3 (mg/l):</label>--}}
-                                        {{--<div class="col-md-7">--}}
-                                            {{--<input type="number" step="0.001" class="form-control " name="sio3" id="sio3" >--}}
-                                        {{--</div>--}}
-                                    {{--</div>--}}
+                                    
+                                        
+                                        
+                                            
+                                        
+                                    
 
-                                    {{--<div class="form-group ">--}}
+                                    
 
-                                        {{--<label for=""class="col-md-5 control-label">N-NO3- (mg/l):</label>--}}
-                                        {{--<div class="col-md-7">--}}
-                                            {{--<input type="number" step="0.001" class="form-control " name="nno3" id="nno3" >--}}
-                                        {{--</div>--}}
-                                    {{--</div>--}}
+                                        
+                                        
+                                            
+                                        
+                                    
 
-                                    {{--<div class="form-group ">--}}
-                                        {{--<label for=""class="col-md-5 control-label">N-NO2- (mg/l):</label>--}}
-                                        {{--<div class="col-md-7">--}}
-                                            {{--<input type="number" step="0.001" class="form-control " name="nno2" id="nno2" >--}}
-                                        {{--</div>--}}
-                                    {{--</div>--}}
+                                    
+                                        
+                                        
+                                            
+                                        
+                                    
 
-                                    {{--<div class="form-group ">--}}
-                                        {{--<label for=""class="col-md-5 control-label">N-NH4+ (mg/l):</label>--}}
-                                        {{--<div class="col-md-7">--}}
-                                            {{--<input type="number" step="0.001" class="form-control " name="nnh4" id="nnh4" >--}}
-                                        {{--</div>--}}
-                                    {{--</div>--}}
+                                    
+                                        
+                                        
+                                            
+                                        
+                                    
 
                                     <div class="form-group ">
                                         <label for=""class="col-md-6 control-label">Nitrogeno total (mg/l):</label>
@@ -375,39 +374,39 @@
                                         </div>
                                     </div>
 
-                                    {{--<div class="form-group ">--}}
-                                        {{--<label for=""class="col-md-5 control-label">N-Kjeldall (mg/l):</label>--}}
-                                        {{--<div class="col-md-7">--}}
-                                            {{--<input type="number" step="0.001" class="form-control " name="kjendall" id="kjendall" >--}}
-                                        {{--</div>--}}
-                                    {{--</div>--}}
+                                    
+                                        
+                                        
+                                            
+                                        
+                                    
 
 
 
                                 </div>
-                                {{--<div class="col-md-6">--}}
-                                    {{--<div class="form-group ">--}}
-                                        {{--<label for=""class="col-md-3 control-label">(PO4)3- (mg/l):</label>--}}
-                                        {{--<div class="col-md-5">--}}
-                                            {{--<input type="number" step="0.001" class="form-control " name="po4" id="po4" >--}}
-                                        {{--</div>--}}
-                                    {{--</div>--}}
-                                   {{----}}
-                                    {{--<div class="form-group ">--}}
-                                        {{--<label for=""class="col-md-3 control-label">Pt (mg/l):</label>--}}
-                                        {{--<div class="col-md-5">--}}
-                                            {{--<input type="number" step="0.001" class="form-control " name="pt" id="pt" >--}}
-                                        {{--</div>--}}
-                                    {{--</div>--}}
-                                    {{--<div class="form-group ">--}}
-                                        {{--<label for=""class="col-md-3 control-label">Si (mg/l):</label>--}}
-                                        {{--<div class="col-md-5">--}}
-                                            {{--<input type="number" step="0.001" class="form-control " name="si" id="si" >--}}
-                                        {{--</div>--}}
-                                    {{--</div>--}}
-                                    {{----}}
+                                
+                                    
+                                        
+                                        
+                                            
+                                        
+                                    
+                                   
+                                    
+                                        
+                                        
+                                            
+                                        
+                                    
+                                    
+                                        
+                                        
+                                            
+                                        
+                                    
+                                    
 
-                                {{--</div>--}}
+                                
                             </div>
                             <div id="sanitarios" class="tab-pane">
                                 <p>Indicadores sanitarios Biologicos</p>
@@ -442,7 +441,7 @@
                                     </div>
 
                                     <div class="form-group ">
-                                        <label for=""class="col-md-5 control-label">Bacterias colif. Termorresistentes</label>
+                                        <label for=""class="col-md-5 control-label">Salmonella spp (NMP/100 ml):</label>
                                         <div class="col-md-7">
                                             <input type="number" step="0.001" class="form-control " name="salmonella" id="salmonella" >
                                         </div>
@@ -451,33 +450,33 @@
 
 
                                 </div>
-                                {{--<div class="col-md-6">--}}
-                                    {{--<div class="form-group ">--}}
-                                        {{--<label for=""class="col-md-5 control-label">Clorofila A (mg/m3):</label>--}}
-                                        {{--<div class="col-md-7">--}}
-                                            {{--<input type="number" step="0.001" class="form-control " name="clorofilla" id="clorofilla" >--}}
-                                        {{--</div>--}}
-                                    {{--</div>--}}
-                                    {{--<div class="form-group ">--}}
-                                        {{--<label for=""class="col-md-5 control-label">Conteo de algas:</label>--}}
-                                        {{--<div class="col-md-7">--}}
-                                            {{--<input type="number" step="0.001" class="form-control " name="cont_algas" id="cont_algas" >--}}
-                                        {{--</div>--}}
-                                    {{--</div>--}}
-                                    {{--<div class="form-group ">--}}
-                                        {{--<label for=""class="col-md-5 control-label">Conteo zooplancton:</label>--}}
-                                        {{--<div class="col-md-7">--}}
-                                            {{--<input type="number" step="0.001" class="form-control " name="cont_plancton" id="cont_plancton" >--}}
-                                        {{--</div>--}}
-                                    {{--</div>--}}
-                                    {{--<div class="form-group ">--}}
-                                        {{--<label for=""class="col-md-5 control-label">Conteo bentos:</label>--}}
-                                        {{--<div class="col-md-7">--}}
-                                            {{--<input type="number" step="0.001" class="form-control " name="cont_bentos" id="cont_bentos" >--}}
-                                        {{--</div>--}}
-                                    {{--</div>--}}
+                                <div class="col-md-6">
+                                    <div class="form-group ">
+                                        <label for=""class="col-md-5 control-label">Clorofila A (mg/m3):</label>
+                                        <div class="col-md-7">
+                                            <input type="number" step="0.001" class="form-control " name="clorofilla" id="clorofilla" >
+                                        </div>
+                                    </div>
+                                    <div class="form-group ">
+                                        <label for=""class="col-md-5 control-label">Conteo de algas:</label>
+                                        <div class="col-md-7">
+                                            <input type="number" step="0.001" class="form-control " name="cont_algas" id="cont_algas" >
+                                        </div>
+                                    </div>
+                                    <div class="form-group ">
+                                        <label for=""class="col-md-5 control-label">Conteo zooplancton:</label>
+                                        <div class="col-md-7">
+                                            <input type="number" step="0.001" class="form-control " name="cont_plancton" id="cont_plancton" >
+                                        </div>
+                                    </div>
+                                    <div class="form-group ">
+                                        <label for=""class="col-md-5 control-label">Conteo bentos:</label>
+                                        <div class="col-md-7">
+                                            <input type="number" step="0.001" class="form-control " name="cont_bentos" id="cont_bentos" >
+                                        </div>
+                                    </div>
 
-                                {{--</div>--}}
+                                </div>
                             </div>
 
                         </div>
@@ -485,7 +484,7 @@
                 </div>
                 <div class="panel-footer">
                     <div class="" >
-                        <input type="hidden" name="remli_id" value="{{$rema->id}}">
+                        <input type="hidden" name="remli_id" value="<?php echo e($rema->id); ?>">
                         <button type="submit" class=" btn btn-success btn-lg">Guardar</button>
                         <button type="button" id="" class="cancelar btn btn-default btn-lg">Cancelar</button>
 
@@ -495,8 +494,8 @@
             </form>
         </div>
     </div>
-@stop
-@section('myscripts')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('myscripts'); ?>
     <script>
         $(document).ready(function(){
             $('#fecha').datepicker({
@@ -508,4 +507,5 @@
             });
         });
     </script>
-@stop
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.admin', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

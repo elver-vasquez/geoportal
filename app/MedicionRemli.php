@@ -65,6 +65,11 @@ class MedicionRemli extends Model
         'cont_algas',
         'cont_plancton',
         'cont_bentos',
+        'amonio',
+        'cloruro',
+        'nitrato',
+        'nitrito',
+        'cianuro'
 
     ];
     public function setFechaAttribute($fecha){
