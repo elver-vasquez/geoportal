@@ -132,249 +132,19 @@
 
 
     </style>
-    <script type="text/javascript" src="<?php echo e(asset('assets/js/ol.js')); ?>"></script>
+    
     <script type="text/javascript" src="<?php echo e(asset('assets/js/jquery-1.10.2.min.js')); ?>"></script>
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.2/raphael-min.js"></script>
+    
 
     <script type="text/javascript" src="<?php echo e(asset('assets/js/bootstrap.min.js')); ?>"></script>
     <script src="<?php echo e(asset('assets/vendor/jstree/jstree.js')); ?>"></script>
+    <script src="<?php echo e(asset('assets/vendor/morris/raphael-min.js')); ?>"></script>
     <script src="<?php echo e(asset('assets/vendor/morris/morris.js')); ?>"></script>
 
     <script async defer
             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZIkv7ehocFWTZot3h0AQlAH1OIZ4_oAU&callback=initMap">
     </script>
-    
-
-
     <script type="text/javascript">
-//        $(function(){
-//           alert('asd')
-//        });
-        console.log(formula('cl',0.1));
-
-        function formula(tipo,valor){
-            let x;
-            let q;
-            let result={};
-            if(isNaN(valor) || valor==null || valor=='' ){
-               result={
-                    q:0,
-                    a:0
-                }
-                return result;
-
-            }
-            else {
-                x = valor
-
-                switch (tipo) {
-                    case 'ph':
-                        q=0;
-                    if (x > 0 && x <= 4.5)
-                        q = 0
-                    else if (x > 4.5 && x <= 6.5)
-                        q = (30 * x)-135
-                    else if (x > 6.5 && x <= 7.5)
-                        q = (40 * x)-200
-                    else if (x > 7.5 && x <= 10)
-                        q = 400-(40 * x)
-
-                    result={q:q,a:1}
-                    break;
-
-                    case 'coli_tot':
-                        q=0;
-                        if (x > 0 && x <= 10)
-                            q = 100;
-                        else if (x > 10 && x <= 3000)
-                            q = 140-(40.26*Math.log10(x))
-                        else if (x >3000 )
-                            q =0
-                        result={q:q,a:1}
-                        break;
-
-                    case 'ce':
-                        q=0;
-                        if (x > 0 && x <= 250)
-                            q = 100;
-                        else if (x > 250 && x <= 1000)
-                            q = 120-(0.08*x)
-                        else if (x >1000 && x<=2000 )
-                            q =80-(0.04*x)
-                        result={q:q,a:1}
-                        break;
-
-                    case 'dqo':
-
-                        q =(35000/(27*x+300))-(50/3)
-                        result={q:q,a:0.33333333}
-                        break;
-
-                    case 'dbo':
-
-                        q =(7000/(9*x+60))-(50/3)
-                        result={q:q,a:1}
-                        break;
-
-
-                    case 'od':
-                        q=0;
-                        if (x > 0 && x <= 0.5)
-                            q = 0;
-                        else if (x > 0.5 && x <=8)
-                            q = ((40*x)-20)/3
-                        else if (x >8 && x<=14 )
-                            q =100
-                        else if (x >14 && x<=19 )
-                            q =-(20*x)+380
-                        result={q:q,a:1}
-                        break;
-
-                    case 'sst':
-                        q=0;
-                        if (x > 0 && x <= 30)
-                            q = 100;
-                        else if (x > 30 && x <=120)
-                            q = (1020-(4*x))/9
-                        else if (x >120 && x<=450 )
-                            q =(450-x)/5.5
-                        else if (x >450 && x<=480 )
-                            q =0
-                        result={q:q,a:1}
-                        break;
-
-                    case 'cloruro':
-                        q=0;
-                        if (x > 0 && x <= 400)
-                            q = 100-(0.1*x);
-                        else if (x >400 && x <=2000)
-                            q =75-(0.0375*x)
-
-                        result={q:q,a:0.5}
-                        break;
-
-                    case 'p':
-                        q=0;
-                        if (x > 0 && x <= 3.75)
-                            q = (1500-(400*x))/15
-                        else if (x >3.75)
-                            q =0
-                        result={q:q,a:0.33333333}
-                        break;
-
-                    case 'nitrato':
-                        q=0;
-                        if (x > 0 && x <= 250)
-                            q = 100-(0.4*x)
-                        else if (x >250)
-                            q =0
-                        result={q:q,a:0.33333333}
-                        break;
-
-
-                    case 'hs':
-                        q=0;
-                        if (x > 0 && x <= 1250)
-                            q = 100-(0.08*x)
-                        else if (x >1250 && x<=1600)
-                            q =0
-                        result={q:q,a:0.5}
-                        break;
-
-                    case 'ca':
-                        q=0;
-                        if (x > 0 && x <= 5)
-                            q = 50
-                        else if (x >5 && x<=200)
-                            q =100
-                        else if (x >200 && x<=2000)
-                            q =(2000-x)/30
-                        result={q:q,a:0.33333333}
-                        break;
-
-                    case 'mg':
-                        q=0;
-                        if (x > 0 && x <= 150)
-                            q = 100-((4*x)/15)
-                        else if (x >150 && x<=1000)
-                            q =(6/85)*(1000-x)
-                        result={q:q,a:0.25}
-                        break;
-
-                    case 'na':
-                        q=0;
-                        if (x > 0 && x <=200)
-                            q = 100-(0.25*x)
-                        else if (x >200 && x<=1000)
-                            q =(1000-x)/16
-                        result={q:q,a:0.25}
-                        break;
-
-                    case 'cu':
-                        q=0;
-                        if (x > 0 && x <=0.01)
-                            q = 100
-                        else if (x >0.01 && x<=1)
-                            q =101-(101*x)
-                        result={q:q,a:0.5}
-                        break;
-                    case 'zn':
-                        q=0;
-                        if (x > 0 && x <=5)
-                            q = 100-(20*x)
-                        else if (x >5)
-                            q =0
-                        result={q:q,a:1}
-                        break;
-                    case 'cd':
-                        q=0;
-                        if (x > 0 && x <=0.01)
-                            q = 100-(10000*x)
-                        else if (x >0.01)
-                            q =0
-                        result={q:q,a:1}
-                        break;
-
-                    case 'pb':
-                        q=0;
-                        if (x > 0 && x <=0.2)
-                            q = 100-(500*x)
-
-                        result={q:q,a:1}
-                        break;
-                    case 'cianuro':
-                        q=0;
-                        if (x > 0 && x <=0.025)
-                            q = 100-(4000*x)
-                        else if (x >0.025)
-                            q =0
-                        result={q:q,a:1}
-                        break;
-
-                    case 'cr':
-                        q=0;
-                        if (x > 0 && x <=0.125)
-                            q = 100-(800*x)
-                        else if (x >0.125)
-                            q =0
-                        result={q:q,a:1}
-                        break;
-                     }//fin de switch
-                         return result;
-
-            }
-
-        }
-  var url_punto=window.location+'mapas/tdps/puntos/';
-  var url_tdps=window.location+'mapas/tdps/';
-  var url_cuenca=window.location+'mapas/cuencas/';
-  var url_mapa='http://geopostgradouto.com/mapas/';
-
-  var i=0;
-  var layers = [];
-  var codigo='B-012-10B-1-01';
-
-  var data_charts=[];
         function initMap(){
             var options={
                 center:{
@@ -409,9 +179,270 @@
 //            addMark();
 
         }
+    </script>
 
 
-        $(document).ready(function () {
+    <script type="text/javascript">
+  var url_punto=window.location+'mapas/tdps/puntos/';
+  var url_tdps=window.location+'mapas/tdps/';
+  var url_cuenca=window.location+'mapas/cuencas/';
+  var url_mapa='https://geopostgradouto.com/mapas/';
+
+  var i=0;
+  var layers = [];
+  var codigo='B-012-10B-1-01';
+
+  var data_charts=[];
+//        function initMap(){
+//            var options={
+//                center:{
+//                    lat:-17.7667,
+//                    lng:-67.4833
+//                },
+//                mapTypeControl: true,
+//                mapTypeControlOptions: {
+//                    style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+//                    position: google.maps.ControlPosition.TOP_CENTER
+//                },
+//                zoomControl: true,
+//
+//                zoom:8,
+//                mapTypeId:google.maps.MapTypeId.HYBRID,
+//                zoomControlOptions:{
+//                    position:google.maps.ControlPosition.BOTTON_CENTER,
+//                    style:google.maps.ZoomControlStyle.DEFAULT
+//
+//                },
+//                panControlOptions:{
+//                    position:google.maps.ControlPosition.LEFT_BOTTOM
+//                },
+//                scaleControl: true,
+//                streetViewControl: true,
+//                streetViewControlOptions: {
+//                    position: google.maps.ControlPosition.RIGHT_BOTTON
+//                }
+//            };
+//            map = new google.maps.Map(document.getElementById('map'),options);
+//
+////            addMark();
+//
+//        }
+
+  function formula(tipo,valor){
+      let x;
+      let q;
+      let result={};
+      if(isNaN(valor) || valor==null || valor=='' ){
+          result={
+              q:0,
+              a:0
+          }
+          return result;
+
+      }
+      else {
+          x = valor
+
+          switch (tipo) {
+              case 'ph':
+                  q=0;
+                  if (x > 0 && x <= 4.5)
+                      q = 0
+                  else if (x > 4.5 && x <= 6.5)
+                      q = (30 * x)-135
+                  else if (x > 6.5 && x <= 7.5)
+                      q = (40 * x)-200
+                  else if (x > 7.5 && x <= 10)
+                      q = 400-(40 * x)
+
+                  result={q:q,a:1}
+                  break;
+
+              case 'coli_tot':
+                  q=0;
+                  if (x > 0 && x <= 10)
+                      q = 100;
+                  else if (x > 10 && x <= 3000)
+                      q = 140-(40.26*Math.log10(x))
+                  else if (x >3000 )
+                      q =0
+                  result={q:q,a:1}
+                  break;
+
+              case 'ce':
+                  q=0;
+                  if (x > 0 && x <= 250)
+                      q = 100;
+                  else if (x > 250 && x <= 1000)
+                      q = 120-(0.08*x)
+                  else if (x >1000 && x<=2000 )
+                      q =80-(0.04*x)
+                  result={q:q,a:1}
+                  break;
+
+              case 'dqo':
+
+                  q =(35000/(27*x+300))-(50/3)
+                  result={q:q,a:0.33333333}
+                  break;
+
+              case 'dbo':
+
+                  q =(7000/(9*x+60))-(50/3)
+                  result={q:q,a:1}
+                  break;
+
+
+              case 'od':
+                  q=0;
+                  if (x > 0 && x <= 0.5)
+                      q = 0;
+                  else if (x > 0.5 && x <=8)
+                      q = ((40*x)-20)/3
+                  else if (x >8 && x<=14 )
+                      q =100
+                  else if (x >14 && x<=19 )
+                      q =-(20*x)+380
+                  result={q:q,a:1}
+                  break;
+
+              case 'sst':
+                  q=0;
+                  if (x > 0 && x <= 30)
+                      q = 100;
+                  else if (x > 30 && x <=120)
+                      q = (1020-(4*x))/9
+                  else if (x >120 && x<=450 )
+                      q =(450-x)/5.5
+                  else if (x >450 && x<=480 )
+                      q =0
+                  result={q:q,a:1}
+                  break;
+
+              case 'cloruro':
+                  q=0;
+                  if (x > 0 && x <= 400)
+                      q = 100-(0.1*x);
+                  else if (x >400 && x <=2000)
+                      q =75-(0.0375*x)
+
+                  result={q:q,a:0.5}
+                  break;
+
+              case 'p':
+                  q=0;
+                  if (x > 0 && x <= 3.75)
+                      q = (1500-(400*x))/15
+                  else if (x >3.75)
+                      q =0
+                  result={q:q,a:0.33333333}
+                  break;
+
+              case 'nitrato':
+                  q=0;
+                  if (x > 0 && x <= 250)
+                      q = 100-(0.4*x)
+                  else if (x >250)
+                      q =0
+                  result={q:q,a:0.33333333}
+                  break;
+
+
+              case 'hs':
+                  q=0;
+                  if (x > 0 && x <= 1250)
+                      q = 100-(0.08*x)
+                  else if (x >1250 && x<=1600)
+                      q =0
+                  result={q:q,a:0.5}
+                  break;
+
+              case 'ca':
+                  q=0;
+                  if (x > 0 && x <= 5)
+                      q = 50
+                  else if (x >5 && x<=200)
+                      q =100
+                  else if (x >200 && x<=2000)
+                      q =(2000-x)/30
+                  result={q:q,a:0.33333333}
+                  break;
+
+              case 'mg':
+                  q=0;
+                  if (x > 0 && x <= 150)
+                      q = 100-((4*x)/15)
+                  else if (x >150 && x<=1000)
+                      q =(6/85)*(1000-x)
+                  result={q:q,a:0.25}
+                  break;
+
+              case 'na':
+                  q=0;
+                  if (x > 0 && x <=200)
+                      q = 100-(0.25*x)
+                  else if (x >200 && x<=1000)
+                      q =(1000-x)/16
+                  result={q:q,a:0.25}
+                  break;
+
+              case 'cu':
+                  q=0;
+                  if (x > 0 && x <=0.01)
+                      q = 100
+                  else if (x >0.01 && x<=1)
+                      q =101-(101*x)
+                  result={q:q,a:0.5}
+                  break;
+              case 'zn':
+                  q=0;
+                  if (x > 0 && x <=5)
+                      q = 100-(20*x)
+                  else if (x >5)
+                      q =0
+                  result={q:q,a:1}
+                  break;
+              case 'cd':
+                  q=0;
+                  if (x > 0 && x <=0.01)
+                      q = 100-(10000*x)
+                  else if (x >0.01)
+                      q =0
+                  result={q:q,a:1}
+                  break;
+
+              case 'pb':
+                  q=0;
+                  if (x > 0 && x <=0.2)
+                      q = 100-(500*x)
+
+                  result={q:q,a:1}
+                  break;
+              case 'cianuro':
+                  q=0;
+                  if (x > 0 && x <=0.025)
+                      q = 100-(4000*x)
+                  else if (x >0.025)
+                      q =0
+                  result={q:q,a:1}
+                  break;
+
+              case 'cr':
+                  q=0;
+                  if (x > 0 && x <=0.125)
+                      q = 100-(800*x)
+                  else if (x >0.125)
+                      q =0
+                  result={q:q,a:1}
+                  break;
+          }//fin de switch
+          return result;
+
+      }
+
+  }
+
+  $(document).ready(function () {
 
 
             $('#treeCheckbox').jstree({
@@ -2533,7 +2564,7 @@
                 var info2=kmlEvent.featureData.snippet;
                 var clickPos = kmlEvent.latLng;
 
-              
+
 
 
                 if(tipo=='pm') {
