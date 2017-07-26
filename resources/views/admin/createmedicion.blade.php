@@ -525,8 +525,9 @@
     <script>
         $(document).ready(function(){
          $('#fecha').datepicker({
-             dateFormat: 'dd/mm/yy',
+            format: 'dd/mm/yyyy',
              changeMonth: true,
+             autoclose:true,
              numberOfMonths: 1,
              buttonImage: 'contact/calendar/calendar.gif',
              buttonImageOnly: true,

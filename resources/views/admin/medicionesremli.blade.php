@@ -83,7 +83,7 @@
                                             <div class="form-group ">
                                                 <label for=""class="col-md-2 control-label">Fecha d/m/A</label>
                                                 <div class="col-md-2">
-                                                    <input type="text" class="form-control medicion{{$m->id}}" name="fecha" id="fecha" value="{{$m->fecha}}" readonly>
+                                                    <input type="text" class="datepicker form-control medicion{{$m->id}}" name="fecha" id="fecha" value="@if($m->fecha){{$m->fecha}}@endif" readonly>
                                                 </div>
                                             </div>
 
@@ -91,7 +91,7 @@
                                             <div class="form-group ">
                                                 <label for=""class="col-md-2 control-label">Hora H:m</label>
                                                 <div class="col-md-2">
-                                                    <input type="text" class="form-control medicion{{$m->id}}" name="hora" id="hora" value="{{$m->hora}}" readonly>
+                                                    <input type="text" class="form-control medicion{{$m->id}}" placeholder="23h:23m" name="hora" id="hora" value="{{$m->hora}}" readonly>
                                                 </div>
                                             </div>
 
@@ -508,6 +508,15 @@
 @section('myscripts')
     <script>
         $(document).ready(function(){
+
+            $('.datepicker').datepicker({
+                format: 'dd/mm/yyyy',
+                changeMonth: true,
+                autoclose:true,
+                numberOfMonths: 1,
+                buttonImage: 'contact/calendar/calendar.gif',
+                buttonImageOnly: true,
+            });
             $('.editar').click(function(){
 
                 $id=$(this).prop('id');

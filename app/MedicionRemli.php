@@ -72,16 +72,24 @@ class MedicionRemli extends Model
         'cianuro'
 
     ];
+    public $dates=['fecha'];
     public function setFechaAttribute($fecha){
 
         $pos = strpos($fecha, '/');
 
         if ($pos === false) {
 
-            $this->attributes['fecha']=Carbon::createFromFormat('Y-m-d',$fecha);
+            $this->attributes['fecha']=Carbon::createFromFormat('d-m-Y',$fecha);
         } else {
-            $this->attributes['fecha']=Carbon::createFromFormat('Y/m/d',$fecha);
+            $this->attributes['fecha']=Carbon::createFromFormat('d/m/Y',$fecha);
 
         }
+    }
+    public function getFechaAttribute(){
+        $fecha='';
+        if(!is_null($this->attributes['fecha']) && $this->attributes['fecha']!='')
+            $fecha=Carbon::parse($this->attributes['fecha'])->format('d/m/Y');
+
+        return $fecha;
     }
 }

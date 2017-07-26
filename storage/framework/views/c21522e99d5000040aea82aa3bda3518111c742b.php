@@ -4,10 +4,10 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-    <title>Cuencas </title>
+    <title>GEOPORTAL</title>
     <link rel="stylesheet" href="<?php echo e(asset('assets/css/ol.css')); ?>" />
-    <link rel="stylesheet" href="<?php echo e(asset('css/custom.css')); ?>" />
-    <link href="<?php echo e(asset('assets/css/bootstrap.min.css')); ?>" rel="stylesheet">
+    <link  rel="stylesheet" href="<?php echo e(asset('css/custom.css')); ?>" />
+    <link rel="stylesheet" href="<?php echo e(asset('assets/css/bootstrap.min.css')); ?>" rel="stylesheet">
     <link rel="stylesheet" href="<?php echo e(asset('assets/css/font-awesome/css/font-awesome.min.css')); ?>" />
     <link rel="stylesheet" href="<?php echo e(asset('assets/vendor/jstree/themes/default/style.css')); ?>" />
     <link rel="stylesheet" href="<?php echo e(asset('assets/vendor/morris/morris.css')); ?>" />
@@ -18,7 +18,7 @@
 
         .navbar-offset { margin-top: 50px;   }
         #map { position: absolute; top: 50px; bottom: 0px; left: 0px; right: 0px; }
-        #map .ol-zoom { font-size: 1.2em; }
+        #map .ol-zoom { font-size: 0.9em; }
         #treeCheckbox {
             font-size: 10px; !important;
 
@@ -56,6 +56,7 @@
         #map { z-index: 35; }
 
         .sidebar { z-index: 45;
+            width: 368px;
 
         }
 
@@ -96,27 +97,30 @@
             margin-bottom: 10px;
             overflow-x: hidden;
 
+
+
         }
         #iw-container .iw-title {
             font-family: 'Open Sans Condensed', sans-serif;
-            font-size: 12px;
+            font-size: 13px;
             text-align: center;
             width: 100%;
 
             font-weight: 400;
-            padding: 5px;
+            padding: 2px;
             background-color: #4e5458;
-            color: white;
+            color: #f59e00;
             margin: 10px;
             border-radius: 2px 2px 0 0;
         }
         #iw-container .iw-content {
-            font-size: 13px;
-            line-height: 18px;
+            font-size: 10px;
+            line-height: 16px;
             font-weight: 400;
+            margin-top: 0;
             margin-right: 1px;
-            padding: 15px 5px 20px 15px;
-            max-height: 200px;
+            padding: 0px 1px 20px 15px;
+            max-height: 222px;
             overflow-y: auto;
             overflow-x: hidden;
         }
@@ -125,7 +129,7 @@
             margin: 0 5px 5px 10px;
         }
         .iw-subTitle {
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 700;
             padding: 5px 0;
         }
@@ -138,13 +142,66 @@
 
     <script type="text/javascript" src="<?php echo e(asset('assets/js/bootstrap.min.js')); ?>"></script>
     <script src="<?php echo e(asset('assets/vendor/jstree/jstree.js')); ?>"></script>
-    <script src="<?php echo e(asset('assets/vendor/morris/raphael-min.js')); ?>"></script>
+
     <script src="<?php echo e(asset('assets/vendor/morris/morris.js')); ?>"></script>
 
+
+    <script>
+
+        function initMap(){
+            var options={
+                center:{
+                    lat:-17.7667,
+                    lng:-67.4833
+                },
+                mapTypeControl: true,
+                mapTypeControlOptions: {
+                    style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+                    position: google.maps.ControlPosition.TOP_CENTER
+                },
+                zoomControl: true,
+
+                zoom:8,
+                mapTypeId:google.maps.MapTypeId.HYBRID,
+                zoomControlOptions:{
+                    position:google.maps.ControlPosition.BOTTON_CENTER,
+                    style:google.maps.ZoomControlStyle.DEFAULT
+
+                },
+                panControlOptions:{
+                    position:google.maps.ControlPosition.LEFT_BOTTOM
+                },
+                scaleControl: true,
+                streetViewControl: true,
+                streetViewControlOptions: {
+                    position: google.maps.ControlPosition.RIGHT_BOTTON
+                }
+            };
+            map = new google.maps.Map($('#map'),options);
+
+//            addMark();
+
+        }
+
+
+    </script>
     <script async defer
             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZIkv7ehocFWTZot3h0AQlAH1OIZ4_oAU&callback=initMap">
     </script>
+
+
+
     <script type="text/javascript">
+  var url_punto=window.location+'mapas/tdps/puntos/';
+  var url_tdps=window.location+'mapas/tdps/';
+  var url_cuenca=window.location+'mapas/cuencas/';
+  var url_mapa='http://geopostgradouto.com/mapas/';
+
+  var i=0;
+  var layers = [];
+  var codigo='B-012-10B-1-01';
+
+  var data_charts=[];
         function initMap(){
             var options={
                 center:{
@@ -179,54 +236,8 @@
 //            addMark();
 
         }
-    </script>
 
-
-    <script type="text/javascript">
-  var url_punto=window.location+'mapas/tdps/puntos/';
-  var url_tdps=window.location+'mapas/tdps/';
-  var url_cuenca=window.location+'mapas/cuencas/';
-  var url_mapa='https://geopostgradouto.com/mapas/';
-
-  var i=0;
-  var layers = [];
-  var codigo='B-012-10B-1-01';
-
-  var data_charts=[];
-//        function initMap(){
-//            var options={
-//                center:{
-//                    lat:-17.7667,
-//                    lng:-67.4833
-//                },
-//                mapTypeControl: true,
-//                mapTypeControlOptions: {
-//                    style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
-//                    position: google.maps.ControlPosition.TOP_CENTER
-//                },
-//                zoomControl: true,
-//
-//                zoom:8,
-//                mapTypeId:google.maps.MapTypeId.HYBRID,
-//                zoomControlOptions:{
-//                    position:google.maps.ControlPosition.BOTTON_CENTER,
-//                    style:google.maps.ZoomControlStyle.DEFAULT
-//
-//                },
-//                panControlOptions:{
-//                    position:google.maps.ControlPosition.LEFT_BOTTOM
-//                },
-//                scaleControl: true,
-//                streetViewControl: true,
-//                streetViewControlOptions: {
-//                    position: google.maps.ControlPosition.RIGHT_BOTTON
-//                }
-//            };
-//            map = new google.maps.Map(document.getElementById('map'),options);
-//
-////            addMark();
-//
-//        }
+//        console.log(formula('cianuro',0.002))
 
   function formula(tipo,valor){
       let x;
@@ -292,7 +303,6 @@
                   result={q:q,a:1}
                   break;
 
-
               case 'od':
                   q=0;
                   if (x > 0 && x <= 0.5)
@@ -346,7 +356,6 @@
                       q =0
                   result={q:q,a:0.33333333}
                   break;
-
 
               case 'hs':
                   q=0;
@@ -443,6 +452,7 @@
   }
 
   $(document).ready(function () {
+//      google.maps.event.addDomListener(window, 'load', initMap);
 
 
             $('#treeCheckbox').jstree({
@@ -691,7 +701,7 @@
 
              $('#datos_generales').append($datos_generales);
 
-            $tabla='<table border="1" class="table tablas">'+
+            $tabla='<table  class="table tablas">'+
                 '<thead>' +
                 '<tr><th>DESC</th>';
             $(campanias).each(function(k,v){
@@ -712,9 +722,14 @@
             });
             $tabla+='</tr>';
 
-            $tabla+='<tr><th>FECHA/HORA</th>';
+            $tabla+='<tr><th>FECHA</th>';
             $(campanias).each(function(k,v){
-                $tabla+='<td>'+v.fecha+'|'+v.hora+'</td>'
+                $tabla+='<td>'+v.fecha+'</td>'
+            });
+            $tabla+='</tr>';
+            $tabla+='<tr><th>HORA</th>';
+            $(campanias).each(function(k,v){
+                $tabla+='<td>'+v.hora+'</td>'
             });
             $tabla+='</tr>';
 
@@ -751,13 +766,13 @@
             });
             $tabla_fisicos+='</tr>';
 
-            $tabla_fisicos+='<tr><th><button  onclick="charts_remas(\'remas\',\'temperatura\')" class="btn btn-default  btn-xs "><i class="fa fa-line-chart"></i></button></th><th>TEMP</th><th>°C</th><th >+/-3°  C. <BR>receptor</th><th >+/-3°C. <BR> receptor</th><th  >+/-3°C.  <BR>receptor</th><th>+/-3°C.  <BR>receptor</th>';
+            $tabla_fisicos+='<tr><th><button  onclick="charts_remas(\'remas\',\'temperatura\')" class="btn btn-default  btn-xs "><i class="fa fa-line-chart"></i></button></th><th>TEMP</th><th>°C</th><th class="claseA">+/-3°  C. <BR>receptor</th><th class="claseB">+/-3°C. <BR> receptor</th><th  class="claseC">+/-3°C.  <BR>receptor</th><th class="claseD">+/-3°C.  <BR>receptor</th>';
             $(campanias).each(function(k,v){
                 $tabla_fisicos+='<td>'+v.temperatura+'</td>'
             });
             $tabla_fisicos+='</tr>';
 
-            $tabla_fisicos+='<tr><th></th><th>CONDUCTIVIDAD</th><th>uS/cm</th><th ></th><th></th><th></th><th></th>';
+            $tabla_fisicos+='<tr><th></th><th>CONDUCTIVIDAD</th><th>uS/cm</th><th class="claseA" ></th><th class="claseB"></th><th class="claseC"></th><th class="claseD"></th>';
             $(campanias).each(function(k,v){
                 $tabla_fisicos+='<td>'+v.ce+'</td>'
             });
@@ -1013,7 +1028,7 @@
             $tabla_nutrientes+='</tr>';
 
 
-            $tabla_nutrientes+='<tr><th></th><th>BORO</th><th>mg/l</th><th>1.0c. B</th><th>1.0c. B</th><th>1.0c. B</th><th>1.0c. B</th>';
+            $tabla_nutrientes+='<tr><th></th><th>BORO</th><th>mg/l</th><th class="claseA">1.0c. B</th><th class="claseB">1.0c. B</th><th class="claseC">1.0c. B</th><th class="claseD">1.0c. B</th>';
             $(campanias).each(function(k,v){
 
                 $tabla_nutrientes+='<td >'+v.b+'</td>'
@@ -1072,7 +1087,7 @@
             });
             $tabla_sanitarios+='</tr>';
 
-            $tabla_sanitarios+='<tr><th></th><th>NMP COLIFECALES</th><th>N/100ml</th><th ><50y<5en80%de muestras</th><th ><1000 y <200 en 80%de muestras</th><th><5000 y <1000 en 80%de muestra</th><th><50000 y <5000 en 80% de muestras</th>';
+            $tabla_sanitarios+='<tr><th></th><th>NMP COLIFECALES</th><th>N/100ml</th><th class="claseA"><50y<5en80%de muestras</th><th class="claseB"><1000 y <200 en 80%de muestras</th><th class="claseC"><5000 y <1000 en 80%de muestra</th><th class="claseD"><50000 y <5000 en 80% de muestras</th>';
             $(campanias).each(function(k,v){
 
                 $tabla_sanitarios+='<td>'+v.coli_feca+'</td>'
@@ -1207,7 +1222,7 @@
             $tabla_metales+='</tr>';
 
 
-            $tabla_metales+='<tr><th></th><th>ANTIMONIO</th><th>mg/l</th><th >0.01c. Sb</th><th>0.01c. Sb</th><th>  0.01c. Sb</th><th >0.01c. Sb</th>';
+            $tabla_metales+='<tr><th></th><th>ANTIMONIO</th><th>mg/l</th><th class="claseA">0.01c. Sb</th><th class="claseB">0.01c. Sb</th><th class="claseC">  0.01c. Sb</th><th class="claseD">0.01c. Sb</th>';
             $(campanias).each(function(k,v){
 
                 $tabla_metales+='<td>'+v.sb+'</td>'
@@ -1216,7 +1231,7 @@
             $tabla_metales+='</tr>';
 
 
-            $tabla_metales+='<tr><th></th><th>MERCURIO</th><th>mg/l</th><th >0.001 Hg</th><th>0.001 Hg</th><th>  0.001 Hg</th><th >0.001 Hg</th>';
+            $tabla_metales+='<tr><th></th><th>MERCURIO</th><th>mg/l</th><th class="claseA">0.001 Hg</th><th class="claseB">0.001 Hg</th><th class="claseC">  0.001 Hg</th><th class="claseD">0.001 Hg</th>';
             $(campanias).each(function(k,v){
 
                 $tabla_metales+='<td>'+v.hg+'</td>'
@@ -1225,7 +1240,7 @@
             $tabla_metales+='</tr>';
 
 
-            $tabla_metales+='<tr><th></th><th>NIQUEL</th><th>mg/l</th><th >0.05c.Ni</th><th>0.05c.Ni</th><th>  0.05c.Ni</th><th >0.05c.Ni</th>';
+            $tabla_metales+='<tr><th></th><th>NIQUEL</th><th>mg/l</th><th class="claseA">0.05c.Ni</th><th class="claseB">0.05c.Ni</th><th class="claseC">  0.05c.Ni</th><th class="claseD">0.05c.Ni</th>';
             $(campanias).each(function(k,v){
 
                 $tabla_metales+='<td>'+v.ni+'</td>'
@@ -1233,7 +1248,7 @@
             });
             $tabla_metales+='</tr>';
 
-            $tabla_metales+='<tr><th></th><th>SELENIO</th><th>mg/l</th><th >0.01c Se</th><th>0.01c Se</th><th>  0.01c Se</th><th >0.01c Se</th>';
+            $tabla_metales+='<tr><th></th><th>SELENIO</th><th>mg/l</th><th class="claseA">0.01c Se</th><th class="claseB">0.01c Se</th><th class="claseC">  0.01c Se</th><th class="claseD">0.01c Se</th>';
             $(campanias).each(function(k,v){
 
                 $tabla_metales+='<td>'+v.se+'</td>'
@@ -1476,9 +1491,14 @@
       });
       $tabla+='</tr>';
 
-      $tabla+='<tr><th>FECHA/HORA</th>';
+      $tabla+='<tr><th>FECHA</th>';
       $(campanias).each(function(k,v){
-          $tabla+='<td>'+v.fecha+'|'+v.hora+'</td>'
+          $tabla+='<td>'+v.fecha+'</td>'
+      });
+      $tabla+='</tr>';
+      $tabla+='<tr><th>HORA</th>';
+      $(campanias).each(function(k,v){
+          $tabla+='<td>'+v.hora+'</td>'
       });
       $tabla+='</tr>';
 
@@ -1515,13 +1535,13 @@
       });
       $tabla_fisicos+='</tr>';
 
-      $tabla_fisicos+='<tr><th></th><th>TEMPERATURA</th><th>°C</th><th>NO</th><th >+/-3°  C. <BR>receptor</th><th >+/-3°C. <BR> receptor</th><th  >+/-3°C.  <BR>receptor</th><th>+/-3°C.  <BR>receptor</th>';
+      $tabla_fisicos+='<tr><th></th><th>TEMPERATURA</th><th>°C</th><th >NO</th><th class="claseA">+/-3°  C. <BR>receptor</th><th class="claseB">+/-3°C. <BR> receptor</th><th class="claseC" >+/-3°C.  <BR>receptor</th><th class="claseD">+/-3°C.  <BR>receptor</th>';
       $(campanias).each(function(k,v){
           $tabla_fisicos+='<td>'+v.temperatura+'</td>'
       });
       $tabla_fisicos+='</tr>';
 
-      $tabla_fisicos+='<tr><th></th><th>CONDUCTIVIDAD</th><th>uS/cm</th><th ></th><th></th><th></th><th></th>';
+      $tabla_fisicos+='<tr><th></th><th>CONDUCTIVIDAD</th><th>uS/cm</th><th ></th><th class="claseA"></th><th class="claseB"></th><th class="claseC"></th><th class="claseD"></th>';
       $(campanias).each(function(k,v){
           $tabla_fisicos+='<td>'+v.ce+'</td>'
       });
@@ -1579,7 +1599,7 @@
       $tabla_fisicos+='</tr>';
 
 
-      $tabla_fisicos+='<tr><th></th><th>ACEITES Y GRASAS</th><th>mg/l</th><th>NO</th><th >Ausentes</th><th> Ausentes</th><th>0.3</th><th>1</th>';
+      $tabla_fisicos+='<tr><th></th><th>ACEITES Y GRASAS</th><th>mg/l</th><th>NO</th><th class="claseA">Ausentes</th><th class="claseB" > Ausentes</th><th class="claseC">0.3</th><th class="claseD">1</th>';
       $(campanias).each(function(k,v){
            $tabla_fisicos+='<td >'+v.aceites    +'</td>'
       });
@@ -1783,7 +1803,7 @@
       $tabla_nutrientes+='</tr>';
 
 
-      $tabla_nutrientes+='<tr><th></th><th>BORO</th><th>mg/l</th><th></th><th>1.0c. B</th><th>1.0c. B</th><th>1.0c. B</th><th>1.0c. B</th>';
+      $tabla_nutrientes+='<tr><th></th><th>BORO</th><th>mg/l</th><th></th><th class="claseA">1.0c. B</th><th class="claseB">1.0c. B</th><th class="claseC">1.0c. B</th><th class="claseD">1.0c. B</th>';
       $(campanias).each(function(k,v){
 
           $tabla_nutrientes+='<td >'+v.b+'</td>'
@@ -1803,7 +1823,7 @@
       $tabla_sanitarios+='</tr></thead>';
       $tabla_sanitarios+='<tbody>';
 
-      $tabla_sanitarios+='<tr><th></th><th>COLIFORMES TOTALES</th><th>UFC</th><th ></th><th ></th><th ></th><th></th><th></th>';
+      $tabla_sanitarios+='<tr><th></th><th>COLIFORMES TOTALES</th><th>UFC</th><th ></th><th class="claseA"></th><th class="claseB"></th><th class="claseC"></th><th class="claseD"></th>';
       $(campanias).each(function(k,v){
 
           $tabla_sanitarios+='<td >'+v.coli_tot+'</td>'
@@ -1841,7 +1861,7 @@
       });
       $tabla_sanitarios+='</tr>';
 
-      $tabla_sanitarios+='<tr><th></th><th>NMP COLIFECALES</th><th>N/100ml</th><th >NO</th><th ><50y<5en80%de muestras</th><th ><1000 y <200 en 80%de muestras</th><th><5000 y <1000 en 80%de muestra</th><th><50000 y <5000 en 80% de muestras</th>';
+      $tabla_sanitarios+='<tr><th></th><th>NMP COLIFECALES</th><th>N/100ml</th><th >NO</th><th class="claseA" ><50y<5en80%de muestras</th><th class="claseB"><1000 y <200 en 80%de muestras</th><th class="claseC"><5000 y <1000 en 80%de muestra</th><th class="claseD"><50000 y <5000 en 80% de muestras</th>';
       $(campanias).each(function(k,v){
 
           $tabla_sanitarios+='<td>'+v.coli_feca+'</td>'
@@ -1849,7 +1869,7 @@
       });
       $tabla_sanitarios+='</tr>';
 
-      $tabla_sanitarios+='<tr><th></th><th>Bacterias colif. Termorresistentes</th><th>UFC/100 ml</th><th ></th><th ></th><th ></th><th></th><th></th>';
+      $tabla_sanitarios+='<tr><th></th><th>Bacterias colif. Termorresistentes</th><th>UFC/100 ml</th><th ></th><th class="claseA"></th><th class="claseB"></th><th class="claseC"></th><th class="claseD"></th>';
       $(campanias).each(function(k,v){
 
           $tabla_sanitarios+='<td>'+v.bact_coli+'</td>'
@@ -1983,7 +2003,7 @@
       $tabla_metales+='</tr>';
 
 
-      $tabla_metales+='<tr><th></th><th>ANTIMONIO</th><th>mg/l</th><th>NO</th><th >0.01c. Sb</th><th>0.01c. Sb</th><th>  0.01c. Sb</th><th >0.01c. Sb</th>';
+      $tabla_metales+='<tr><th></th><th>ANTIMONIO</th><th>mg/l</th><th>NO</th><th class="claseA">0.01c. Sb</th><th class="claseB">0.01c. Sb</th><th class="claseC">  0.01c. Sb</th><th class="claseD">0.01c. Sb</th>';
       $(campanias).each(function(k,v){
 
           $tabla_metales+='<td>'+v.sb+'</td>'
@@ -1992,7 +2012,7 @@
       $tabla_metales+='</tr>';
 
 
-      $tabla_metales+='<tr><th></th><th>MERCURIO</th><th>mg/l</th><th>NO</th><th >0.001 Hg</th><th>0.001 Hg</th><th>  0.001 Hg</th><th >0.001 Hg</th>';
+      $tabla_metales+='<tr><th></th><th>MERCURIO</th><th>mg/l</th><th>NO</th><th class="claseA">0.001 Hg</th><th class="claseB">0.001 Hg</th><th class="claseC">  0.001 Hg</th><th class="claseD">0.001 Hg</th>';
       $(campanias).each(function(k,v){
 
           $tabla_metales+='<td>'+v.hg+'</td>'
@@ -2001,7 +2021,7 @@
       $tabla_metales+='</tr>';
 
 
-      $tabla_metales+='<tr><th></th><th>NIQUEL</th><th>mg/l</th><th>SI</th><th >0.05c.Ni</th><th>0.05c.Ni</th><th>  0.05c.Ni</th><th >0.05c.Ni</th>';
+      $tabla_metales+='<tr><th></th><th>NIQUEL</th><th>mg/l</th><th>SI</th><th class="claseA">0.05c.Ni</th><th class="claseB">0.05c.Ni</th><th class="claseC">  0.05c.Ni</th><th class="claseD">0.05c.Ni</th>';
       $(campanias).each(function(k,v){
 
           $tabla_metales+='<td>'+v.ni+'</td>'
@@ -2009,7 +2029,7 @@
       });
       $tabla_metales+='</tr>';
 
-      $tabla_metales+='<tr><th></th><th>SELENIO</th><th>mg/l</th><th>NO</th><th >0.01c Se</th><th>0.01c Se</th><th>  0.01c Se</th><th >0.01c Se</th>';
+      $tabla_metales+='<tr><th></th><th>SELENIO</th><th>mg/l</th><th>NO</th><th class="claseA">0.01c Se</th><th class="claseB">0.01c Se</th><th class="claseC">  0.01c Se</th><th class="claseD">0.01c Se</th>';
       $(campanias).each(function(k,v){
 
           $tabla_metales+='<td>'+v.se+'</td>'
@@ -2085,9 +2105,14 @@
       });
       $tabla+='</tr>';
 
-      $tabla+='<tr><th>FECHA/HORA</th>';
+      $tabla+='<tr><th>FECHA</th>';
       $(campanias).each(function(k,v){
-          $tabla+='<td>'+v.fecha+'|'+v.hora+'</td>'
+          $tabla+='<td>'+v.fecha+'</td>'
+      });
+      $tabla+='</tr>';
+      $tabla+='<tr><th>HORA</th>';
+      $(campanias).each(function(k,v){
+          $tabla+='<td>'+v.hora+'</td>'
       });
       $tabla+='</tr>';
 
@@ -2568,21 +2593,21 @@
 
 
                 if(tipo=='pm') {
-                    var content = '<div id="iw-container">' +
+                    var content = '<div id="iw-container" >' +
                             '<div class="iw-title">' + codigo + '</div>' +
                             '<div class="iw-content">' +
                             '<div class="iw-subTitle">' + info + '</div>' +
-                            '<p><a class="btn btn-warning"  id="' + codigo + '" onclick="buscarCampaniasRemas(this.id);"><i class="fa fa-eye"></i> Ver Detalles</a><br>' + '</div>' +
+                            '<p><a class="btn btn-sm btn-warning btn-block"  id="' + codigo + '" onclick="buscarCampaniasRemas(this.id);"><i class="fa fa-eye"></i> Ver Detalles</a><br>' + '</div>' +
                             '</div>';
 
 
                 }
                 else{
-                    var content = '<div id="iw-container">' +
+                    var content = '<div id="iw-container" >' +
                             '<div class="iw-title">' + codigo + '</div>' +
                             '<div class="iw-content">' +
                             '<div class="iw-subTitle">' + info + '</div>' +
-                            '<p><a class="btn btn-warning"  id="' + codigo + '" onclick="buscarCampaniasRemas(this.id);"><i class="fa fa-eye"></i> Ver Detalles</a><br>' + '</div>' +
+                            '<p><a class="btn btn-warning "  id="' + codigo + '" onclick="buscarCampaniasRemas(this.id);"><i class="fa fa-eye"></i> Ver Detalles</a><br>' + '</div>' +
 
                             '</div>';
 
@@ -3052,8 +3077,8 @@
                                         </li>
                                         <?php $__currentLoopData = $tdps->where('tipo','tdps'); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $td): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
 
-                                            <li data-jstree='{ "enabled" : true,"icon":"fa fa-globe"}' tipo="tdps"  label="<?php echo e($td->archivo); ?>">
-                                                <?php echo e($td->nombre); ?>   / <span><a  href="" onclick="javascript:location.href='<?php echo e(url('descargar')); ?>/<?php echo e($td->archivo); ?>'" title="descargar mapa" style="font-size: 10px;"class="text-sm text-warning"><i  style="color:#FFF;"class="fa fa-download "></i> </a> </span>
+                                            <li  data-jstree='{ "enabled" : true,"icon":"fa fa-globe"}' tipo="tdps"  label="<?php echo e($td->archivo); ?>">
+                                                <span style=" font-size:0.8em;letter-spacing:-0.4px"><?php echo e($td->nombre); ?> </span>  / <span><a  href="" onclick="javascript:location.href='<?php echo e(url('descargar')); ?>/<?php echo e($td->archivo); ?>'" title="descargar mapa" style="font-size: 10px;"class="text-sm text-warning"><i  style="color:#FFF;"class="fa fa-download "></i> </a> </span>
 
                                                 <ul>
                                                     <?php $__currentLoopData = $zh; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $moni): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
