@@ -87,9 +87,14 @@ class MedicionRemli extends Model
     }
     public function getFechaAttribute(){
         $fecha='';
-        if(!is_null($this->attributes['fecha']) && $this->attributes['fecha']!='')
-            $fecha=Carbon::parse($this->attributes['fecha'])->format('d/m/Y');
+        try {
+            if (!is_null($this->attributes['fecha']) && $this->attributes['fecha'] != '')
 
+                $fecha = Carbon::parse($this->attributes['fecha'])->format('d/m/Y');
+        }
+        catch (\Exception $e){
+            $fecha='';
+        }
         return $fecha;
     }
 }

@@ -44,7 +44,7 @@
                                         </li>
                                     </ul>
                                     <div class="tab-content">
-                                        <div id="popular" class="tab-pane active">
+                                        <div id="popular{{$m->id}}" class="tab-pane active">
                                             <p>Generales</p>
 
 

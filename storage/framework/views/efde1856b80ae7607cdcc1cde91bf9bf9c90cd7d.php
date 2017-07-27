@@ -43,7 +43,7 @@
                                         </li>
                                     </ul>
                                     <div class="tab-content">
-                                        <div id="popular" class="tab-pane active">
+                                        <div id="popular<?php echo e($m->id); ?>" class="tab-pane active">
                                             <p>Generales</p>
 
 
@@ -71,7 +71,7 @@
                                             <div class="form-group ">
                                                 <label for=""class="col-md-2 control-label">Fecha d/m/A</label>
                                                 <div class="col-md-2">
-                                                    <input type="text" class="datepicker form-control medicion<?php echo e($m->id); ?>" name="fecha" id="fecha" value="<?php echo e($m->fecha->format('d/m/Y')); ?>" readonly>
+                                                    <input type="text" class="datepicker form-control medicion<?php echo e($m->id); ?>" name="fecha" id="fecha" value="<?php if($m->fecha): ?><?php echo e($m->fecha); ?><?php endif; ?>"  readonly>
                                                 </div>
                                             </div>
 

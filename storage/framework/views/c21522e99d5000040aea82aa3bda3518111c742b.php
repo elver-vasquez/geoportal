@@ -841,9 +841,19 @@
             $tabla_gases+='</tr></thead>';
             $tabla_gases+='<tbody>';
 
-            $tabla_gases+='<tr><th></th><th>OXIGINENO DISUELTO</th><th>mg/l</th><th class="claseA"></th><th class="claseB"></th><th class="claseC" ></th><th class="claseD"></th>';
+            $tabla_gases+='<tr><th></th><th>OXIGINENO DISUELTO</th><th>mg/l</th><th class="claseA"><80% sat</th><th class="claseB"><70% sat</th><th class="claseC" ><60% sat</th><th class="claseD"><50% sat</th>';
             $(campanias).each(function(k,v){
-                  $tabla_gases+='<td >'+v.od+'</td>'
+                let clase=''
+                if(v.od>70 && v.od<=80)
+                    clase='claseA'
+                else if(v.od>60 && v.od<=70)
+                    clase='claseB'
+                else if(v.od>=50 && v.od<=60)
+                    clase='claseC'
+                else if( v.od<50)
+                    clase='claseD'
+
+                $tabla_gases+='<td  class="'+clase+'">'+v.od+'</td>'
 
             });
             $tabla_gases+='</tr>';
@@ -2233,9 +2243,19 @@
       $tabla_gases+='</tr></thead>';
       $tabla_gases+='<tbody>';
 
-      $tabla_gases+='<tr><th></th><th>OXIGINENO DISUELTO</th><th>mg/l</th><th>NO</th><th class="claseA"></th><th class="claseB"></th><th class="claseC" ></th><th class="claseD"></th>';
+      $tabla_gases+='<tr><th></th><th>OXIGINENO DISUELTO</th><th>mg/l</th><th class="claseA"><80% sat</th><th class="claseB"><70% sat</th><th class="claseC" ><60% sat</th><th class="claseD"><50% sat</th>';
       $(campanias).each(function(k,v){
-          $tabla_gases+='<td >'+v.od+'</td>'
+          let clase=''
+          if(v.od>70 && v.od<=80)
+              clase='claseA'
+          else if(v.od>60 && v.od<=70)
+              clase='claseB'
+          else if(v.od>=50 && v.od<=60)
+              clase='claseC'
+          else if( v.od<50)
+              clase='claseD'
+
+          $tabla_gases+='<td  class="'+clase+'">'+v.od+'</td>'
 
       });
       $tabla_gases+='</tr>';
